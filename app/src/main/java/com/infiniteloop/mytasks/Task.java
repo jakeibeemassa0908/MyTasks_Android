@@ -8,15 +8,15 @@ import java.util.Date;
 public class Task {
     private Date mCreationDate;
     private long mId;
-    private String mDescription;
+    private String mtitle;
     private int mPriority;
     private String mCategory;
     private String mVisibility;
 
-    public Task(String description,int priority,String category,String visibility){
+    public Task(String title,int priority,String category,String visibility){
         mCreationDate = new Date();
         mPriority= priority;
-        mDescription=description;
+        mtitle=title;
         mCategory=category;
         mVisibility=visibility;
     }
@@ -34,12 +34,12 @@ public class Task {
         return mId;
     }
 
-    public String getDescription() {
-        return mDescription;
+    public String getTitle() {
+        return mtitle;
     }
 
-    public void setDescription(String mDescription) {
-        this.mDescription = mDescription;
+    public void setTitle(String mDescription) {
+        this.mtitle = mDescription;
     }
 
     public int getPriority() {

@@ -1,9 +1,11 @@
 package com.infiniteloop.mytasks;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -24,6 +26,7 @@ public class TaskListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         mTasks=TaskLab.get().getTasks();
     }
 
@@ -38,6 +41,24 @@ public class TaskListFragment extends Fragment {
         return rootView;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_settings:
+                return true;
+            case R.id.action_add_task:
+                createNewTask();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
+    }
+
+    private void createNewTask() {
+        Intent i = new Intent(getActivity(),NewTaskActivity.class);
+        startActivity(i);
+    }
 
     private class TaskAdapter extends ArrayAdapter<Task>{
 
@@ -53,7 +74,7 @@ public class TaskListFragment extends Fragment {
             }
             Task t = getItem(position);
             TextView textView = (TextView)convertView.findViewById(android.R.id.text1);
-            textView.setText(t.getDescription());
+            textView.setText(t.getTitle());
             return convertView;
         }
     }
