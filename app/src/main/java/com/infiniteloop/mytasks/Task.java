@@ -13,6 +13,11 @@ public class Task {
     private String mCategory;
     private String mVisibility;
 
+    public static int LOW_PRIORITY=0;
+    public static int NORMAL_PRIORITY=1;
+    public static int HIGH_PRIORITY=2;
+    public static int VERY_HIGH_PRIORITY=3;
+
     public Task(String title,int priority,String category,String visibility){
         mCreationDate = new Date();
         mPriority= priority;

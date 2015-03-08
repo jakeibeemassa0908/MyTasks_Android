@@ -11,20 +11,13 @@
     <string name="set_task_duration">Set Time</string>
     <string name="cancel">Cancel</string>
     <string name="done">Done</string>
-    
-    <string-array name="task_priority_array">
-        <item>Low</item>
-        <item>Normal</item>
-        <item>High</item>
-        <item>Very High</item>
-    </string-array>
 
-    <string-array name="task_visibility_array">
-        <item>Private</item>
-        <item>Public</item>
-    </string-array>
-    <string-array name="task_category_array">
-        <item>No Category</item>
-    </string-array>
+    <string name="low">Low</string>
+    <string name="normal">Normal</string>
+    <string name="high">High</string>
+    <string name="very_high">Very High</string>
+
+    <string name="private_visibility">Private</string>
+    <string name="public_visibility">Public</string>
 
 </resources>

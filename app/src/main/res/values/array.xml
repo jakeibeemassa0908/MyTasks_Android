@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="task_priority_array">
+        <item>@string/low</item>
+        <item>@string/normal</item>
+        <item>@string/high</item>
+        <item>@string/very_high</item>
+    </string-array>
+
+    <string-array name="task_visibility_array">
+        <item>@string/private_visibility</item>
+        <item>@string/public_visibility</item>
+    </string-array>
+    <string-array name="task_category_array">
+        <item>No Category</item>
+    </string-array>
+</resources>

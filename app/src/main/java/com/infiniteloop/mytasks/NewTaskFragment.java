@@ -72,14 +72,17 @@ public class NewTaskFragment extends Fragment {
                 String category=mCategorySpinner.getSelectedItem().toString();
                 String priority=mPrioritySpinner.getSelectedItem().toString();
                 String visibility=mVisibilitySpinner.getSelectedItem().toString();
-                Task t = new Task(title,1,category,visibility);
-                if(title.matches("")){
-                    Toast.makeText(getActivity(),"Empty Title",Toast.LENGTH_LONG).show();
+                if(!title.matches("")){
+                    boolean isCreated=TaskLab.get().createTask(getActivity(),title,priority,category,visibility);
+                    if(isCreated){
+                        Intent resultIntent = new Intent();
+                        getActivity().setResult(Activity.RESULT_OK,resultIntent);
+                        getActivity().finish();
+                    }else{
+                        Log.d(TAG,"Task Not Created");
+                    }
                 }else{
-                    mTasks.add(t);
-                    Intent resultIntent = new Intent();
-                    getActivity().setResult(Activity.RESULT_OK,resultIntent);
-                    getActivity().finish();
+                    Toast.makeText(getActivity(),"Empty Title",Toast.LENGTH_LONG).show();
                 }
                 return true;
             default:
