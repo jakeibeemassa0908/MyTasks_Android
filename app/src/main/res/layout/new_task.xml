@@ -1,81 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="20dp"
-    android:gravity="center_horizontal">
-
-    <EditText
-        android:id="@+id/task_title_textview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/task_title_hint"/>
-    <Spinner
-        android:id="@+id/task_category_spinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <Spinner
-        android:id="@+id/task_priority_spinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <Spinner
-        android:id="@+id/task_visibility_spinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+    android:layout_width="match_parent">
 
     <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:minHeight="?android:attr/listPreferredItemHeight">
+        android:layout_height="match_parent"
+        android:padding="20dp"
+        android:gravity="center_horizontal">
 
         <EditText
-            android:id="@+id/task_duration_edit_text"
-            android:layout_width="0dp"
-            android:layout_weight="7"
+            android:id="@+id/task_title_textview"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:enabled="false"
-            android:inputType="time"
-            android:hint="@string/task_duration"/>
-        <Button
-            android:id="@+id/task_duration_button"
-            android:layout_width="0dp"
+            android:hint="@string/task_title_hint"/>
+        <Spinner
+            android:id="@+id/task_category_spinner"
+            android:layout_width="match_parent"
+            style="@style/newTaskTheme"
+            android:layout_height="wrap_content"/>
+        <Spinner
+            android:id="@+id/task_priority_spinner"
+            android:layout_width="match_parent"
+            style="@style/newTaskTheme"
+            android:layout_height="wrap_content"/>
+
+        <Spinner
+            android:id="@+id/task_visibility_spinner"
+            android:layout_width="match_parent"
+            style="@style/newTaskTheme"
+            android:layout_height="wrap_content"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            style="@style/newTaskTheme"
             android:layout_height="wrap_content"
-            android:layout_weight="4"
-            android:layout_marginLeft="10dp"
-            android:text="@string/set_task_duration"/>
+            android:orientation="horizontal"
+            android:minHeight="?android:attr/listPreferredItemHeight">
+
+            <EditText
+                android:id="@+id/task_duration_edit_text"
+                android:layout_width="0dp"
+                android:layout_weight="7"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:inputType="time"
+                android:hint="@string/task_duration"/>
+            <Button
+                android:id="@+id/task_duration_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:layout_marginLeft="10dp"
+                android:text="@string/set_task_duration"/>
 
         </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal"
-        android:gravity="bottom"
-        android:minHeight="?android:attr/listPreferredItemHeight">
-
-        <Button
-            android:id="@+id/task_create_cancel_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="4"
-            android:layout_marginLeft="10dp"
-            android:text="@string/cancel"/>
-        <Button
-            android:id="@+id/task_create_done_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="4"
-            android:layout_marginLeft="10dp"
-            android:text="@string/done"/>
-
-        </LinearLayout>
-
-
-
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>

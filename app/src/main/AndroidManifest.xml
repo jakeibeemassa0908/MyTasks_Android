@@ -18,7 +18,12 @@
         </activity>
         <activity
             android:name=".NewTaskActivity"
-            android:label="@string/new_task"/>
+            android:label="@string/new_task"
+            android:parentActivityName=".TaskListActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.infiniteloop.mytasks.TaskListActivity"/>
+            </activity>
     </application>
 
 </manifest>
