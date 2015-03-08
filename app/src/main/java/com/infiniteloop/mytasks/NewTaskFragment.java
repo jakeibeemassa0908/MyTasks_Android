@@ -1,5 +1,7 @@
 package com.infiniteloop.mytasks;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -11,6 +13,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 /**
  * Created by theotherside on 07/03/15.
@@ -23,11 +28,13 @@ public class NewTaskFragment extends Fragment {
     private Spinner mVisibilitySpinner;
     private Button mSetTimeButton;
     private EditText mTitleEditText;
+    private ArrayList<Task> mTasks;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        mTasks=TaskLab.get().getTasks();
     }
 
     @Override
@@ -65,8 +72,15 @@ public class NewTaskFragment extends Fragment {
                 String category=mCategorySpinner.getSelectedItem().toString();
                 String priority=mPrioritySpinner.getSelectedItem().toString();
                 String visibility=mVisibilitySpinner.getSelectedItem().toString();
-
-                Log.d(TAG,title+" "+category+" "+priority+" "+visibility);
+                Task t = new Task(title,1,category,visibility);
+                if(title.matches("")){
+                    Toast.makeText(getActivity(),"Empty Title",Toast.LENGTH_LONG).show();
+                }else{
+                    mTasks.add(t);
+                    Intent resultIntent = new Intent();
+                    getActivity().setResult(Activity.RESULT_OK,resultIntent);
+                    getActivity().finish();
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
