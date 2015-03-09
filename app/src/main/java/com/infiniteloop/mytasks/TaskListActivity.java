@@ -1,44 +1,26 @@
 package com.infiniteloop.mytasks;
 
-import android.app.ActionBar;
 import android.content.res.Configuration;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.app.ActionBarDrawerToggle;
-import android.view.Menu;
+import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 import android.view.View;
 
-public class TaskListActivity extends SingleFragmentActivity {
+public class TaskListActivity extends ActionBarActivity {
     private static final String TAG= TaskListActivity.class.getSimpleName();
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
 
-    @Override
-    protected Fragment createFragment() {
-        return new TaskListFragment();
-    }
-
-    @Override
-    protected int getLayoutResId() {
-        return R.layout.activity_drawer;
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main,menu);
-        return true;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(getLayoutResId());
+        setContentView(R.layout.activity_drawer);
 
         mDrawerLayout =(DrawerLayout) findViewById(R.id.drawer_layout);
         setUpDrawerToggle();
@@ -47,7 +29,7 @@ public class TaskListActivity extends SingleFragmentActivity {
         Fragment fragment = fm.findFragmentById(R.id.container);
 
         if(fragment == null){
-            fragment = createFragment();
+            fragment = new TaskListFragment();
             fm.beginTransaction()
                     .add(R.id.container,fragment)
                     .commit();
