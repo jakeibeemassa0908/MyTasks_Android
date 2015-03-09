@@ -56,7 +56,9 @@ public class NewTaskFragment extends Fragment {
         mSetTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                /* TODO
+                * create dialog to select duration in hours, minutes ,and seconds
+                * */
 
             }
         });

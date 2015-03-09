@@ -2,6 +2,7 @@ package com.infiniteloop.mytasks;
 
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -94,11 +95,28 @@ public class TaskListFragment extends Fragment {
         public View getView(int position, View convertView, ViewGroup parent) {
             if(convertView==null){
                 convertView = getActivity().getLayoutInflater()
-                        .inflate(android.R.layout.simple_list_item_1,null);
+                        .inflate(R.layout.task_list_item,null);
             }
             Task t = getItem(position);
-            TextView textView = (TextView)convertView.findViewById(android.R.id.text1);
-            textView.setText(t.getTitle());
+            TextView titleTextView = (TextView)convertView.findViewById(R.id.task_item_title_textview);
+            titleTextView.setText(t.getTitle());
+            TextView priorityTextview = (TextView)convertView.findViewById(R.id.task_item_category_textview);
+
+            switch (t.getPriority()){
+                case Task.VERY_HIGH_PRIORITY:
+                    titleTextView.setTextColor(getResources().getColor(R.color.red));
+                    break;
+                case Task.HIGH_PRIORITY:
+                    titleTextView.setTextColor(getResources().getColor(R.color.orange));
+                    break;
+                case Task.NORMAL_PRIORITY:
+                    titleTextView.setTextColor(getResources().getColor(R.color.sunshine_blue));
+                    break;
+                case Task.LOW_PRIORITY:
+                    titleTextView.setTextColor(getResources().getColor(R.color.green));
+
+            }
+
             return convertView;
         }
     }

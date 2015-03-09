@@ -28,6 +28,7 @@ public class TaskLab {
 
         return mTasks;
     }
+
     public boolean createTask(Context context,String title,String priority_s,String category, String visibility){
         if(!title.matches("")){
             int priority=getPriority(context,priority_s);
@@ -38,8 +39,13 @@ public class TaskLab {
             }
         }
         return false;
+    }
 
-
+    public Task getTask(long taskId){
+        /* TODO
+         * get task from id
+          * */
+        return null;
     }
 
     private int getPriority(Context c, String priority){
