@@ -53,8 +53,6 @@ public class TaskListFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case R.id.action_settings:
-                return true;
             case R.id.action_add_task:
                 createNewTask();
                 return true;

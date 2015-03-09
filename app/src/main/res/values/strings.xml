@@ -2,7 +2,7 @@
 <resources>
 
     <string name="add_task">Add Task</string>
-    <string name="app_name">My Tasks</string>
+    <string name="app_name">Taskr &amp; Timr</string>
     <string name="new_task">New Task</string>
     <string name="action_settings">Settings</string>
 
@@ -19,5 +19,8 @@
 
     <string name="private_visibility">Private</string>
     <string name="public_visibility">Public</string>
+
+    <string name="drawer_open">Open drawer</string>
+    <string name="drawer_close">Close drawer</string>
 
 </resources>
