@@ -1,9 +1,15 @@
 package com.infiniteloop.mytasks;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -14,6 +20,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -24,6 +31,8 @@ import java.util.ArrayList;
  */
 public class NewTaskFragment extends Fragment {
     public static final String TAG = NewTaskFragment.class.getSimpleName();
+
+    private static final int REQUEST_DURATION=1;
 
     private Spinner mPrioritySpinner;
     private Spinner mCategorySpinner;
@@ -58,9 +67,11 @@ public class NewTaskFragment extends Fragment {
         mSetTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /* TODO
-                * create dialog to select duration in hours, minutes ,and seconds
-                * */
+                FragmentManager fm = getActivity()
+                        .getSupportFragmentManager();
+                DurationDialog dialog = new DurationDialog();
+                dialog.setTargetFragment(NewTaskFragment.this,REQUEST_DURATION);
+                dialog.show(fm,"duration");
 
             }
         });
@@ -86,7 +97,7 @@ public class NewTaskFragment extends Fragment {
                         Log.d(TAG,"Task Not Created");
                     }
                 }else{
-                    Toast.makeText(getActivity(),"Empty Title",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(),"Empty Title",Toast.LENGTH_SHORT).show();
                 }
                 return true;
             default:

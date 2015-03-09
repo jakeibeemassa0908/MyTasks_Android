@@ -67,7 +67,7 @@ public class TaskListFragment extends ListFragment {
                 if(resultCode== Activity.RESULT_OK){
                     Toast.makeText(getActivity(),
                     '"'+mTasks.get(+mTasks.size()-1).getTitle()+'"'+" Added",
-                    Toast.LENGTH_LONG).show();
+                    Toast.LENGTH_SHORT).show();
                     updateTaskList();
                 }
                 break;
