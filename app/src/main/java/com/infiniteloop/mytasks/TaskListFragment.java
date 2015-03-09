@@ -1,8 +1,8 @@
 package com.infiniteloop.mytasks;
 
 
+import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,11 +26,11 @@ public class TaskListFragment extends Fragment {
     private static final int CREATE_NEW_TASK=1;
     private ArrayList<Task> mTasks;
     ListView mListView;
+    private ImageView mAddTaskImageView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
         mTasks=TaskLab.get().getTasks();
     }
 
@@ -39,6 +40,14 @@ public class TaskListFragment extends Fragment {
         mListView = (ListView)rootView.findViewById(R.id.list_view_tasks);
 
         TaskAdapter adapter = new TaskAdapter(mTasks);
+
+        mAddTaskImageView = (ImageView)rootView.findViewById(R.id.add_task_imageView);
+        mAddTaskImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createNewTask();
+            }
+        });
 
         mListView.setAdapter(adapter);
         return rootView;
@@ -51,23 +60,15 @@ public class TaskListFragment extends Fragment {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.action_add_task:
-                createNewTask();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-
-    }
-
-    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode){
             case CREATE_NEW_TASK:
-                Toast.makeText(getActivity(),'"'+mTasks.get(+mTasks.size()-1).getTitle()+'"'+" Added",Toast.LENGTH_LONG).show();
-                updateTaskList();
+                if(resultCode== Activity.RESULT_OK){
+                    Toast.makeText(getActivity(),
+                    '"'+mTasks.get(+mTasks.size()-1).getTitle()+'"'+" Added",
+                    Toast.LENGTH_LONG).show();
+                    updateTaskList();
+                }
                 break;
             default:
                 break;

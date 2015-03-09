@@ -40,6 +40,7 @@
             style="@style/newTaskTheme"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:gravity="center"
             android:minHeight="?android:attr/listPreferredItemHeight">
 
             <EditText
@@ -50,12 +51,12 @@
                 android:enabled="false"
                 android:inputType="time"
                 android:hint="@string/task_duration"/>
-            <Button
+            <ImageButton
                 android:id="@+id/task_duration_button"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="4"
                 android:layout_marginLeft="10dp"
+                android:src="@drawable/ic_image_timer"
                 android:text="@string/set_task_duration"/>
 
         </LinearLayout>

@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -26,7 +28,7 @@ public class NewTaskFragment extends Fragment {
     private Spinner mPrioritySpinner;
     private Spinner mCategorySpinner;
     private Spinner mVisibilitySpinner;
-    private Button mSetTimeButton;
+    private ImageButton mSetTimeButton;
     private EditText mTitleEditText;
     private ArrayList<Task> mTasks;
 
@@ -52,7 +54,7 @@ public class NewTaskFragment extends Fragment {
         mCategorySpinner=(Spinner)rootView.findViewById(R.id.task_category_spinner);
         mCategorySpinner.setAdapter(getSpinnerAdapter(R.array.task_category_array));
 
-        mSetTimeButton = (Button) rootView.findViewById(R.id.task_duration_button);
+        mSetTimeButton = (ImageButton) rootView.findViewById(R.id.task_duration_button);
         mSetTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
