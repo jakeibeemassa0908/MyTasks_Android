@@ -9,10 +9,9 @@ public class DrawerItem {
     private int mImage;
     private int mType;
 
-    public DrawerItem(String title, int image, int type){
+    public DrawerItem(String title, int image){
         mImage=image;
         mTitle=title;
-        mType= type;
     }
 
 

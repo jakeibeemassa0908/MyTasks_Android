@@ -14,4 +14,30 @@
     <string-array name="task_category_array">
         <item>No Category</item>
     </string-array>
+
+    <string-array name="drawer_menu_array">
+        <item>@string/all_task</item>
+        <item>@string/timed_task</item>
+        <item>@string/very_high_priority</item>
+        <item>@string/high_priority</item>
+        <item>@string/normal_priority</item>
+        <item>@string/low_priority</item>
+        <item>@string/completed_task</item>
+        <item>@string/settings</item>
+        <item>@string/feedback</item>
+        <item>@string/about</item>
+    </string-array>
+
+    <array name="drawer_images">
+        <item>@drawable/ic_action_action_home</item>
+        <item>@drawable/ic_action_image_timer</item>
+        <item>@drawable/ic_action_image_looks_one</item>
+        <item>@drawable/ic_action_image_looks_two</item>
+        <item>@drawable/ic_action_image_looks_3</item>
+        <item>@drawable/ic_action_image_looks_4</item>
+        <item>@drawable/ic_action_maps_beenhere</item>
+        <item>@drawable/ic_action_action_settings</item>
+        <item>@drawable/ic_action_action_stars</item>
+        <item>@drawable/ic_action_editor_insert_emoticon</item>
+    </array>
 </resources>
