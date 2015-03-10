@@ -12,6 +12,8 @@ public class Task {
     private int mPriority;
     private String mCategory;
     private String mVisibility;
+    private int mDurationHours;
+    private int mDurationMinutes;
 
     public static final int LOW_PRIORITY=0;
     public static final int NORMAL_PRIORITY=1;
@@ -69,5 +71,21 @@ public class Task {
 
     public void setVisibility(String mVisibility) {
         this.mVisibility = mVisibility;
+    }
+
+    public int getDurationHours() {
+        return mDurationHours;
+    }
+
+    public void setDurationHours(int mDurationHours) {
+        this.mDurationHours = mDurationHours;
+    }
+
+    public int getDurationMinutes() {
+        return mDurationMinutes;
+    }
+
+    public void setDurationMinutes(int mDurationMinutes) {
+        this.mDurationMinutes = mDurationMinutes;
     }
 }

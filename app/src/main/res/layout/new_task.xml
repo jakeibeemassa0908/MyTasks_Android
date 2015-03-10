@@ -49,7 +49,6 @@
                 android:layout_weight="7"
                 android:layout_height="wrap_content"
                 android:enabled="false"
-                android:inputType="time"
                 android:hint="@string/task_duration"/>
             <ImageButton
                 android:id="@+id/task_duration_button"

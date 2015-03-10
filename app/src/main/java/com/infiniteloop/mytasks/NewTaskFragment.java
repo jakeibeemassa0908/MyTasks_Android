@@ -1,13 +1,8 @@
 package com.infiniteloop.mytasks;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
@@ -16,15 +11,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 
 /**
  * Created by theotherside on 07/03/15.
@@ -39,18 +30,21 @@ public class NewTaskFragment extends Fragment {
     private Spinner mVisibilitySpinner;
     private ImageButton mSetTimeButton;
     private EditText mTitleEditText;
-    private ArrayList<Task> mTasks;
+    private int mDurationHours;
+    private int mDurationMinutes;
+    private EditText mDurationText;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        mTasks=TaskLab.get().getTasks();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.new_task,container,false);
+
+        mDurationText = (EditText)rootView.findViewById(R.id.task_duration_edit_text);
 
         mTitleEditText = (EditText) rootView.findViewById(R.id.task_title_textview);
 
@@ -69,7 +63,8 @@ public class NewTaskFragment extends Fragment {
             public void onClick(View v) {
                 FragmentManager fm = getActivity()
                         .getSupportFragmentManager();
-                DurationDialog dialog = new DurationDialog();
+                DurationDialog dialog = DurationDialog
+                        .newInstance(mDurationHours, mDurationMinutes);
                 dialog.setTargetFragment(NewTaskFragment.this,REQUEST_DURATION);
                 dialog.show(fm,"duration");
 
@@ -77,6 +72,22 @@ public class NewTaskFragment extends Fragment {
         });
 
         return rootView;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode!= Activity.RESULT_OK)return;
+        switch (requestCode){
+            case REQUEST_DURATION:
+                mDurationHours=data.getIntExtra(DurationDialog.EXTRA_HOURS,0);
+                mDurationMinutes=data.getIntExtra(DurationDialog.EXTRA_MINUTES,0);
+                updateTimeField();
+                break;
+            default:
+                break;
+
+        }
+
     }
 
     @Override
@@ -104,6 +115,12 @@ public class NewTaskFragment extends Fragment {
                 return super.onOptionsItemSelected(item);
 
         }
+    }
+
+    private void updateTimeField() {
+        mDurationText.setTextColor(getResources().getColor(R.color.red));
+        mDurationText.setText(mDurationHours+" : "+ mDurationMinutes);
+
     }
 
     private ArrayAdapter getSpinnerAdapter(int arrayId){
