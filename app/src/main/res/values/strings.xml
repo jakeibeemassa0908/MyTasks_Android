@@ -5,6 +5,8 @@
     <string name="app_name">Task &amp; Time</string>
     <string name="new_task">New Task</string>
     <string name="action_settings">Settings</string>
+    <string name="empty_list_view">No Task Yet</string>
+    <string name="click_add_button">Start a new task now with the plus sign down here!</string>
 
     <string name="task_duration">Duration</string>
     <string name="task_title_hint">Task title</string>
