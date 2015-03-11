@@ -20,12 +20,11 @@ public class Task {
     public static final int HIGH_PRIORITY=2;
     public static final int VERY_HIGH_PRIORITY=3;
 
-    public Task(String title,int priority,String category,String visibility){
+    public Task(String title,int priority,String category){
         mCreationDate = new Date();
         mPriority= priority;
         mtitle=title;
         mCategory=category;
-        mVisibility=visibility;
     }
 
 
