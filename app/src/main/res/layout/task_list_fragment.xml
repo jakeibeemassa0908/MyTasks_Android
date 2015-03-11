@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:textAppearanceLarge"
-            android:textColor="@color/dark_green"
+            android:textColor="@color/sunshine_dark_blue"
             android:text="@string/empty_list_view"/>
         <TextView
             android:layout_width="wrap_content"
@@ -39,7 +39,7 @@
             android:id="@+id/add_task_imageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_content_add_circle"/>
+            android:src="@drawable/ic_add_circle"/>
 
     </RelativeLayout>
 

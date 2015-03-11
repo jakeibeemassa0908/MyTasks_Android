@@ -54,8 +54,9 @@
                 android:id="@+id/task_duration_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@null"
                 android:layout_marginLeft="10dp"
-                android:src="@drawable/ic_image_timer"
+                android:src="@drawable/ic_action_image_timer"
                 android:text="@string/set_task_duration"/>
 
         </LinearLayout>

@@ -12,6 +12,7 @@
     <color name="orange">#FFBB33</color>
     <color name="dark_orange">#FF8800</color>
     <color name="red">#FF4444</color>
+    <color name="dark_red">#CC0000</color>
     <color name="dark_purple">#9933CC</color>
     <color name="purple">#AA66CC</color>
 </resources>

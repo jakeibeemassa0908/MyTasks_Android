@@ -20,13 +20,13 @@
             android:textAppearance="?android:textAppearanceLarge"
             android:layout_weight="5"
             android:gravity="center"
-            android:textColor="@color/green"
+            android:textColor="@color/sunshine_dark_blue"
             android:text="@string/hours"/>
 
         <TextView
             android:gravity="center"
             android:layout_weight="5"
-            android:textColor="@color/green"
+            android:textColor="@color/sunshine_dark_blue"
             android:textAppearance="?android:textAppearanceLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

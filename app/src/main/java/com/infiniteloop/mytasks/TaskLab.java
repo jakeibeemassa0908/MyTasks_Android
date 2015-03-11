@@ -13,10 +13,11 @@ public class TaskLab {
 
     private TaskLab(){
         mTasks= new ArrayList<Task>();
-//        Task task = new Task("Complete Math Assignment",1,"Studies","Public");
-//        for(int i=0;i<=10;i++){
-//            mTasks.add(task);
-//        }
+
+        for(int i=0;i<=3;i++){
+            Task task = new Task("Complete Math Assignment",i,"Studies","Public");
+            mTasks.add(task);
+        }
     }
 
     public static TaskLab get(){
