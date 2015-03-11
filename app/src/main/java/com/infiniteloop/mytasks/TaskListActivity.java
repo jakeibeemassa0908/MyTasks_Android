@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,13 +17,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class TaskListActivity extends ActionBarActivity {
     private static final String TAG= TaskListActivity.class.getSimpleName();
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
-    private String[] mMenuDrawer;
     private ListView mDrawerList;
     private ArrayList<DrawerItem> mDrawerItems;
     private String[] mDrawerTitle;
@@ -35,7 +33,6 @@ public class TaskListActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawer);
 
-        mMenuDrawer=getResources().getStringArray(R.array.drawer_menu_array);
 
         mDrawerLayout =(DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList=(ListView)findViewById(R.id.left_drawer);
@@ -89,7 +86,6 @@ public class TaskListActivity extends ActionBarActivity {
         mDrawerToggle = new ActionBarDrawerToggle(
                 this,                  /* host Activity */
                 mDrawerLayout,         /* DrawerLayout object */
-                R.drawable.ic_drawer,  /* nav drawer icon to replace 'Up' caret */
                 R.string.drawer_open,  /* "open drawer" description */
                 R.string.drawer_close  /* "close drawer" description */
         ) {
