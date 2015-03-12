@@ -49,6 +49,10 @@ public class TaskLab {
         return mHelper.insertTask(t);
     }
 
+    public TaskDataBaseHelper.TaskCursor queryTasks(){
+        return mHelper.queryTasks();
+    }
+
     public Task getTask(long taskId){
         /* TODO
          * get task from id

@@ -21,6 +21,10 @@ public class Task {
     public static final int HIGH_PRIORITY=2;
     public static final int VERY_HIGH_PRIORITY=3;
 
+    public Task(){
+
+    }
+
     public Task(String title,int priority,long category,int durationHours,int durationMinutes){
         mCreationDate = new Date();
         mPriority= priority;
