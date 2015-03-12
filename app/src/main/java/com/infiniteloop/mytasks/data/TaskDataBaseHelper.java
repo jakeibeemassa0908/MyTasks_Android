@@ -2,12 +2,16 @@ package com.infiniteloop.mytasks.data;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.CursorWrapper;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.infiniteloop.mytasks.Task;
 import com.infiniteloop.mytasks.data.TaskContract.TaskEntry;
 import com.infiniteloop.mytasks.data.TaskContract.CategoryEntry;
+
+import java.util.Date;
 
 /**
  * Created by theotherside on 11/03/15.
@@ -62,5 +66,39 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
         cv.put(TaskEntry.COLUMN_DURATION,task.getTotalDurationMinutes());
         cv.put(TaskEntry.COLUMN_CAT_KEY,task.getCategory());
         return getWritableDatabase().insert(TaskEntry.TABLE_NAME,null,cv);
+    }
+
+    public TaskCursor queryTasks(){
+        //Equivalent of select * from task order by priority asc
+        Cursor wrapped = getReadableDatabase().query(
+                TaskEntry.TABLE_NAME,
+                null,
+                null,
+                null,
+                null,
+                null,
+                TaskEntry.COLUMN_PRIORITY + " asc");
+        return new TaskCursor(wrapped);
+
+    }
+
+    public static class TaskCursor extends CursorWrapper{
+        public TaskCursor(Cursor c){
+            super(c);
+
+        }
+
+        public Task getTask(){
+            if(isBeforeFirst() || isAfterLast()) return null;
+            Task task = new Task();
+            task.setId(getLong(getColumnIndex(TaskEntry._ID)));
+            task.setCategory(getLong(getColumnIndex(TaskEntry.COLUMN_CAT_KEY)));
+            task.setCreationDate(new Date(getColumnIndex(TaskEntry.COLUMN_DATE)));
+            task.setPriority(getInt(getColumnIndex(TaskEntry.COLUMN_PRIORITY)));
+            task.setTitle(getString(getColumnIndex(TaskEntry.COLUMN_TASK_TITLE)));
+            task.setTotalDurationMinutes(getInt(getColumnIndex(TaskEntry.COLUMN_DURATION)));
+            return task;
+        }
+
     }
 }
