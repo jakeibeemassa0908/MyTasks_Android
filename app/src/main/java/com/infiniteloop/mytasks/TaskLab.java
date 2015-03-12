@@ -27,7 +27,7 @@ public class TaskLab {
         return mTasks;
     }
 
-    public boolean createTask(Context context,String title,String priority_s,String category){
+    public boolean createTask(Context context,String title,String priority_s,long category){
         if(!title.matches("")){
             int priority=getPriority(context,priority_s);
             if(priority!=-1){

@@ -95,11 +95,11 @@ public class NewTaskFragment extends Fragment {
         switch (item.getItemId()){
             case R.id.save_task_menu:
                 String title=mTitleEditText.getText().toString();
-                String category=mCategorySpinner.getSelectedItem().toString();
+                //String category=mCategorySpinner.getSelectedItem().toString();
                 String priority=mPrioritySpinner.getSelectedItem().toString();
-                String visibility=mVisibilitySpinner.getSelectedItem().toString();
+               // String visibility=mVisibilitySpinner.getSelectedItem().toString();
                 if(!title.matches("")){
-                    boolean isCreated=TaskLab.get().createTask(getActivity(),title,priority,category,visibility);
+                    boolean isCreated=TaskLab.get().createTask(getActivity(),title,priority,-1);
                     if(isCreated){
                         Intent resultIntent = new Intent();
                         getActivity().setResult(Activity.RESULT_OK,resultIntent);

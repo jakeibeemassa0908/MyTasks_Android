@@ -10,17 +10,18 @@ public class Task {
     private long mId;
     private String mtitle;
     private int mPriority;
-    private String mCategory;
+    private long mCategory;
     private String mVisibility;
     private int mDurationHours;
     private int mDurationMinutes;
+    private int mTotalDurationMinutes;
 
     public static final int LOW_PRIORITY=0;
     public static final int NORMAL_PRIORITY=1;
     public static final int HIGH_PRIORITY=2;
     public static final int VERY_HIGH_PRIORITY=3;
 
-    public Task(String title,int priority,String category){
+    public Task(String title,int priority,long category){
         mCreationDate = new Date();
         mPriority= priority;
         mtitle=title;
@@ -28,8 +29,9 @@ public class Task {
     }
 
 
-    public Date getCreationDate() {
-        return mCreationDate;
+    public long getCreationDate() {
+
+        return mCreationDate.getTime();
     }
 
     public void setCreationDate(Date mCreationDate) {
@@ -56,11 +58,11 @@ public class Task {
         this.mPriority = mPriority;
     }
 
-    public String getCategory() {
+    public long getCategory() {
         return mCategory;
     }
 
-    public void setCategory(String mCategory) {
+    public void setCategory(long mCategory) {
         this.mCategory = mCategory;
     }
 
@@ -86,5 +88,13 @@ public class Task {
 
     public void setDurationMinutes(int mDurationMinutes) {
         this.mDurationMinutes = mDurationMinutes;
+    }
+
+    public int getTotalDurationMinutes() {
+        return mTotalDurationMinutes;
+    }
+
+    public void setTotalDurationMinutes(int mTotalDurationMinutes) {
+        this.mTotalDurationMinutes = mDurationMinutes+(mDurationHours*60);
     }
 }
