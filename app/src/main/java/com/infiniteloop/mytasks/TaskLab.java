@@ -1,6 +1,9 @@
 package com.infiniteloop.mytasks;
 
 import android.content.Context;
+import android.util.Log;
+
+import com.infiniteloop.mytasks.data.TaskDataBaseHelper;
 
 import java.util.ArrayList;
 /**
@@ -10,14 +13,17 @@ public class TaskLab {
 
     private static TaskLab sTaskLab;
     private ArrayList<Task> mTasks;
+    private TaskDataBaseHelper mHelper;
 
-    private TaskLab(){
+    private TaskLab(Context context){
+
         mTasks= new ArrayList<Task>();
+        mHelper= new TaskDataBaseHelper(context);
     }
 
-    public static TaskLab get(){
+    public static TaskLab get(Context c){
         if(sTaskLab == null){
-            sTaskLab= new TaskLab();
+            sTaskLab= new TaskLab(c);
         }
         return sTaskLab;
     }
@@ -27,16 +33,20 @@ public class TaskLab {
         return mTasks;
     }
 
-    public boolean createTask(Context context,String title,String priority_s,long category){
-        if(!title.matches("")){
+    public boolean createTask(Context context,String title,String priority_s,long category,int durationHours,int durationMinutes){
+            Log.d(NewTaskFragment.TAG,"Entered");
             int priority=getPriority(context,priority_s);
             if(priority!=-1){
-                Task t = new Task(title,priority,category);
+                Task t = new Task(title,priority,category,durationHours,durationMinutes);
+                long taskId=saveTask(t);
                 mTasks.add(t);
                 return true;
             }
-        }
         return false;
+    }
+
+    public long saveTask(Task t){
+        return mHelper.insertTask(t);
     }
 
     public Task getTask(long taskId){

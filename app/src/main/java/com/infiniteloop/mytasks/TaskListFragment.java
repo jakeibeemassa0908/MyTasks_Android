@@ -42,7 +42,7 @@ public class TaskListFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mTasks=TaskLab.get().getTasks();
+        mTasks=TaskLab.get(getActivity()).getTasks();
     }
 
     @Override
@@ -135,7 +135,7 @@ public class TaskListFragment extends ListFragment {
             TextView titleTextView = (TextView)convertView.findViewById(R.id.task_item_title_textview);
             titleTextView.setText(t.getTitle());
             TextView categoryTextView = (TextView)convertView.findViewById(R.id.task_item_category_textview);
-            categoryTextView.setText(t.getCategory());
+            //categoryTextView.setText(t.getCategory());
             View toolbar=convertView.findViewById(R.id.expandable_list_details);
 
             mEdit = (ImageButton)toolbar.findViewById(R.id.edit_task_imageButton);

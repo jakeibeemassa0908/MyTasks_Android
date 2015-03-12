@@ -31,7 +31,7 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
                 TaskEntry.COLUMN_DATE + " INTEGER NOT NULL, "+
                 TaskEntry.COLUMN_DURATION + " INTEGER NOT NULL, "+
                 TaskEntry.COLUMN_PRIORITY + " INTEGER NOT NULL, "+
-                TaskEntry.COLUMN_TASK_TITLE + " TEXT NOT NULL";
+                TaskEntry.COLUMN_TASK_TITLE + " TEXT NOT NULL);";
 //
 //                //set up the location category column as a foreign key to location table.
 //                "FOREIGN KEY (" + TaskEntry.COLUMN_CAT_KEY + ") REFERENCES "+
@@ -40,8 +40,8 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
 
 
         final String SQL_CREATE_CATEGORY_TABLE="CREATE TABLE "+ CategoryEntry.TABLE_NAME + " ("+
-                CategoryEntry._ID + "INTEGER PRIMARY KEY AUTOINCREMENT,"+
-                CategoryEntry.COLUMN_NAME + " TEXT NOT NULL";
+                CategoryEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "+
+                CategoryEntry.COLUMN_NAME + " TEXT NOT NULL);";
 
         db.execSQL(SQL_CREATE_TASK_TABLE);
         db.execSQL(SQL_CREATE_CATEGORY_TABLE);

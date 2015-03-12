@@ -21,11 +21,12 @@ public class Task {
     public static final int HIGH_PRIORITY=2;
     public static final int VERY_HIGH_PRIORITY=3;
 
-    public Task(String title,int priority,long category){
+    public Task(String title,int priority,long category,int durationHours,int durationMinutes){
         mCreationDate = new Date();
         mPriority= priority;
         mtitle=title;
         mCategory=category;
+        mTotalDurationMinutes = durationMinutes+(durationHours*60);
     }
 
 
@@ -95,6 +96,10 @@ public class Task {
     }
 
     public void setTotalDurationMinutes(int mTotalDurationMinutes) {
-        this.mTotalDurationMinutes = mDurationMinutes+(mDurationHours*60);
+        this.mDurationMinutes=mTotalDurationMinutes;
+    }
+
+    public void setId(long mId) {
+        this.mId = mId;
     }
 }
