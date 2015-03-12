@@ -56,9 +56,6 @@ public class TaskListFragment extends ListFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.task_list_fragment,container,false);
-        //mListView = (ListView)rootView.findViewById(android.R.id.list);
-
-        //mTaskAdapter = new TaskAdapter(mTasks);
 
 
         mAddTaskImageView = (ImageView)rootView.findViewById(R.id.add_task_imageView);
@@ -69,13 +66,6 @@ public class TaskListFragment extends ListFragment {
             }
         });
 
-//        //mListView.setAdapter(mTaskAdapter);
-//        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//
-//            }
-//        });
          return rootView;
     }
 
@@ -125,22 +115,6 @@ public class TaskListFragment extends ListFragment {
         startActivityForResult(i, CREATE_NEW_TASK);
     }
 
-    private class TaskAdapter extends ArrayAdapter<Task>{
-
-        public TaskAdapter(ArrayList<Task> tasks) {
-            super(getActivity(),0,tasks);
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-
-            if(convertView==null){
-                convertView = LayoutInflater.from(getActivity()).inflate(R.layout.task_list_item,parent,false);
-            }
-
-            return convertView;
-        }
-    }
 
     public class ExpandAnimation extends Animation {
         private View mAnimatedView;
