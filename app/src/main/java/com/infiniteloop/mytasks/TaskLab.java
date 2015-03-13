@@ -1,6 +1,7 @@
 package com.infiniteloop.mytasks;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.util.Log;
 
 import com.infiniteloop.mytasks.data.TaskDataBaseHelper;
@@ -59,9 +60,7 @@ public class TaskLab {
         return true;
     }
 
-    public Task getTask(long taskId){
-        /* TODO  get single task from id
-          * */
+    public TaskDataBaseHelper.TaskCursor getTask(long taskId){
         return null;
     }
 

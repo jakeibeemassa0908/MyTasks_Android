@@ -94,7 +94,20 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
                 null,
                 TaskEntry.COLUMN_PRIORITY + " asc");
         return new TaskCursor(wrapped);
+    }
 
+    public TaskCursor queryTask(long rowId){
+        String selection =TaskEntry._ID + " LIKE ?";
+        String [] selectionArgs={String.valueOf(rowId)};
+        Cursor wrapped = getReadableDatabase().query(TaskEntry.TABLE_NAME,
+            null,
+            selection,
+            selectionArgs,
+            null,
+            null,
+            null,
+            "1");
+        return new TaskCursor(wrapped);
     }
 
 
