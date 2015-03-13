@@ -1,6 +1,9 @@
 package com.infiniteloop.mytasks;
 
+import java.text.DateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
  * Created by theotherside on 07/03/15.
@@ -20,6 +23,12 @@ public class Task {
     public static final int NORMAL_PRIORITY=1;
     public static final int HIGH_PRIORITY=2;
     public static final int VERY_HIGH_PRIORITY=3;
+
+
+    @Override
+    public String toString() {
+       return DateFormat.getDateInstance().format(new Date(getCreationDate()));
+    }
 
     public Task(){
 

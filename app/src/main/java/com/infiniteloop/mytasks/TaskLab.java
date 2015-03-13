@@ -60,8 +60,7 @@ public class TaskLab {
     }
 
     public Task getTask(long taskId){
-        /* TODO
-         * get task from id
+        /* TODO  get single task from id
           * */
         return null;
     }

@@ -76,6 +76,13 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
         return getWritableDatabase().delete(TaskEntry.TABLE_NAME,selection,selectionArgs);
     }
 
+    public void updateTask(Task task){
+        /*
+        TODO update task
+         */
+    }
+
+
     public TaskCursor queryTasks(){
         //Equivalent of select * from task order by priority asc
         Cursor wrapped = getReadableDatabase().query(
@@ -102,7 +109,7 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
             Task task = new Task();
             task.setId(getLong(getColumnIndex(TaskEntry._ID)));
             task.setCategory(getLong(getColumnIndex(TaskEntry.COLUMN_CAT_KEY)));
-            task.setCreationDate(new Date(getColumnIndex(TaskEntry.COLUMN_DATE)));
+            task.setCreationDate(new Date(getLong(getColumnIndex(TaskEntry.COLUMN_DATE))));
             task.setPriority(getInt(getColumnIndex(TaskEntry.COLUMN_PRIORITY)));
             task.setTitle(getString(getColumnIndex(TaskEntry.COLUMN_TASK_TITLE)));
             task.setTotalDurationMinutes(getInt(getColumnIndex(TaskEntry.COLUMN_DURATION)));
