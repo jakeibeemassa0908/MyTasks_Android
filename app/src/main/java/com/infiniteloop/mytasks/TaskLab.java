@@ -54,6 +54,16 @@ public class TaskLab {
         return mHelper.queryTasks();
     }
 
+    public Task queryTask(long id){
+        Task task = null;
+        TaskDataBaseHelper.TaskCursor cursor = mHelper.queryTask(id);
+        cursor.moveToFirst();
+        if(!cursor.isAfterLast())
+            task = cursor.getTask();
+        cursor.close();
+        return task;
+    }
+
     public boolean removeTask(Task task){
         int result =mHelper.deleteTask(task);
         if(result==-1)return false;

@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +24,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.infiniteloop.mytasks.data.SQLiteCursorLoader;
 import com.infiniteloop.mytasks.data.TaskDataBaseHelper;
 
 import java.util.ArrayList;
@@ -29,7 +32,7 @@ import java.util.ArrayList;
 /**
  * Created by theotherside on 07/03/15.
  */
-public class TaskListFragment extends ListFragment {
+public class TaskListFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final String TAG= TaskListFragment.class.getSimpleName();
     private static final int CREATE_NEW_TASK=1;
@@ -39,13 +42,13 @@ public class TaskListFragment extends ListFragment {
     private  View rootView;
     private View expandedToolbar;
     private ImageButton mDelete,mStart,mEdit,mComplete;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mTasks=TaskLab.get(getActivity()).getTasks();
-        //create an adapter to point at this cursor
-        mTaskCursorAdapter = new TaskCursorAdapter(getActivity(),TaskLab.get(getActivity()).queryTasks());
-        setListAdapter(mTaskCursorAdapter);
+        //Initialize the loader to load the list of runs
+        getLoaderManager().initLoader(0,null,this);
     }
 
     @Override
@@ -93,6 +96,8 @@ public class TaskListFragment extends ListFragment {
                     Toast.makeText(getActivity(),
                     '"'+mTasks.get(+mTasks.size()-1).getTitle()+'"'+" Added",
                     Toast.LENGTH_SHORT).show();
+                    //restart loader to get any new run available
+                    getLoaderManager().restartLoader(0,null,this);
                     //updateTaskList();
                 }
                 break;
@@ -101,13 +106,30 @@ public class TaskListFragment extends ListFragment {
         }
     }
 
-    private void updateTaskList() {
-        ((TaskCursorAdapter) getListAdapter()).swapCursor(TaskLab.get(getActivity()).queryTasks());
-    }
-
     private void createNewTask() {
         Intent i = new Intent(getActivity(),NewTaskActivity.class);
         startActivityForResult(i, CREATE_NEW_TASK);
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+        //You only ever load the runs, so assume this is the case
+        return new TaskListCursorLoader(getActivity());
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
+        //create an adapter to point at this cursor
+        TaskCursorAdapter adapter =
+                new TaskCursorAdapter(getActivity(), (TaskDataBaseHelper.TaskCursor)cursor);
+        setListAdapter(adapter);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> cursorLoader) {
+        //stop using the cursor (via the adapter)
+        setListAdapter(null);
+
     }
 
 
@@ -229,7 +251,7 @@ public class TaskListFragment extends ListFragment {
                         public void onClick(DialogInterface dialog, int which) {
                             boolean deleted=TaskLab.get(getActivity()).removeTask(t);
                             if(deleted){
-                                //updateTaskList();
+                                getLoaderManager().restartLoader(0,null,TaskListFragment.this);
                                 Toast.makeText(getActivity(),'"'+t.getTitle()+'"'+" Deleted",Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -272,6 +294,19 @@ public class TaskListFragment extends ListFragment {
             toolbar = convertView.findViewById(R.id.expandable_list_details);
             ((LinearLayout.LayoutParams)toolbar.getLayoutParams()).bottomMargin=-50;
             toolbar.setVisibility(View.GONE);
+        }
+    }
+
+    public static class TaskListCursorLoader extends SQLiteCursorLoader{
+
+        public TaskListCursorLoader(Context context){
+            super (context);
+        }
+
+        @Override
+        protected Cursor loadCursor() {
+            //Query the list of runs
+            return TaskLab.get(getContext()).queryTasks();
         }
     }
 }
