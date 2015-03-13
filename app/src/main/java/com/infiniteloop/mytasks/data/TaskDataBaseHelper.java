@@ -68,6 +68,14 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
         return getWritableDatabase().insert(TaskEntry.TABLE_NAME,null,cv);
     }
 
+    public int deleteTask(Task task){
+        long id = task.getId();
+        if(id==-1) return -1;
+        String selection = TaskEntry._ID + " LIKE ?";
+        String[] selectionArgs= {String.valueOf(id)};
+        return getWritableDatabase().delete(TaskEntry.TABLE_NAME,selection,selectionArgs);
+    }
+
     public TaskCursor queryTasks(){
         //Equivalent of select * from task order by priority asc
         Cursor wrapped = getReadableDatabase().query(
@@ -81,6 +89,7 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
         return new TaskCursor(wrapped);
 
     }
+
 
     public static class TaskCursor extends CursorWrapper{
         public TaskCursor(Cursor c){

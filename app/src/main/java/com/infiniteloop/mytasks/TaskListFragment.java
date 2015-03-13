@@ -42,7 +42,7 @@ public class TaskListFragment extends ListFragment {
     private  View rootView;
     private View expandedToolbar;
     private TaskDataBaseHelper.TaskCursor mCursor;
-    private ImageButton mStart,mEdit,mComplete;
+    private ImageButton mDelete,mStart,mEdit,mComplete;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -192,8 +192,7 @@ public class TaskListFragment extends ListFragment {
 
         @Override
         public void bindView(View convertView, Context context, Cursor cursor) {
-            Task t = mTaskCursor.getTask();
-
+            final Task t = mTaskCursor.getTask();
             TextView titleTextView = (TextView)convertView.findViewById(R.id.task_item_title_textview);
             titleTextView.setText(t.getTitle());
             TextView categoryTextView = (TextView)convertView.findViewById(R.id.task_item_category_textview);
@@ -201,8 +200,38 @@ public class TaskListFragment extends ListFragment {
             View toolbar=convertView.findViewById(R.id.expandable_list_details);
 
             mEdit = (ImageButton)toolbar.findViewById(R.id.edit_task_imageButton);
+            mEdit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
             mComplete = (ImageButton)toolbar.findViewById(R.id.mark_complete_button);
+            mComplete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
             mStart=(ImageButton)toolbar.findViewById(R.id.start_timer_imageButton);
+            mStart.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+            mDelete=(ImageButton)toolbar.findViewById(R.id.delete_task_imageButton);
+            mDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    boolean deleted=TaskLab.get(getActivity()).removeTask(t);
+                    if(deleted){
+                        updateTaskList();
+                        Toast.makeText(getActivity(),'"'+t.getTitle()+'"'+" Deleted",Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+            });
 
 
 

@@ -53,6 +53,12 @@ public class TaskLab {
         return mHelper.queryTasks();
     }
 
+    public boolean removeTask(Task task){
+        int result =mHelper.deleteTask(task);
+        if(result==-1)return false;
+        return true;
+    }
+
     public Task getTask(long taskId){
         /* TODO
          * get task from id
