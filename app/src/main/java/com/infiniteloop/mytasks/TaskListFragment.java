@@ -2,21 +2,18 @@ package com.infiniteloop.mytasks;
 
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.CursorAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -87,7 +84,7 @@ public class TaskListFragment extends ListFragment {
     @Override
     public void onResume() {
         super.onResume();
-        updateTaskList();
+        //updateTaskList();
     }
 
     @Override
@@ -107,7 +104,7 @@ public class TaskListFragment extends ListFragment {
     }
 
     private void updateTaskList() {
-        ((TaskCursorAdapter)getListAdapter()).notifyDataSetChanged();
+        ((TaskCursorAdapter)getListAdapter()).changeCursor(TaskLab.get(getActivity()).queryTasks());
     }
 
     private void createNewTask() {
@@ -224,12 +221,26 @@ public class TaskListFragment extends ListFragment {
             mDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    boolean deleted=TaskLab.get(getActivity()).removeTask(t);
-                    if(deleted){
-                        updateTaskList();
-                        Toast.makeText(getActivity(),'"'+t.getTitle()+'"'+" Deleted",Toast.LENGTH_SHORT).show();
-                    }
+                    AlertDialog.Builder deleteDialog = new AlertDialog.Builder(getActivity());
+                    deleteDialog.setTitle("Delete Task");
+                    deleteDialog.setMessage("Do you want to delete this task?");
+                    deleteDialog.setPositiveButton("Delete",new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            boolean deleted=TaskLab.get(getActivity()).removeTask(t);
+                            if(deleted){
+                                updateTaskList();
+                                Toast.makeText(getActivity(),'"'+t.getTitle()+'"'+" Deleted",Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                    deleteDialog.setNegativeButton(R.string.cancel,new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
 
+                        }
+                    });
+                    deleteDialog.show();
                 }
             });
 
@@ -261,8 +272,6 @@ public class TaskListFragment extends ListFragment {
             toolbar = convertView.findViewById(R.id.expandable_list_details);
             ((LinearLayout.LayoutParams)toolbar.getLayoutParams()).bottomMargin=-50;
             toolbar.setVisibility(View.GONE);
-
-
         }
     }
 }
