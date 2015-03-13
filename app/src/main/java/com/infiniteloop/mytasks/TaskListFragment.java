@@ -38,15 +38,13 @@ public class TaskListFragment extends ListFragment {
     private TaskCursorAdapter mTaskCursorAdapter;
     private  View rootView;
     private View expandedToolbar;
-    private TaskDataBaseHelper.TaskCursor mCursor;
     private ImageButton mDelete,mStart,mEdit,mComplete;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mCursor = TaskLab.get(getActivity()).queryTasks();
         mTasks=TaskLab.get(getActivity()).getTasks();
         //create an adapter to point at this cursor
-        mTaskCursorAdapter = new TaskCursorAdapter(getActivity(),mCursor);
+        mTaskCursorAdapter = new TaskCursorAdapter(getActivity(),TaskLab.get(getActivity()).queryTasks());
         setListAdapter(mTaskCursorAdapter);
     }
 
@@ -95,7 +93,7 @@ public class TaskListFragment extends ListFragment {
                     Toast.makeText(getActivity(),
                     '"'+mTasks.get(+mTasks.size()-1).getTitle()+'"'+" Added",
                     Toast.LENGTH_SHORT).show();
-                    updateTaskList();
+                    //updateTaskList();
                 }
                 break;
             default:
@@ -104,7 +102,7 @@ public class TaskListFragment extends ListFragment {
     }
 
     private void updateTaskList() {
-        ((TaskCursorAdapter)getListAdapter()).changeCursor(TaskLab.get(getActivity()).queryTasks());
+        ((TaskCursorAdapter) getListAdapter()).swapCursor(TaskLab.get(getActivity()).queryTasks());
     }
 
     private void createNewTask() {
@@ -194,6 +192,8 @@ public class TaskListFragment extends ListFragment {
             titleTextView.setText(t.getTitle());
             TextView categoryTextView = (TextView)convertView.findViewById(R.id.task_item_category_textview);
             //categoryTextView.setText(t.getCategory());
+            TextView dateTextView = (TextView)convertView.findViewById(R.id.task_item_date_textview);
+            dateTextView.setText(t.toString());
             View toolbar=convertView.findViewById(R.id.expandable_list_details);
 
             mEdit = (ImageButton)toolbar.findViewById(R.id.edit_task_imageButton);
@@ -229,7 +229,7 @@ public class TaskListFragment extends ListFragment {
                         public void onClick(DialogInterface dialog, int which) {
                             boolean deleted=TaskLab.get(getActivity()).removeTask(t);
                             if(deleted){
-                                updateTaskList();
+                                //updateTaskList();
                                 Toast.makeText(getActivity(),'"'+t.getTitle()+'"'+" Deleted",Toast.LENGTH_SHORT).show();
                             }
                         }
