@@ -24,6 +24,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.infiniteloop.mytasks.TaskListActivity"/>
             </activity>
+        <activity android:name=".EditTaskActivity"
+            android:label="@string/edit_task"/>
     </application>
 
 </manifest>

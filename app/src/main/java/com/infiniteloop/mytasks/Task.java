@@ -1,14 +1,15 @@
 package com.infiniteloop.mytasks;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.text.DateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 /**
  * Created by theotherside on 07/03/15.
  */
-public class Task {
+public class Task implements Parcelable {
     private Date mCreationDate;
     private long mId;
     private String mtitle;
@@ -23,6 +24,7 @@ public class Task {
     public static final int NORMAL_PRIORITY=1;
     public static final int HIGH_PRIORITY=2;
     public static final int VERY_HIGH_PRIORITY=3;
+
 
 
     @Override
@@ -114,5 +116,47 @@ public class Task {
 
     public void setId(long mId) {
         this.mId = mId;
+    }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeSerializable(mCreationDate);
+        dest.writeLong(mId);
+        dest.writeString( mtitle);
+        dest.writeInt(mPriority);
+        dest.writeLong(mCategory);
+        dest.writeString(mVisibility);
+        dest.writeInt(mDurationHours);
+        dest.writeInt(mDurationMinutes);
+        dest.writeInt(mTotalDurationMinutes);
+    }
+
+    public static final Creator<Task> CREATOR= new Creator<Task>(){
+        public Task createFromParcel(Parcel in){
+            return new Task(in);
+        }
+
+        @Override
+        public Task[] newArray(int size) {
+            return new Task[size];
+        }
+    };
+
+    private Task(Parcel in){
+        mCreationDate = (Date)in.readSerializable();
+        mId = in.readLong();
+        mtitle=in.readString();
+        mPriority=in.readInt();
+        mCategory=in.readLong();
+        mVisibility=in.readString();
+        mDurationHours=in.readInt();
+        mDurationMinutes=in.readInt();
+        mTotalDurationMinutes=in.readInt();
     }
 }
