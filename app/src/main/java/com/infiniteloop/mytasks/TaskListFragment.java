@@ -43,6 +43,8 @@ public class TaskListFragment extends ListFragment implements LoaderManager.Load
     private View expandedToolbar;
     private ImageButton mDelete,mStart,mEdit,mComplete;
 
+    public static final String DRAWER_ITEM_CHOICE = "DrawerItemChoice";
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

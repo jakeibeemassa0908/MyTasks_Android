@@ -11,6 +11,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -43,6 +44,9 @@ public class TaskListActivity extends ActionBarActivity {
         //set adapter for listView drawer
         mDrawerList.setAdapter(new DrawerAdapter(mDrawerItems));
         setUpDrawerToggle();
+
+        //set list's click listener
+        mDrawerList.setOnItemClickListener(new DrawerItemClickListenner());
 
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.container);
@@ -79,6 +83,37 @@ public class TaskListActivity extends ActionBarActivity {
         // Handle your other action bar items...
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private class DrawerItemClickListenner implements ListView.OnItemClickListener{
+
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            selectItem(position);
+        }
+    }
+
+    private void selectItem(int position){
+        Fragment fragment = new TaskListFragment();
+        Bundle args = new Bundle();
+        args.putInt(TaskListFragment.DRAWER_ITEM_CHOICE,position);
+        fragment.setArguments(args);
+
+        //Insert fragment by replacing any existing fragment
+        FragmentManager fm = getSupportFragmentManager();
+        fm.beginTransaction()
+                .replace(R.id.container,fragment)
+                .commit();
+
+        //highlight the selected title
+        mDrawerList.setItemChecked(position,true);
+        setTitle(mDrawerTitle[position]);
+        mDrawerLayout.closeDrawer(mDrawerList);
+    }
+
+    @Override
+    public void setTitle(CharSequence title) {
+        getSupportActionBar().setTitle(title);
     }
 
     private void setUpDrawerToggle(){

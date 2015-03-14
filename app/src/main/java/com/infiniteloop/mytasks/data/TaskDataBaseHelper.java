@@ -92,7 +92,7 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
                 null,
                 null,
                 null,
-                TaskEntry.COLUMN_PRIORITY + " asc");
+                TaskEntry.COLUMN_PRIORITY + " desc");
         return new TaskCursor(wrapped);
     }
 
