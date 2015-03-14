@@ -36,7 +36,7 @@ public class TaskLab {
 
     public boolean createTask(Context context,String title,String priority_s,long category,int durationHours,int durationMinutes){
             Log.d(NewTaskFragment.TAG,"Entered");
-            int priority=getPriority(context,priority_s);
+            int priority=Helpers.getPriority(context,priority_s);
             if(priority!=-1){
                 Task t = new Task(title,priority,category,durationHours,durationMinutes);
                 long taskId=saveTask(t);
@@ -70,17 +70,10 @@ public class TaskLab {
         return true;
     }
 
-    private int getPriority(Context c, String priority){
-        if(priority.equals(c.getString(R.string.normal))){
-            return Task.NORMAL_PRIORITY;
-        }else if(priority.equals(c.getString(R.string.low))){
-            return Task.LOW_PRIORITY;
-        }else if(priority.equals(c.getString(R.string.high))){
-            return Task.HIGH_PRIORITY;
-        }else if(priority.equals(c.getString(R.string.very_high))){
-            return Task.VERY_HIGH_PRIORITY;
-        }else{
-            return -1;
-        }
+    public boolean editTask(Task task){
+        int rowCount =mHelper.updateTask(task);
+        if( rowCount==1) return true;
+        return false;
     }
+
 }

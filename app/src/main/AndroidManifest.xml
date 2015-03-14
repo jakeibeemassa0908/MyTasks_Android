@@ -25,7 +25,14 @@
                 android:value="com.infiniteloop.mytasks.TaskListActivity"/>
             </activity>
         <activity android:name=".EditTaskActivity"
-            android:label="@string/edit_task"/>
+            android:label="@string/edit_task"
+            android:parentActivityName=".TaskListActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.infiniteloop.mytasks.TaskListActivity"/>
+
+            </activity>
+
     </application>
 
 </manifest>

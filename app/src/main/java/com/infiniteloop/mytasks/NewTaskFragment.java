@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
@@ -27,7 +26,6 @@ public class NewTaskFragment extends Fragment {
 
     private Spinner mPrioritySpinner;
     private Spinner mCategorySpinner;
-    private Spinner mVisibilitySpinner;
     private ImageButton mSetTimeButton;
     private EditText mTitleEditText;
     private int mDurationHours;
@@ -49,13 +47,10 @@ public class NewTaskFragment extends Fragment {
         mTitleEditText = (EditText) rootView.findViewById(R.id.task_title_textview);
 
         mPrioritySpinner = (Spinner)rootView.findViewById(R.id.task_priority_spinner);
-        mPrioritySpinner.setAdapter(getSpinnerAdapter(R.array.task_priority_array));
-
-        mVisibilitySpinner= (Spinner) rootView.findViewById(R.id.task_visibility_spinner);
-        mVisibilitySpinner.setAdapter(getSpinnerAdapter(R.array.task_visibility_array));
+        mPrioritySpinner.setAdapter(Helpers.getSpinnerAdapter(getActivity(),R.array.task_priority_array));
 
         mCategorySpinner=(Spinner)rootView.findViewById(R.id.task_category_spinner);
-        mCategorySpinner.setAdapter(getSpinnerAdapter(R.array.task_category_array));
+        mCategorySpinner.setAdapter(Helpers.getSpinnerAdapter(getActivity(),R.array.task_category_array));
 
         mSetTimeButton = (ImageButton) rootView.findViewById(R.id.task_duration_button);
         mSetTimeButton.setOnClickListener(new View.OnClickListener() {
@@ -124,16 +119,5 @@ public class NewTaskFragment extends Fragment {
         mDurationText.setTextColor(getResources().getColor(R.color.red));
         mDurationText.setText(mDurationHours+" : "+ mDurationMinutes);
 
-    }
-
-    private ArrayAdapter getSpinnerAdapter(int arrayId){
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-                getActivity(),
-                arrayId,
-                android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        return adapter;
     }
 }

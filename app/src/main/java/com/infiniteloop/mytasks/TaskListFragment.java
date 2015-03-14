@@ -36,6 +36,7 @@ public class TaskListFragment extends ListFragment implements LoaderManager.Load
 
     private static final String TAG= TaskListFragment.class.getSimpleName();
     private static final int CREATE_NEW_TASK=1;
+    private static final int EDIT_TASK=2;
     private ArrayList<Task> mTasks;
     private ImageView mAddTaskImageView;
     private TaskCursorAdapter mTaskCursorAdapter;
@@ -46,7 +47,6 @@ public class TaskListFragment extends ListFragment implements LoaderManager.Load
     private int mPosition;
 
     public static final String DRAWER_ITEM_CHOICE = "DrawerItemChoice";
-    public static final int EDIT_TASK_REQUEST_CODE=0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -102,11 +102,15 @@ public class TaskListFragment extends ListFragment implements LoaderManager.Load
                     Toast.makeText(getActivity(),
                     '"'+mTasks.get(+mTasks.size()-1).getTitle()+'"'+" Added",
                     Toast.LENGTH_SHORT).show();
-                    //restart loader to get any new run available
+                    //restart loader to get any new task available
                     getLoaderManager().restartLoader(0,null,this);
-                    //updateTaskList();
                 }
                 break;
+            case EDIT_TASK:
+                if(resultCode==Activity.RESULT_OK){
+                    //restart loader to get any edited task data
+                    getLoaderManager().restartLoader(0,null,this);
+                }
             default:
                 break;
         }
@@ -230,7 +234,7 @@ public class TaskListFragment extends ListFragment implements LoaderManager.Load
                 public void onClick(View v) {
                     Intent intent = new Intent(getActivity(),EditTaskActivity.class);
                     intent.putExtra(EditTaskFragment.EXTRA_TASK,task);
-                    startActivityForResult(intent,EDIT_TASK_REQUEST_CODE);
+                    startActivityForResult(intent,EDIT_TASK);
                 }
             });
             mComplete = (ImageButton)toolbar.findViewById(R.id.mark_complete_button);

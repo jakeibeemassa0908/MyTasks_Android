@@ -76,10 +76,24 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
         return getWritableDatabase().delete(TaskEntry.TABLE_NAME,selection,selectionArgs);
     }
 
-    public void updateTask(Task task){
-        /*
-        TODO update task
-         */
+    public int updateTask(Task task){
+        ContentValues cv= new ContentValues();
+        cv.put(TaskEntry.COLUMN_TASK_TITLE,task.getTitle());
+        cv.put(TaskEntry.COLUMN_DATE,task.getCreationDate());
+        cv.put(TaskEntry.COLUMN_PRIORITY,task.getPriority());
+        cv.put(TaskEntry.COLUMN_DURATION,task.getTotalDurationMinutes());
+        cv.put(TaskEntry.COLUMN_CAT_KEY,task.getCategory());
+
+        String selection = TaskEntry._ID + " LIKE ?";
+        String[] selectionArgs={String.valueOf(task.getId())};
+
+        int count = getReadableDatabase().update(
+                TaskEntry.TABLE_NAME,
+                cv,
+                selection,
+                selectionArgs
+        );
+        return count;
     }
 
 
