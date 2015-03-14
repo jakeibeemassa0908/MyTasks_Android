@@ -46,6 +46,7 @@ public class TaskListFragment extends ListFragment implements LoaderManager.Load
     private int mPosition;
 
     public static final String DRAWER_ITEM_CHOICE = "DrawerItemChoice";
+    public static final int EDIT_TASK_REQUEST_CODE=0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -227,7 +228,9 @@ public class TaskListFragment extends ListFragment implements LoaderManager.Load
             mEdit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    Intent intent = new Intent(getActivity(),EditTaskActivity.class);
+                    intent.putExtra(EditTaskFragment.EXTRA_TASK_ID,t.getId());
+                    startActivityForResult(intent,EDIT_TASK_REQUEST_CODE);
                 }
             });
             mComplete = (ImageButton)toolbar.findViewById(R.id.mark_complete_button);

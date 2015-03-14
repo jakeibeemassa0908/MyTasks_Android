@@ -70,10 +70,6 @@ public class TaskLab {
         return true;
     }
 
-    public TaskDataBaseHelper.TaskCursor getTask(long taskId){
-        return null;
-    }
-
     private int getPriority(Context c, String priority){
         if(priority.equals(c.getString(R.string.normal))){
             return Task.NORMAL_PRIORITY;

@@ -1,7 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
 
-</LinearLayout>
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="20dp"
+        android:gravity="center_horizontal">
+
+        <EditText
+            android:id="@id/task_title_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:hint="@string/task_title_hint"/>
+        <Spinner
+            android:id="@id/task_category_spinner"
+            android:layout_width="match_parent"
+            style="@style/newTaskTheme"
+            android:layout_marginBottom="10dp"
+            android:layout_height="wrap_content"/>
+        <Spinner
+            android:id="@id/task_priority_spinner"
+            android:layout_width="match_parent"
+            style="@style/newTaskTheme"
+            android:layout_marginBottom="10dp"
+            android:layout_height="wrap_content"/>
+
+        <Spinner
+            android:id="@id/task_visibility_spinner"
+            android:layout_width="match_parent"
+            style="@style/newTaskTheme"
+            android:layout_marginBottom="10dp"
+            android:layout_height="wrap_content"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            style="@style/newTaskTheme"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:minHeight="?android:attr/listPreferredItemHeight">
+
+            <EditText
+                android:id="@id/task_duration_edit_text"
+                android:layout_width="0dp"
+                android:layout_weight="7"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:hint="@string/task_duration"/>
+            <ImageButton
+                android:id="@id/task_duration_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/ic_action_image_timer"
+                android:text="@string/set_task_duration"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>
