@@ -215,13 +215,13 @@ public class TaskListFragment extends ListFragment implements LoaderManager.Load
 
         @Override
         public void bindView(View convertView, Context context, Cursor cursor) {
-            final Task t = mTaskCursor.getTask();
+            final Task task = mTaskCursor.getTask();
             TextView titleTextView = (TextView)convertView.findViewById(R.id.task_item_title_textview);
-            titleTextView.setText(t.getTitle());
+            titleTextView.setText(task.getTitle());
             TextView categoryTextView = (TextView)convertView.findViewById(R.id.task_item_category_textview);
             //categoryTextView.setText(t.getCategory());
             TextView dateTextView = (TextView)convertView.findViewById(R.id.task_item_date_textview);
-            dateTextView.setText(t.toString());
+            dateTextView.setText(task.toString());
             View toolbar=convertView.findViewById(R.id.expandable_list_details);
 
             mEdit = (ImageButton)toolbar.findViewById(R.id.edit_task_imageButton);
@@ -229,7 +229,7 @@ public class TaskListFragment extends ListFragment implements LoaderManager.Load
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(getActivity(),EditTaskActivity.class);
-                    intent.putExtra(EditTaskFragment.EXTRA_TASK_ID,t.getId());
+                    intent.putExtra(EditTaskFragment.EXTRA_TASK,task);
                     startActivityForResult(intent,EDIT_TASK_REQUEST_CODE);
                 }
             });
@@ -257,10 +257,10 @@ public class TaskListFragment extends ListFragment implements LoaderManager.Load
                     deleteDialog.setPositiveButton("Delete",new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            boolean deleted=TaskLab.get(getActivity()).removeTask(t);
+                            boolean deleted=TaskLab.get(getActivity()).removeTask(task);
                             if(deleted){
                                 getLoaderManager().restartLoader(0,null,TaskListFragment.this);
-                                Toast.makeText(getActivity(),'"'+t.getTitle()+'"'+" Deleted",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(),'"'+task.getTitle()+'"'+" Deleted",Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
@@ -276,7 +276,7 @@ public class TaskListFragment extends ListFragment implements LoaderManager.Load
 
 
 
-            switch (t.getPriority()){
+            switch (task.getPriority()){
                 case Task.VERY_HIGH_PRIORITY:
                     convertView.setBackgroundColor(getResources().getColor(R.color.red));
                     toolbar.setBackgroundColor(getResources().getColor(R.color.dark_red));

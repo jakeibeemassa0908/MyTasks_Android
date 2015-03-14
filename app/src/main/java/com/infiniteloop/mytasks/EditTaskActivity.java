@@ -11,7 +11,7 @@ public class EditTaskActivity extends SingleFragmentActivity {
 
     @Override
     protected Fragment createFragment() {
-        long id = getIntent().getExtras().getLong(EditTaskFragment.EXTRA_TASK_ID,-1);
-        return EditTaskFragment.newInstance(id);
+         Task task= getIntent().getExtras().getParcelable(EditTaskFragment.EXTRA_TASK);
+        return EditTaskFragment.newInstance(task);
     }
 }
