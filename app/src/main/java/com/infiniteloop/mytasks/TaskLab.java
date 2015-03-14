@@ -50,8 +50,8 @@ public class TaskLab {
         return mHelper.insertTask(t);
     }
 
-    public TaskDataBaseHelper.TaskCursor queryTasks(){
-        return mHelper.queryTasks();
+    public TaskDataBaseHelper.TaskCursor queryTasks(int queryCode){
+        return mHelper.queryTasks(queryCode);
     }
 
     public Task queryTask(long id){

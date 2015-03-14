@@ -43,11 +43,14 @@ public class TaskListFragment extends ListFragment implements LoaderManager.Load
     private View expandedToolbar;
     private ImageButton mDelete,mStart,mEdit,mComplete;
 
+    private int mPosition;
+
     public static final String DRAWER_ITEM_CHOICE = "DrawerItemChoice";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mPosition = getArguments().getInt(DRAWER_ITEM_CHOICE);
         mTasks=TaskLab.get(getActivity()).getTasks();
         //Initialize the loader to load the list of runs
         getLoaderManager().initLoader(0,null,this);
@@ -116,7 +119,7 @@ public class TaskListFragment extends ListFragment implements LoaderManager.Load
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         //You only ever load the runs, so assume this is the case
-        return new TaskListCursorLoader(getActivity());
+        return new TaskListCursorLoader(getActivity(),mPosition);
     }
 
     @Override
@@ -300,15 +303,17 @@ public class TaskListFragment extends ListFragment implements LoaderManager.Load
     }
 
     public static class TaskListCursorLoader extends SQLiteCursorLoader{
+        int mPosition=0;
 
-        public TaskListCursorLoader(Context context){
+        public TaskListCursorLoader(Context context,int position){
             super (context);
+            mPosition=position;
         }
 
         @Override
         protected Cursor loadCursor() {
             //Query the list of runs
-            return TaskLab.get(getContext()).queryTasks();
+            return TaskLab.get(getContext()).queryTasks(mPosition);
         }
     }
 }

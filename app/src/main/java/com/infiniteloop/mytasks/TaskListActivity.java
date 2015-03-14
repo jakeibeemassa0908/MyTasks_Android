@@ -34,7 +34,6 @@ public class TaskListActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawer);
 
-
         mDrawerLayout =(DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList=(ListView)findViewById(R.id.left_drawer);
         mDrawerItems= new ArrayList<DrawerItem>();
@@ -48,15 +47,7 @@ public class TaskListActivity extends ActionBarActivity {
         //set list's click listener
         mDrawerList.setOnItemClickListener(new DrawerItemClickListenner());
 
-        FragmentManager fm = getSupportFragmentManager();
-        Fragment fragment = fm.findFragmentById(R.id.container);
-
-        if(fragment == null){
-            fragment = new TaskListFragment();
-            fm.beginTransaction()
-                    .add(R.id.container,fragment)
-                    .commit();
-        }
+        selectItem(0);
     }
 
 

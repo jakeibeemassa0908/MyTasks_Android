@@ -83,13 +83,38 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public TaskCursor queryTasks(){
+    public TaskCursor queryTasks(int queryCode){
+        String selection;
+        String[] selectionArgs;
+        switch (queryCode){
+            case 2:
+                selection=TaskEntry.COLUMN_PRIORITY + " LIKE ?";
+                selectionArgs= new String[]{String.valueOf(Task.VERY_HIGH_PRIORITY)};
+                break;
+            case 3:
+                selection=TaskEntry.COLUMN_PRIORITY + " LIKE ?";
+                selectionArgs= new String[]{String.valueOf(Task.HIGH_PRIORITY)};
+                break;
+            case 4:
+                selection=TaskEntry.COLUMN_PRIORITY + " LIKE ?";
+                selectionArgs= new String[]{String.valueOf(Task.NORMAL_PRIORITY)};
+                break;
+            case 5:
+                selection=TaskEntry.COLUMN_PRIORITY + " LIKE ?";
+                selectionArgs= new String[]{String.valueOf(Task.LOW_PRIORITY)};
+                break;
+            default:
+                selection=null;
+                selectionArgs=null;
+
+
+        }
         //Equivalent of select * from task order by priority asc
         Cursor wrapped = getReadableDatabase().query(
                 TaskEntry.TABLE_NAME,
                 null,
-                null,
-                null,
+                selection,
+                selectionArgs,
                 null,
                 null,
                 TaskEntry.COLUMN_PRIORITY + " desc");
