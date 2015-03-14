@@ -117,7 +117,7 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
                 selectionArgs,
                 null,
                 null,
-                TaskEntry.COLUMN_PRIORITY + " desc");
+                TaskEntry.COLUMN_DATE + " asc");
         return new TaskCursor(wrapped);
     }
 
