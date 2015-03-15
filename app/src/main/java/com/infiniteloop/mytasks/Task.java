@@ -16,9 +16,6 @@ public class Task implements Parcelable {
     private int mPriority;
     private long mCategory;
     private String mVisibility;
-    private int mDurationHours;
-    private int mDurationMinutes;
-    private int mTotalDurationMinutes;
 
     public static final int LOW_PRIORITY=0;
     public static final int NORMAL_PRIORITY=1;
@@ -36,12 +33,11 @@ public class Task implements Parcelable {
 
     }
 
-    public Task(String title,int priority,long category,int durationHours,int durationMinutes){
+    public Task(String title,int priority,long category){
         mCreationDate = new Date();
         mPriority= priority;
         mtitle=title;
         mCategory=category;
-        mTotalDurationMinutes = durationMinutes+(durationHours*60);
     }
 
 
@@ -90,30 +86,6 @@ public class Task implements Parcelable {
         this.mVisibility = mVisibility;
     }
 
-    public int getDurationHours() {
-        return mDurationHours;
-    }
-
-    public void setDurationHours(int mDurationHours) {
-        this.mDurationHours = mDurationHours;
-    }
-
-    public int getDurationMinutes() {
-        return mDurationMinutes;
-    }
-
-    public void setDurationMinutes(int mDurationMinutes) {
-        this.mDurationMinutes = mDurationMinutes;
-    }
-
-    public int getTotalDurationMinutes() {
-        return mTotalDurationMinutes;
-    }
-
-    public void setTotalDurationMinutes(int mTotalDurationMinutes) {
-        this.mDurationMinutes=mTotalDurationMinutes;
-    }
-
     public void setId(long mId) {
         this.mId = mId;
     }
@@ -132,9 +104,6 @@ public class Task implements Parcelable {
         dest.writeInt(mPriority);
         dest.writeLong(mCategory);
         dest.writeString(mVisibility);
-        dest.writeInt(mDurationHours);
-        dest.writeInt(mDurationMinutes);
-        dest.writeInt(mTotalDurationMinutes);
     }
 
     public static final Creator<Task> CREATOR= new Creator<Task>(){
@@ -155,8 +124,5 @@ public class Task implements Parcelable {
         mPriority=in.readInt();
         mCategory=in.readLong();
         mVisibility=in.readString();
-        mDurationHours=in.readInt();
-        mDurationMinutes=in.readInt();
-        mTotalDurationMinutes=in.readInt();
     }
 }

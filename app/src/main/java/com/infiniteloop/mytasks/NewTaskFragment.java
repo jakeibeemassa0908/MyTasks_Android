@@ -22,15 +22,9 @@ import android.widget.Toast;
 public class NewTaskFragment extends Fragment {
     public static final String TAG = NewTaskFragment.class.getSimpleName();
 
-    private static final int REQUEST_DURATION=1;
-
     private Spinner mPrioritySpinner;
     private Spinner mCategorySpinner;
-    private ImageButton mSetTimeButton;
     private EditText mTitleEditText;
-    private int mDurationHours;
-    private int mDurationMinutes;
-    private EditText mDurationText;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,8 +36,6 @@ public class NewTaskFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.new_task,container,false);
 
-        mDurationText = (EditText)rootView.findViewById(R.id.task_duration_edit_text);
-
         mTitleEditText = (EditText) rootView.findViewById(R.id.task_title_textview);
 
         mPrioritySpinner = (Spinner)rootView.findViewById(R.id.task_priority_spinner);
@@ -52,37 +44,7 @@ public class NewTaskFragment extends Fragment {
         mCategorySpinner=(Spinner)rootView.findViewById(R.id.task_category_spinner);
         mCategorySpinner.setAdapter(Helpers.getSpinnerAdapter(getActivity(),R.array.task_category_array));
 
-        mSetTimeButton = (ImageButton) rootView.findViewById(R.id.task_duration_button);
-        mSetTimeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentManager fm = getActivity()
-                        .getSupportFragmentManager();
-                DurationDialog dialog = DurationDialog
-                        .newInstance(mDurationHours, mDurationMinutes);
-                dialog.setTargetFragment(NewTaskFragment.this,REQUEST_DURATION);
-                dialog.show(fm,"duration");
-
-            }
-        });
-
         return rootView;
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode!= Activity.RESULT_OK)return;
-        switch (requestCode){
-            case REQUEST_DURATION:
-                mDurationHours=data.getIntExtra(DurationDialog.EXTRA_HOURS,0);
-                mDurationMinutes=data.getIntExtra(DurationDialog.EXTRA_MINUTES,0);
-                updateTimeField();
-                break;
-            default:
-                break;
-
-        }
-
     }
 
     @Override
@@ -94,10 +56,8 @@ public class NewTaskFragment extends Fragment {
                 long category=-1;
                 String priority=mPrioritySpinner.getSelectedItem().toString();
                // String visibility=mVisibilitySpinner.getSelectedItem().toString();
-                int durationHours=0;
-                int durationMinutes=0;
                 if(!title.matches("")){
-                    boolean isCreated=TaskLab.get(getActivity()).createTask(getActivity(),title,priority,category,durationHours,durationMinutes);
+                    boolean isCreated=TaskLab.get(getActivity()).createTask(getActivity(),title,priority,category);
                     if(isCreated){
                         Intent resultIntent = new Intent();
                         getActivity().setResult(Activity.RESULT_OK,resultIntent);
@@ -113,11 +73,5 @@ public class NewTaskFragment extends Fragment {
                 return super.onOptionsItemSelected(item);
 
         }
-    }
-
-    private void updateTimeField() {
-        mDurationText.setTextColor(getResources().getColor(R.color.red));
-        mDurationText.setText(mDurationHours+" : "+ mDurationMinutes);
-
     }
 }

@@ -17,6 +17,9 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.infiniteloop.mytasks.data.TaskContract;
+import com.infiniteloop.mytasks.data.TaskDataBaseHelper;
+
 import java.util.ArrayList;
 
 public class TaskListActivity extends ActionBarActivity {

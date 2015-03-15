@@ -23,17 +23,11 @@ public class EditTaskFragment extends Fragment {
 
     private Spinner mPrioritySpinner;
     private Spinner mCategorySpinner;
-    private Spinner mVisibilitySpinner;
-    private ImageButton mSetTimeButton;
     private EditText mTitleEditText;
-    private int mDurationHours;
-    private int mDurationMinutes;
-    private EditText mDurationText;
 
     private static final String TAG=EditTaskFragment.class.getSimpleName();
 
     public static String EXTRA_TASK="com.infiniteloop.task";
-    private static final int LOAD_TASK=0;
 
     private Task mTask;
 
@@ -67,17 +61,6 @@ public class EditTaskFragment extends Fragment {
         mCategorySpinner= (Spinner) rootView.findViewById(R.id.edit_task_category_spinner);
         mCategorySpinner.setAdapter(Helpers.getSpinnerAdapter(getActivity(),R.array.task_category_array));
 
-        mDurationText=(EditText)rootView.findViewById(R.id.edit_task_duration_edit_text);
-        mDurationText.setTextColor(getResources().getColor(R.color.red));
-        mDurationText.setText(mTask.getDurationHours()+" : "+ mTask.getDurationMinutes());
-
-        mSetTimeButton = (ImageButton)rootView.findViewById(R.id.edit_task_duration_button);
-        mSetTimeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
         return rootView;
     }
 
@@ -128,7 +111,6 @@ public class EditTaskFragment extends Fragment {
     private boolean hasDataChanged() {
         if(!mTask.getTitle().equals(mTitleEditText.getText().toString())) return true;
         //if(mTask.getPriority()!= Helpers.getPriority(getActivity(),mPrioritySpinner.getSelectedItem().toString()))return true;
-        //if(!mDurationText.equals(mTask.getDurationHours()+" : "+ mTask.getDurationMinutes()))return true;
         return false;
     }
 }

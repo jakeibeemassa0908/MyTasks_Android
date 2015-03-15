@@ -34,11 +34,11 @@ public class TaskLab {
         return mTasks;
     }
 
-    public boolean createTask(Context context,String title,String priority_s,long category,int durationHours,int durationMinutes){
+    public boolean createTask(Context context,String title,String priority_s,long category){
             Log.d(NewTaskFragment.TAG,"Entered");
             int priority=Helpers.getPriority(context,priority_s);
             if(priority!=-1){
-                Task t = new Task(title,priority,category,durationHours,durationMinutes);
+                Task t = new Task(title,priority,category);
                 long taskId=saveTask(t);
                 mTasks.add(t);
                 return true;

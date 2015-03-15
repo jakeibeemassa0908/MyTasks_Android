@@ -25,7 +25,6 @@ public class TaskContract {
 
         public static final String TABLE_NAME="category";
 
-        public static final String COLUMN_CATEGORY_ID="category_id";
         public static final String COLUMN_NAME="name";
     }
 
@@ -37,6 +36,5 @@ public class TaskContract {
         public static final String COLUMN_TASK_ID="task_id";
         public static final String COLUMN_TASK_TITLE="title";
         public static final String COLUMN_PRIORITY="priority";
-        public static final String COLUMN_DURATION="duration";
     }
 }

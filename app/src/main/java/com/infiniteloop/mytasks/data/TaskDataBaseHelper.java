@@ -30,10 +30,8 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         final String SQL_CREATE_TASK_TABLE="CREATE TABLE "+ TaskEntry.TABLE_NAME + " ("+
                 TaskEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"+
-
                 TaskEntry.COLUMN_CAT_KEY + " INTEGER NOT NULL, "+
                 TaskEntry.COLUMN_DATE + " INTEGER NOT NULL, "+
-                TaskEntry.COLUMN_DURATION + " INTEGER NOT NULL, "+
                 TaskEntry.COLUMN_PRIORITY + " INTEGER NOT NULL, "+
                 TaskEntry.COLUMN_TASK_TITLE + " TEXT NOT NULL);";
 //
@@ -48,14 +46,13 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
                 CategoryEntry.COLUMN_NAME + " TEXT NOT NULL);";
 
         db.execSQL(SQL_CREATE_TASK_TABLE);
-        db.execSQL(SQL_CREATE_CATEGORY_TABLE);
+        //db.execSQL(SQL_CREATE_CATEGORY_TABLE);
 
 
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        //operate schema change and database massage when upgrading
     }
 
     public long insertTask(Task task){
@@ -63,7 +60,6 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
         cv.put(TaskEntry.COLUMN_TASK_TITLE,task.getTitle());
         cv.put(TaskEntry.COLUMN_DATE,task.getCreationDate());
         cv.put(TaskEntry.COLUMN_PRIORITY,task.getPriority());
-        cv.put(TaskEntry.COLUMN_DURATION,task.getTotalDurationMinutes());
         cv.put(TaskEntry.COLUMN_CAT_KEY,task.getCategory());
         return getWritableDatabase().insert(TaskEntry.TABLE_NAME,null,cv);
     }
@@ -81,7 +77,6 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
         cv.put(TaskEntry.COLUMN_TASK_TITLE,task.getTitle());
         cv.put(TaskEntry.COLUMN_DATE,task.getCreationDate());
         cv.put(TaskEntry.COLUMN_PRIORITY,task.getPriority());
-        cv.put(TaskEntry.COLUMN_DURATION,task.getTotalDurationMinutes());
         cv.put(TaskEntry.COLUMN_CAT_KEY,task.getCategory());
 
         String selection = TaskEntry._ID + " LIKE ?";
@@ -164,7 +159,6 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
             task.setCreationDate(new Date(getLong(getColumnIndex(TaskEntry.COLUMN_DATE))));
             task.setPriority(getInt(getColumnIndex(TaskEntry.COLUMN_PRIORITY)));
             task.setTitle(getString(getColumnIndex(TaskEntry.COLUMN_TASK_TITLE)));
-            task.setTotalDurationMinutes(getInt(getColumnIndex(TaskEntry.COLUMN_DURATION)));
             return task;
         }
 
