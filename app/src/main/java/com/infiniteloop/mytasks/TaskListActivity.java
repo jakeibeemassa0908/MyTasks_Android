@@ -31,6 +31,8 @@ public class TaskListActivity extends ActionBarActivity {
     private String[] mDrawerTitle;
     private TypedArray mDrawerIcons;
 
+    private int mPosition;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -103,6 +105,8 @@ public class TaskListActivity extends ActionBarActivity {
         mDrawerList.setItemChecked(position,true);
         setTitle(mDrawerTitle[position]);
         mDrawerLayout.closeDrawer(mDrawerList);
+
+        mPosition=position;
     }
 
     @Override
@@ -160,6 +164,12 @@ public class TaskListActivity extends ActionBarActivity {
                 convertView= getLayoutInflater().inflate(R.layout.drawer_list_item,null);
             }
             DrawerItem item = getItem(position);
+
+            if(position == mPosition){
+                convertView.setBackgroundColor(getResources().getColor(R.color.grey));
+            }else{
+                convertView.setBackgroundColor(getResources().getColor(R.color.white));
+            }
 
             TextView t = (TextView)convertView.findViewById(R.id.drawer_item);
             t.setText(item.getTitle());

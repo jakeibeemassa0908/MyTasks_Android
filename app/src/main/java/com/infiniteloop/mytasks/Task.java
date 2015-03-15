@@ -16,6 +16,7 @@ public class Task implements Parcelable {
     private int mPriority;
     private long mCategory;
     private String mVisibility;
+    private boolean mCompleted;
 
     public static final int LOW_PRIORITY=0;
     public static final int NORMAL_PRIORITY=1;
@@ -38,6 +39,7 @@ public class Task implements Parcelable {
         mPriority= priority;
         mtitle=title;
         mCategory=category;
+        mCompleted=false;
     }
 
 
@@ -124,5 +126,13 @@ public class Task implements Parcelable {
         mPriority=in.readInt();
         mCategory=in.readLong();
         mVisibility=in.readString();
+    }
+
+    public boolean ismCompleted() {
+        return mCompleted;
+    }
+
+    public void setmCompleted(boolean mCompleted) {
+        this.mCompleted = mCompleted;
     }
 }
