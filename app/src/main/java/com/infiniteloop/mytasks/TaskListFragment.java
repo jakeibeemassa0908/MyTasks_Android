@@ -26,6 +26,7 @@ import android.widget.Toast;
 
 import com.infiniteloop.mytasks.data.SQLiteCursorLoader;
 import com.infiniteloop.mytasks.data.TaskDataBaseHelper;
+import com.infiniteloop.mytasks.data.TimeAndDatePickerFragment;
 
 import java.util.ArrayList;
 
@@ -241,6 +242,27 @@ public class TaskListFragment extends ListFragment implements LoaderManager.Load
             mComplete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+                    dialog.setTitle("Set as completed");
+                    dialog.setMessage("Have You completed this task?");
+                    dialog.setPositiveButton("Yes, Completed",new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                                /* TODO Change task completed true
+                                * */
+                                Toast.makeText(getActivity(),
+                                        '"'+task.getTitle()+'"'+" Completed, Congratulations!",
+                                        Toast.LENGTH_SHORT)
+                                        .show();
+                        }
+                    });
+                    dialog.setNegativeButton(R.string.cancel,new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+                    dialog.show();
 
                 }
             });
@@ -248,7 +270,8 @@ public class TaskListFragment extends ListFragment implements LoaderManager.Load
             mStart.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    TimeAndDatePickerFragment.DatePickerFragment pickers = new TimeAndDatePickerFragment.DatePickerFragment(getFragmentManager());
+                    pickers.show(getFragmentManager(),"pickers");
                 }
             });
             mDelete=(ImageButton)toolbar.findViewById(R.id.delete_task_imageButton);
