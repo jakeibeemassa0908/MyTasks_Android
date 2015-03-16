@@ -33,7 +33,6 @@ public class TaskContract {
 
         public static final String COLUMN_CAT_KEY="category_id";
         public static final String COLUMN_DATE="date";
-        public static final String COLUMN_TASK_ID="task_id";
         public static final String COLUMN_TASK_TITLE="title";
         public static final String COLUMN_PRIORITY="priority";
     }

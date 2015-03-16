@@ -11,9 +11,6 @@
         <item>@string/private_visibility</item>
         <item>@string/public_visibility</item>
     </string-array>
-    <string-array name="task_category_array">
-        <item>No Category</item>
-    </string-array>
 
     <string-array name="drawer_menu_array">
         <item>@string/all_task</item>
@@ -26,11 +23,12 @@
         <item>@string/settings</item>
         <item>@string/feedback</item>
         <item>@string/about</item>
+        <item>@string/help</item>
     </string-array>
 
     <array name="drawer_images">
         <item>@drawable/ic_action_action_home</item>
-        <item>@drawable/ic_action_image_timer</item>
+        <item>@drawable/ic_action_device_add_alarm</item>
         <item>@drawable/ic_action_image_looks_one</item>
         <item>@drawable/ic_action_image_looks_two</item>
         <item>@drawable/ic_action_image_looks_3</item>

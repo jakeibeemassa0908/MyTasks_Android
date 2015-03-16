@@ -17,6 +17,8 @@
     <string name="complete_dialog_question">Have You completed this task?</string>
     <string name="complete_dialog_yes">Yes, Completed</string>
     <string name="complete_dialog_toast">Completed, Congratulations!</string>
+    <string name="add_category">Add new Category</string>
+    <string name="add">Add</string>
 
     <string name="edit_dialog_title">Edit Task</string>
     <string name="edit_dialog_question">Do you want to edit this task?</string>
@@ -48,7 +50,7 @@
 
     <string name="imageViewDrawerItem">Image drawer</string>
     <string name="all_task">All Tasks</string>
-    <string name="timed_task">Task With Timer</string>
+    <string name="timed_task">All Reminders</string>
     <string name="very_high_priority">Very High Priority</string>
     <string name="high_priority">High Priority</string>
     <string name="normal_priority">Normal Priority</string>
@@ -57,6 +59,7 @@
     <string name="settings">Settings</string>
     <string name="about">About</string>
     <string name="feedback">Leave feedback</string>
+    <string name="help">Help</string>
 
 
 </resources>

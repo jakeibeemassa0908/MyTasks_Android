@@ -3,16 +3,15 @@ package com.infiniteloop.mytasks;
 import android.content.Context;
 import android.widget.ArrayAdapter;
 
+import java.util.ArrayList;
+
 /**
  * Created by theotherside on 14/03/15.
  */
 public class Helpers {
-    public  static ArrayAdapter getSpinnerAdapter(Context context,int arrayId){
+    public  static ArrayAdapter getSpinnerAdapter(Context context,ArrayList<String> items){
         // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-                context,
-                arrayId,
-                android.R.layout.simple_spinner_item);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,android.R.layout.simple_spinner_item,items);
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         return adapter;

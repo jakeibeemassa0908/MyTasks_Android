@@ -1,6 +1,8 @@
 package com.infiniteloop.mytasks;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,8 +14,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 /**
@@ -23,13 +30,17 @@ public class NewTaskFragment extends Fragment {
     public static final String TAG = NewTaskFragment.class.getSimpleName();
 
     private Spinner mPrioritySpinner;
+    private ImageView mCategoryAdd;
     private Spinner mCategorySpinner;
     private EditText mTitleEditText;
+    ArrayList<String> mCategoryList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        mCategoryList=new ArrayList<String>();
+        mCategoryList.add("No Category");
     }
 
     @Override
@@ -39,10 +50,39 @@ public class NewTaskFragment extends Fragment {
         mTitleEditText = (EditText) rootView.findViewById(R.id.task_title_textview);
 
         mPrioritySpinner = (Spinner)rootView.findViewById(R.id.task_priority_spinner);
-        mPrioritySpinner.setAdapter(Helpers.getSpinnerAdapter(getActivity(),R.array.task_priority_array));
+        ArrayList<String> priorities = new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.task_priority_array)));
+        mPrioritySpinner.setAdapter(Helpers.getSpinnerAdapter(getActivity(),priorities));
 
         mCategorySpinner=(Spinner)rootView.findViewById(R.id.task_category_spinner);
-        mCategorySpinner.setAdapter(Helpers.getSpinnerAdapter(getActivity(),R.array.task_category_array));
+        mCategorySpinner.setAdapter(Helpers.getSpinnerAdapter(getActivity(),mCategoryList));
+
+        mCategoryAdd = (ImageView)rootView.findViewById(R.id.add_category_imageView);
+        mCategoryAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+                dialog.setTitle(getString(R.string.add_category));
+                final EditText newCategory = new EditText(getActivity());
+                dialog.setView(newCategory);
+                dialog.setPositiveButton(getString(R.string.add),new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String mAddCategory=newCategory.getText().toString();
+                        if(!mAddCategory.matches("")){
+                            mCategoryList.add(0,mAddCategory);
+                        }
+                        mCategorySpinner.setAdapter(Helpers.getSpinnerAdapter(getActivity(),mCategoryList));
+                    }
+                });
+                dialog.setNegativeButton(getString(R.string.cancel),new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                dialog.show();
+            }
+        });
 
         return rootView;
     }
