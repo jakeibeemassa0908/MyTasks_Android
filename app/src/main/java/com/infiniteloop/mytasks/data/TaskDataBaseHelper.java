@@ -46,7 +46,7 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
                 CategoryEntry.COLUMN_NAME + " TEXT NOT NULL);";
 
         db.execSQL(SQL_CREATE_TASK_TABLE);
-        //db.execSQL(SQL_CREATE_CATEGORY_TABLE);
+        db.execSQL(SQL_CREATE_CATEGORY_TABLE);
 
 
     }
@@ -62,6 +62,30 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
         cv.put(TaskEntry.COLUMN_PRIORITY,task.getPriority());
         cv.put(TaskEntry.COLUMN_CAT_KEY,task.getCategory());
         return getWritableDatabase().insert(TaskEntry.TABLE_NAME,null,cv);
+    }
+
+    public long insertCategory(String category) {
+        Category storedCat =queryCategoryName(category);
+        if (storedCat!=null){
+            if(category.equals(storedCat.getCategoryName())) return storedCat.getId();
+        }
+        ContentValues cv = new ContentValues();
+        cv.put(CategoryEntry.COLUMN_NAME,category);
+        return getWritableDatabase().insert(CategoryEntry.TABLE_NAME,null,cv);
+    }
+
+    private Category queryCategoryName(String category) {
+        String selection =CategoryEntry.COLUMN_NAME + " LIKE ?";
+        String [] selectionArgs={String.valueOf(category)};
+        Cursor wrapped = getReadableDatabase().query(CategoryEntry.TABLE_NAME,
+                null,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null,
+                "1");
+        return new CategoryCursor(wrapped).getCategory();
     }
 
     public int deleteTask(Task task){
@@ -160,6 +184,22 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
             task.setPriority(getInt(getColumnIndex(TaskEntry.COLUMN_PRIORITY)));
             task.setTitle(getString(getColumnIndex(TaskEntry.COLUMN_TASK_TITLE)));
             return task;
+        }
+
+    }
+
+    public static class CategoryCursor extends CursorWrapper{
+        public CategoryCursor(Cursor c){
+            super(c);
+
+        }
+
+        public Category getCategory(){
+            if(isBeforeFirst() || isAfterLast()) return null;
+            Category category = new Category();
+            category.setCategoryName(getString(getColumnIndex(CategoryEntry.COLUMN_NAME)));
+            category.setId(getLong(getColumnIndex(CategoryEntry._ID)));
+            return category;
         }
 
     }

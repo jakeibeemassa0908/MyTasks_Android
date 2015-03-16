@@ -90,6 +90,7 @@ public class EditTaskFragment extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
                         String mAddCategory=newCategory.getText().toString();
                         if(!mAddCategory.matches("")){
+
                             mCategoryList.add(0,mAddCategory);
                         }
                         mCategorySpinner.setAdapter(Helpers.getSpinnerAdapter(getActivity(),mCategoryList));

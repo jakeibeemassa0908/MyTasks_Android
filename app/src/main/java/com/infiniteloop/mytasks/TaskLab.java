@@ -34,9 +34,10 @@ public class TaskLab {
         return mTasks;
     }
 
-    public boolean createTask(Context context,String title,String priority_s,long category){
+    public boolean  createTask(Context context,String title,String priority_s,String category_s){
             int priority=Helpers.getPriority(context,priority_s);
             if(priority!=-1){
+                long category=mHelper.insertCategory(category_s);
                 Task t = new Task(title,priority,category);
                 long taskId=saveTask(t);
                 mTasks.add(t);

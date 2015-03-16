@@ -6,21 +6,18 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 
 /**
@@ -92,10 +89,8 @@ public class NewTaskFragment extends Fragment {
         switch (item.getItemId()){
             case R.id.save_task_menu:
                 String title=mTitleEditText.getText().toString();
-                //String category=mCategorySpinner.getSelectedItem().toString();
-                long category=-1;
+                String category=mCategorySpinner.getSelectedItem().toString();
                 String priority=mPrioritySpinner.getSelectedItem().toString();
-               // String visibility=mVisibilitySpinner.getSelectedItem().toString();
                 if(!title.matches("")){
                     boolean isCreated=TaskLab.get(getActivity()).createTask(getActivity(),title,priority,category);
                     if(isCreated){
