@@ -279,9 +279,9 @@ public class TaskListFragment extends ListFragment implements LoaderManager.Load
                 @Override
                 public void onClick(View v) {
                     AlertDialog.Builder deleteDialog = new AlertDialog.Builder(getActivity());
-                    deleteDialog.setTitle("Delete Task");
-                    deleteDialog.setMessage("Do you want to delete this task?");
-                    deleteDialog.setPositiveButton("Delete",new DialogInterface.OnClickListener() {
+                    deleteDialog.setTitle(getString(R.string.delete_task));
+                    deleteDialog.setMessage(getString(R.string.delete_task_question));
+                    deleteDialog.setPositiveButton(getString(R.string.delete),new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             boolean deleted=TaskLab.get(getActivity()).removeTask(task);
