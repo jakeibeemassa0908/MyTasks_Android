@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.CursorWrapper;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.infiniteloop.mytasks.Task;
 import com.infiniteloop.mytasks.data.TaskContract.TaskEntry;
@@ -22,6 +23,7 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION=1;
     static final String DATABASE_NAME="task.db";
 
+    public static final String TAG= TaskDataBaseHelper.class.getSimpleName();
     public TaskDataBaseHelper(Context context){
         super(context,DATABASE_NAME,null,DATABASE_VERSION);
     }
@@ -67,7 +69,9 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
     public long insertCategory(String category) {
         Category storedCat =queryCategoryName(category);
         if (storedCat!=null){
-            if(category.equals(storedCat.getCategoryName())) return storedCat.getId();
+            if(category.equals(storedCat.getCategoryName())){
+                return storedCat.getId();
+            }
         }
         ContentValues cv = new ContentValues();
         cv.put(CategoryEntry.COLUMN_NAME,category);
@@ -85,6 +89,22 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
                 null,
                 null,
                 "1");
+        wrapped.moveToFirst();
+        return new CategoryCursor(wrapped).getCategory();
+    }
+
+    public Category queryCategoryName(long id) {
+        String selection =CategoryEntry._ID + " = ?";
+        String [] selectionArgs={String.valueOf(id)};
+        Cursor wrapped = getReadableDatabase().query(CategoryEntry.TABLE_NAME,
+                null,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null,
+               null);
+        wrapped.moveToFirst();
         return new CategoryCursor(wrapped).getCategory();
     }
 
@@ -195,7 +215,9 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
         }
 
         public Category getCategory(){
-            if(isBeforeFirst() || isAfterLast()) return null;
+            if(isBeforeFirst() || isAfterLast()) {
+                return null;
+            }
             Category category = new Category();
             category.setCategoryName(getString(getColumnIndex(CategoryEntry.COLUMN_NAME)));
             category.setId(getLong(getColumnIndex(CategoryEntry._ID)));

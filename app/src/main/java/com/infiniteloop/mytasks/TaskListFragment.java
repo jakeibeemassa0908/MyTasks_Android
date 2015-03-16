@@ -44,6 +44,8 @@ public class TaskListFragment extends ListFragment implements LoaderManager.Load
     private View expandedToolbar;
     private ImageButton mDelete,mStart,mEdit,mComplete;
 
+    private TaskDataBaseHelper mHelper;
+
     private int mPosition;
 
     public static final String DRAWER_ITEM_CHOICE = "DrawerItemChoice";
@@ -223,7 +225,7 @@ public class TaskListFragment extends ListFragment implements LoaderManager.Load
             TextView titleTextView = (TextView)convertView.findViewById(R.id.task_item_title_textview);
             titleTextView.setText(task.getTitle());
             TextView categoryTextView = (TextView)convertView.findViewById(R.id.task_item_category_textview);
-            //categoryTextView.setText(t.getCategory());
+            categoryTextView.setText(TaskLab.get(getActivity()).queryCatName(task.getCategory()));
             TextView dateTextView = (TextView)convertView.findViewById(R.id.task_item_date_textview);
             dateTextView.setText(task.toString());
             View toolbar=convertView.findViewById(R.id.expandable_list_details);

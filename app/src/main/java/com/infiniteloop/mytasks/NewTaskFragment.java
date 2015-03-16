@@ -90,6 +90,7 @@ public class NewTaskFragment extends Fragment {
             case R.id.save_task_menu:
                 String title=mTitleEditText.getText().toString();
                 String category=mCategorySpinner.getSelectedItem().toString();
+                category=category.trim();
                 String priority=mPrioritySpinner.getSelectedItem().toString();
                 if(!title.matches("")){
                     boolean isCreated=TaskLab.get(getActivity()).createTask(getActivity(),title,priority,category);

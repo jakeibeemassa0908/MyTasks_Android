@@ -76,4 +76,8 @@ public class TaskLab {
         return false;
     }
 
+    public String queryCatName(long id){
+        return mHelper.queryCategoryName(id).getCategoryName();
+    }
+
 }
