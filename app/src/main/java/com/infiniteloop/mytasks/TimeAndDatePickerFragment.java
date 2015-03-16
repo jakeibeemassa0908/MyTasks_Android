@@ -1,4 +1,4 @@
-package com.infiniteloop.mytasks.data;
+package com.infiniteloop.mytasks;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;

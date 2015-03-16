@@ -26,7 +26,6 @@ import android.widget.Toast;
 
 import com.infiniteloop.mytasks.data.SQLiteCursorLoader;
 import com.infiniteloop.mytasks.data.TaskDataBaseHelper;
-import com.infiniteloop.mytasks.data.TimeAndDatePickerFragment;
 
 import java.util.ArrayList;
 
@@ -101,7 +100,7 @@ public class TaskListFragment extends ListFragment implements LoaderManager.Load
             case CREATE_NEW_TASK:
                 if(resultCode== Activity.RESULT_OK){
                     Toast.makeText(getActivity(),
-                    '"'+mTasks.get(+mTasks.size()-1).getTitle()+'"'+" Added",
+                    '"'+mTasks.get(+mTasks.size()-1).getTitle()+'"'+ getString(R.string.added),
                     Toast.LENGTH_SHORT).show();
                     //restart loader to get any new task available
                     getLoaderManager().restartLoader(0,null,this);
@@ -243,15 +242,15 @@ public class TaskListFragment extends ListFragment implements LoaderManager.Load
                 @Override
                 public void onClick(View v) {
                     AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
-                    dialog.setTitle("Set as completed");
-                    dialog.setMessage("Have You completed this task?");
-                    dialog.setPositiveButton("Yes, Completed",new DialogInterface.OnClickListener() {
+                    dialog.setTitle(getString(R.string.complete_dialog_title));
+                    dialog.setMessage(getString(R.string.complete_dialog_question));
+                    dialog.setPositiveButton(getString(R.string.complete_dialog_yes),new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                                 /* TODO Change task completed true
                                 * */
                                 Toast.makeText(getActivity(),
-                                        '"'+task.getTitle()+'"'+" Completed, Congratulations!",
+                                        '"'+task.getTitle()+'"'+ getString(R.string.complete_dialog_toast),
                                         Toast.LENGTH_SHORT)
                                         .show();
                         }
@@ -287,7 +286,7 @@ public class TaskListFragment extends ListFragment implements LoaderManager.Load
                             boolean deleted=TaskLab.get(getActivity()).removeTask(task);
                             if(deleted){
                                 getLoaderManager().restartLoader(0,null,TaskListFragment.this);
-                                Toast.makeText(getActivity(),'"'+task.getTitle()+'"'+" Deleted",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(),'"'+task.getTitle()+'"'+ getString(R.string.deleted),Toast.LENGTH_SHORT).show();
                             }
                         }
                     });

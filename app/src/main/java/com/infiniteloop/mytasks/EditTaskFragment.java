@@ -74,9 +74,9 @@ public class EditTaskFragment extends Fragment {
                 }else{
                     setNewTaskValues();
                     AlertDialog.Builder deleteDialog = new AlertDialog.Builder(getActivity());
-                    deleteDialog.setTitle("Edit Task");
-                    deleteDialog.setMessage("Do you want to edit this task?");
-                    deleteDialog.setPositiveButton("Edit",new DialogInterface.OnClickListener() {
+                    deleteDialog.setTitle(getString(R.string.edit_dialog_title));
+                    deleteDialog.setMessage(R.string.edit_dialog_question);
+                    deleteDialog.setPositiveButton(R.string.edit,new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             boolean edited=TaskLab.get(getActivity()).editTask(mTask);
@@ -105,12 +105,12 @@ public class EditTaskFragment extends Fragment {
 
     private void setNewTaskValues() {
         mTask.setTitle(mTitleEditText.getText().toString());
-        //mTask.setPriority(Helpers.getPriority(getActivity(),mPrioritySpinner.getSelectedItem().toString()));
+        mTask.setPriority(Helpers.getPriority(getActivity(),mPrioritySpinner.getSelectedItem().toString()));
     }
 
     private boolean hasDataChanged() {
         if(!mTask.getTitle().equals(mTitleEditText.getText().toString())) return true;
-        //if(mTask.getPriority()!= Helpers.getPriority(getActivity(),mPrioritySpinner.getSelectedItem().toString()))return true;
+        if(mTask.getPriority()!= Helpers.getPriority(getActivity(),mPrioritySpinner.getSelectedItem().toString()))return true;
         return false;
     }
 }

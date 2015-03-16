@@ -66,7 +66,7 @@ public class NewTaskFragment extends Fragment {
                         Log.d(TAG,"Task Not Created");
                     }
                 }else{
-                    Toast.makeText(getActivity(),"Empty Title",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(),R.string.empty_task_title,Toast.LENGTH_SHORT).show();
                 }
                 return true;
             default:

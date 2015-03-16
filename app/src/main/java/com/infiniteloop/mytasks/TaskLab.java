@@ -35,7 +35,6 @@ public class TaskLab {
     }
 
     public boolean createTask(Context context,String title,String priority_s,long category){
-            Log.d(NewTaskFragment.TAG,"Entered");
             int priority=Helpers.getPriority(context,priority_s);
             if(priority!=-1){
                 Task t = new Task(title,priority,category);
