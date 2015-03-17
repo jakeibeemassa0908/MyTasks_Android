@@ -106,6 +106,7 @@ public class Task implements Parcelable {
         dest.writeInt(mPriority);
         dest.writeLong(mCategory);
         dest.writeString(mVisibility);
+        dest.writeByte((byte)(mCompleted?1:0));
     }
 
     public static final Creator<Task> CREATOR= new Creator<Task>(){
@@ -126,13 +127,14 @@ public class Task implements Parcelable {
         mPriority=in.readInt();
         mCategory=in.readLong();
         mVisibility=in.readString();
+        mCompleted=in.readByte() !=0;
     }
 
-    public boolean ismCompleted() {
+    public boolean isCompleted() {
         return mCompleted;
     }
 
-    public void setmCompleted(boolean mCompleted) {
+    public void setCompleted(boolean mCompleted) {
         this.mCompleted = mCompleted;
     }
 }

@@ -70,8 +70,13 @@ public class TaskLab {
         return true;
     }
 
+    public void setComplete(Task task){
+        mHelper.updateTask(task,true);
+    }
+
+
     public boolean editTask(Task task){
-        int rowCount =mHelper.updateTask(task);
+        int rowCount =mHelper.updateTask(task,false);
         if( rowCount==1) return true;
         return false;
     }

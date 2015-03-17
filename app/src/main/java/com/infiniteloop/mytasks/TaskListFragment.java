@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -230,6 +231,8 @@ public class TaskListFragment extends ListFragment implements LoaderManager.Load
             dateTextView.setText(task.toString());
             View toolbar=convertView.findViewById(R.id.expandable_list_details);
 
+            Log.d(TAG,task.isCompleted()?"1":"0");
+
             mEdit = (ImageButton)toolbar.findViewById(R.id.edit_task_imageButton);
             mEdit.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -249,8 +252,7 @@ public class TaskListFragment extends ListFragment implements LoaderManager.Load
                     dialog.setPositiveButton(getString(R.string.complete_dialog_yes),new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                                /* TODO Change task completed true
-                                * */
+                                TaskLab.get(getActivity()).setComplete(task);
                                 Toast.makeText(getActivity(),
                                         '"'+task.getTitle()+'"'+ getString(R.string.complete_dialog_toast),
                                         Toast.LENGTH_SHORT)
@@ -323,7 +325,6 @@ public class TaskListFragment extends ListFragment implements LoaderManager.Load
                 case Task.LOW_PRIORITY:
                     convertView.setBackgroundColor(getResources().getColor(R.color.green));
                     toolbar.setBackgroundColor(getResources().getColor(R.color.dark_green));
-
 
             }
 

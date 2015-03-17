@@ -12,6 +12,7 @@ import com.infiniteloop.mytasks.Task;
 import com.infiniteloop.mytasks.data.TaskContract.TaskEntry;
 import com.infiniteloop.mytasks.data.TaskContract.CategoryEntry;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -35,7 +36,8 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
                 TaskEntry.COLUMN_CAT_KEY + " INTEGER NOT NULL, "+
                 TaskEntry.COLUMN_DATE + " INTEGER NOT NULL, "+
                 TaskEntry.COLUMN_PRIORITY + " INTEGER NOT NULL, "+
-                TaskEntry.COLUMN_TASK_TITLE + " TEXT NOT NULL);";
+                TaskEntry.COLUMN_TASK_TITLE + " TEXT NOT NULL, " +
+                TaskEntry.COLUMN_COMPLETED + " INTEGER NOT NULL);";
 //
 //                //set up the location category column as a foreign key to location table.
 //                "FOREIGN KEY (" + TaskEntry.COLUMN_CAT_KEY + ") REFERENCES "+
@@ -63,6 +65,7 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
         cv.put(TaskEntry.COLUMN_DATE,task.getCreationDate());
         cv.put(TaskEntry.COLUMN_PRIORITY,task.getPriority());
         cv.put(TaskEntry.COLUMN_CAT_KEY,task.getCategory());
+        cv.put(TaskEntry.COLUMN_COMPLETED,task.isCompleted());
         return getWritableDatabase().insert(TaskEntry.TABLE_NAME,null,cv);
     }
 
@@ -116,12 +119,13 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
         return getWritableDatabase().delete(TaskEntry.TABLE_NAME,selection,selectionArgs);
     }
 
-    public int updateTask(Task task){
+    public int updateTask(Task task,boolean completed){
         ContentValues cv= new ContentValues();
         cv.put(TaskEntry.COLUMN_TASK_TITLE,task.getTitle());
         cv.put(TaskEntry.COLUMN_DATE,task.getCreationDate());
         cv.put(TaskEntry.COLUMN_PRIORITY,task.getPriority());
         cv.put(TaskEntry.COLUMN_CAT_KEY,task.getCategory());
+        cv.put(TaskEntry.COLUMN_COMPLETED,completed?1:0);
 
         String selection = TaskEntry._ID + " LIKE ?";
         String[] selectionArgs={String.valueOf(task.getId())};
@@ -137,30 +141,40 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
 
 
     public TaskCursor queryTasks(int queryCode){
-        String selection;
+        String selection=TaskEntry.COLUMN_COMPLETED +" LIKE ? AND ";
+        ArrayList<String>array= new ArrayList<String>();
+        array.add(String.valueOf(0));
         String[] selectionArgs;
         switch (queryCode){
             case 2:
-                selection=TaskEntry.COLUMN_PRIORITY + " LIKE ?";
-                selectionArgs= new String[]{String.valueOf(Task.VERY_HIGH_PRIORITY)};
+                selection+=TaskEntry.COLUMN_PRIORITY + " LIKE ?";
+                array.add(String.valueOf(Task.VERY_HIGH_PRIORITY));
                 break;
             case 3:
-                selection=TaskEntry.COLUMN_PRIORITY + " LIKE ?";
-                selectionArgs= new String[]{String.valueOf(Task.HIGH_PRIORITY)};
+                selection+=TaskEntry.COLUMN_PRIORITY + " LIKE ?";
+                array.add(String.valueOf(Task.HIGH_PRIORITY));
                 break;
             case 4:
-                selection=TaskEntry.COLUMN_PRIORITY + " LIKE ?";
-                selectionArgs= new String[]{String.valueOf(Task.NORMAL_PRIORITY)};
+                selection+=TaskEntry.COLUMN_PRIORITY + " LIKE ?";
+                array.add(String.valueOf(Task.NORMAL_PRIORITY));
                 break;
             case 5:
-                selection=TaskEntry.COLUMN_PRIORITY + " LIKE ?";
-                selectionArgs= new String[]{String.valueOf(Task.LOW_PRIORITY)};
+                selection+=TaskEntry.COLUMN_PRIORITY + " LIKE ?";
+                array.add(String.valueOf(Task.LOW_PRIORITY));
                 break;
             default:
                 selection=null;
-                selectionArgs=null;
+                array=null;
 
 
+        }
+        if(array==null){
+            selectionArgs=null;
+            selection=null;
+        }
+        else{
+            selectionArgs=new String[array.size()];
+            selectionArgs=array.toArray(selectionArgs);
         }
         //Equivalent of select * from task order by priority asc
         Cursor wrapped = getReadableDatabase().query(
@@ -203,6 +217,7 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
             task.setCreationDate(new Date(getLong(getColumnIndex(TaskEntry.COLUMN_DATE))));
             task.setPriority(getInt(getColumnIndex(TaskEntry.COLUMN_PRIORITY)));
             task.setTitle(getString(getColumnIndex(TaskEntry.COLUMN_TASK_TITLE)));
+            task.setCompleted(getInt(getColumnIndex(TaskEntry.COLUMN_COMPLETED))!=0);
             return task;
         }
 
