@@ -1,9 +1,6 @@
 package com.infiniteloop.mytasks;
 
 import android.content.Context;
-import android.database.Cursor;
-import android.util.Log;
-
 import com.infiniteloop.mytasks.data.TaskDataBaseHelper;
 
 import java.util.ArrayList;
@@ -85,4 +82,7 @@ public class TaskLab {
         return mHelper.queryCategoryName(id).getCategoryName();
     }
 
+    public TaskDataBaseHelper.CategoryCursor getCategories() {
+        return (TaskDataBaseHelper.CategoryCursor)mHelper.queryCategories();
+    }
 }

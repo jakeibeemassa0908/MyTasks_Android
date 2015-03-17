@@ -166,6 +166,7 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
                 selection=TaskEntry.COLUMN_COMPLETED + " LIKE ? ";
                 array.remove(0);
                 array.add(String.valueOf(1));
+                break;
             default:
         }
             selectionArgs=new String[array.size()];
@@ -194,6 +195,19 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
             null,
             "1");
         return new TaskCursor(wrapped);
+    }
+
+    public Cursor queryCategories() {
+        String [] column = {CategoryEntry.COLUMN_NAME};
+        Cursor wrapped = getReadableDatabase().query(
+                CategoryEntry.TABLE_NAME,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null);
+        return new CategoryCursor(wrapped);
     }
 
 

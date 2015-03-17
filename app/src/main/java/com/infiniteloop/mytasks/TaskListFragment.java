@@ -40,12 +40,9 @@ public class TaskListFragment extends ListFragment implements LoaderManager.Load
     private static final int EDIT_TASK=2;
     private ArrayList<Task> mTasks;
     private ImageView mAddTaskImageView;
-    private TaskCursorAdapter mTaskCursorAdapter;
     private  View rootView;
     private View expandedToolbar;
     private ImageButton mDelete,mStart,mEdit,mComplete;
-
-    private TaskDataBaseHelper mHelper;
 
     private int mPosition;
 

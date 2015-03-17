@@ -37,6 +37,8 @@ public class TaskListActivity extends ActionBarActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
+        deleteDatabase("task.db");
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawer);
 

@@ -2,10 +2,14 @@ package com.infiniteloop.mytasks;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -16,6 +20,9 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.infiniteloop.mytasks.data.SQLiteCursorLoader;
+import com.infiniteloop.mytasks.data.TaskDataBaseHelper;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -23,7 +30,7 @@ import java.util.Arrays;
 /**
  * Created by theotherside on 07/03/15.
  */
-public class NewTaskFragment extends Fragment {
+public class NewTaskFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
     public static final String TAG = NewTaskFragment.class.getSimpleName();
 
     private Spinner mPrioritySpinner;
@@ -38,6 +45,7 @@ public class NewTaskFragment extends Fragment {
         setHasOptionsMenu(true);
         mCategoryList=new ArrayList<String>();
         mCategoryList.add("No Category");
+        getLoaderManager().initLoader(0,null,this);
     }
 
     @Override
@@ -51,7 +59,6 @@ public class NewTaskFragment extends Fragment {
         mPrioritySpinner.setAdapter(Helpers.getSpinnerAdapter(getActivity(),priorities));
 
         mCategorySpinner=(Spinner)rootView.findViewById(R.id.task_category_spinner);
-        mCategorySpinner.setAdapter(Helpers.getSpinnerAdapter(getActivity(),mCategoryList));
 
         mCategoryAdd = (ImageView)rootView.findViewById(R.id.add_category_imageView);
         mCategoryAdd.setOnClickListener(new View.OnClickListener() {
@@ -108,6 +115,40 @@ public class NewTaskFragment extends Fragment {
             default:
                 return super.onOptionsItemSelected(item);
 
+        }
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+        return new CategoryListLoader(getActivity());
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
+        if(cursor.getCount()>0){mCategoryList.remove(0);}
+        cursor.moveToFirst();
+        for(int i=0;i<cursor.getCount();i++){
+            mCategoryList.add(((TaskDataBaseHelper.CategoryCursor)cursor).getCategory().getCategoryName());
+            cursor.moveToNext();
+        }
+        mCategorySpinner.setAdapter(Helpers.getSpinnerAdapter(getActivity(),mCategoryList));
+
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> cursorLoader) {
+
+    }
+
+    public static class CategoryListLoader extends SQLiteCursorLoader{
+
+        public CategoryListLoader(Context context){
+            super(context);
+        }
+
+        @Override
+        protected Cursor loadCursor() {
+            return TaskLab.get(getContext()).getCategories();
         }
     }
 }
