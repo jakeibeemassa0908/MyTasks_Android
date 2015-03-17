@@ -253,6 +253,7 @@ public class TaskListFragment extends ListFragment implements LoaderManager.Load
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                                 TaskLab.get(getActivity()).setComplete(task);
+                                getLoaderManager().restartLoader(0,null,TaskListFragment.this);
                                 Toast.makeText(getActivity(),
                                         '"'+task.getTitle()+'"'+ getString(R.string.complete_dialog_toast),
                                         Toast.LENGTH_SHORT)

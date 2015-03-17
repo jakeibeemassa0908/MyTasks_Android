@@ -141,41 +141,35 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
 
 
     public TaskCursor queryTasks(int queryCode){
-        String selection=TaskEntry.COLUMN_COMPLETED +" LIKE ? AND ";
+        String selection=TaskEntry.COLUMN_COMPLETED +" LIKE ? ";
         ArrayList<String>array= new ArrayList<String>();
         array.add(String.valueOf(0));
         String[] selectionArgs;
         switch (queryCode){
             case 2:
-                selection+=TaskEntry.COLUMN_PRIORITY + " LIKE ?";
+                selection+=" AND "+TaskEntry.COLUMN_PRIORITY + " LIKE ?";
                 array.add(String.valueOf(Task.VERY_HIGH_PRIORITY));
                 break;
             case 3:
-                selection+=TaskEntry.COLUMN_PRIORITY + " LIKE ?";
+                selection+=" AND "+TaskEntry.COLUMN_PRIORITY + " LIKE ?";
                 array.add(String.valueOf(Task.HIGH_PRIORITY));
                 break;
             case 4:
-                selection+=TaskEntry.COLUMN_PRIORITY + " LIKE ?";
+                selection+=" AND "+TaskEntry.COLUMN_PRIORITY + " LIKE ?";
                 array.add(String.valueOf(Task.NORMAL_PRIORITY));
                 break;
             case 5:
-                selection+=TaskEntry.COLUMN_PRIORITY + " LIKE ?";
+                selection+=" AND "+TaskEntry.COLUMN_PRIORITY + " LIKE ?";
                 array.add(String.valueOf(Task.LOW_PRIORITY));
                 break;
+            case 6:
+                selection=TaskEntry.COLUMN_COMPLETED + " LIKE ? ";
+                array.remove(0);
+                array.add(String.valueOf(1));
             default:
-                selection=null;
-                array=null;
-
-
         }
-        if(array==null){
-            selectionArgs=null;
-            selection=null;
-        }
-        else{
             selectionArgs=new String[array.size()];
             selectionArgs=array.toArray(selectionArgs);
-        }
         //Equivalent of select * from task order by priority asc
         Cursor wrapped = getReadableDatabase().query(
                 TaskEntry.TABLE_NAME,
