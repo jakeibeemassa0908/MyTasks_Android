@@ -63,6 +63,13 @@ public class EditTaskFragment extends Fragment implements LoaderManager.LoaderCa
         super.onCreate(savedInstanceState);
 
         mPriorities=new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.task_priority_array)));
+        
+        //Get the passed task priority and set it first in the spinner
+        int taskPriorityPosition=mTask.getPriority();
+        String taskPriority= mPriorities.get(taskPriorityPosition);
+        mPriorities.remove(taskPriorityPosition);
+        mPriorities.add(0,taskPriority);
+
         mCategoryList=new ArrayList<String>();
         mCategoryList.add("No Category");
 
@@ -183,15 +190,23 @@ public class EditTaskFragment extends Fragment implements LoaderManager.LoaderCa
 
     @Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
+        //If there are categories returned iterate through them
         if(cursor.getCount()>0){mCategoryList.remove(0);}
         cursor.moveToFirst();
         for(int i=0;i<cursor.getCount();i++){
             String categoryName=((TaskDataBaseHelper.CategoryCursor)cursor).getCategory().getCategoryName();
             Long categoryId=((TaskDataBaseHelper.CategoryCursor)cursor).getCategory().getId();
+            //create a mapping between category name and Id
             categoyIdName.put(categoryName,categoryId);
-            mCategoryList.add(categoryName);
+            //set the current category of task to be the first in the spinner
+            if(categoryId==mTask.getCategory()){
+                mCategoryList.add(0,categoryName);
+            }else{
+                mCategoryList.add(categoryName);
+            }
             cursor.moveToNext();
         }
+        //repopulate the spinner
         mCategorySpinner.setAdapter(Helpers.getSpinnerAdapter(getActivity(),mCategoryList));
     }
 
