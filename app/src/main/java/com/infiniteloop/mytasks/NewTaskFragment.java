@@ -120,7 +120,7 @@ public class NewTaskFragment extends Fragment implements LoaderManager.LoaderCal
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        return new CategoryListLoader(getActivity());
+        return new CursorLoader.CategoryListLoader(getActivity());
     }
 
     @Override
@@ -138,17 +138,5 @@ public class NewTaskFragment extends Fragment implements LoaderManager.LoaderCal
     @Override
     public void onLoaderReset(Loader<Cursor> cursorLoader) {
 
-    }
-
-    public static class CategoryListLoader extends SQLiteCursorLoader{
-
-        public CategoryListLoader(Context context){
-            super(context);
-        }
-
-        @Override
-        protected Cursor loadCursor() {
-            return TaskLab.get(getContext()).getCategories();
-        }
     }
 }
