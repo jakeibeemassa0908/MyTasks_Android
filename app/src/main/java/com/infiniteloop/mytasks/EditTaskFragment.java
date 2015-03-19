@@ -63,7 +63,7 @@ public class EditTaskFragment extends Fragment implements LoaderManager.LoaderCa
         super.onCreate(savedInstanceState);
 
         mPriorities=new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.task_priority_array)));
-        
+
         //Get the passed task priority and set it first in the spinner
         int taskPriorityPosition=mTask.getPriority();
         String taskPriority= mPriorities.get(taskPriorityPosition);

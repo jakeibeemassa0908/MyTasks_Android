@@ -25,8 +25,8 @@ public class Task implements Parcelable {
 
 
 
-    @Override
-    public String toString() {
+
+    public String dateToString() {
        return DateFormat.getDateInstance().format(new Date(getCreationDate()));
     }
 

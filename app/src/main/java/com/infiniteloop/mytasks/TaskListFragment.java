@@ -47,6 +47,7 @@ public class TaskListFragment extends ListFragment implements LoaderManager.Load
     private int mPosition;
 
     public static final String DRAWER_ITEM_CHOICE = "DrawerItemChoice";
+    public static final int REQUEST_TIME=0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -110,6 +111,13 @@ public class TaskListFragment extends ListFragment implements LoaderManager.Load
                 if(resultCode==Activity.RESULT_OK){
                     //restart loader to get any edited task data
                     getLoaderManager().restartLoader(0,null,this);
+                }
+            case REQUEST_TIME:
+                if(resultCode==Activity.RESULT_OK){
+                    int day=data.getIntExtra(TimeAndDatePickerFragment.EXTRA_DAY,0);
+                    int month=data.getIntExtra(TimeAndDatePickerFragment.EXTRA_MONTH,0);
+                    int hour=data.getIntExtra(TimeAndDatePickerFragment.EXTRA_HOUR,0);
+                    Log.d(TAG,"Day"+day+"Month" +month+"hour"+hour);
                 }
             default:
                 break;
@@ -225,7 +233,7 @@ public class TaskListFragment extends ListFragment implements LoaderManager.Load
             TextView categoryTextView = (TextView)convertView.findViewById(R.id.task_item_category_textview);
             categoryTextView.setText(TaskLab.get(getActivity()).queryCatName(task.getCategory()));
             TextView dateTextView = (TextView)convertView.findViewById(R.id.task_item_date_textview);
-            dateTextView.setText(task.toString());
+            dateTextView.setText(task.dateToString());
             View toolbar=convertView.findViewById(R.id.expandable_list_details);
 
             Log.d(TAG,task.isCompleted()?"1":"0");
@@ -271,7 +279,8 @@ public class TaskListFragment extends ListFragment implements LoaderManager.Load
             mStart.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    TimeAndDatePickerFragment.DatePickerFragment pickers = new TimeAndDatePickerFragment.DatePickerFragment(getFragmentManager());
+                    TimeAndDatePickerFragment.DatePickerFragment pickers = new TimeAndDatePickerFragment.DatePickerFragment();
+                    pickers.setTargetFragment(TaskListFragment.this,REQUEST_TIME);
                     pickers.show(getFragmentManager(),"pickers");
                 }
             });

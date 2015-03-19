@@ -1,9 +1,11 @@
 package com.infiniteloop.mytasks;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
@@ -12,14 +14,33 @@ import android.widget.DatePicker;
 import android.widget.TimePicker;
 
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by theotherside on 14/03/15.
  */
 public class TimeAndDatePickerFragment {
+    public static final String EXTRA_HOUR="com.infiniteloop.com.hour";
+    public static final String EXTRA_MIN="com.infiniteloop.com.minutes";
+    public static final String EXTRA_YEAR="com.infiniteloop.com.year";
+    public static final String EXTRA_MONTH="com.infiniteloop.com.month";
+    public static final String EXTRA_DAY="com.infiniteloop.com.day";
+
 
     public static class TimePickerFragment extends DialogFragment
             implements TimePickerDialog.OnTimeSetListener {
+
+        public static TimePickerFragment newInstance(int year,int month,int day){
+            Bundle args = new Bundle();
+            args.putInt(EXTRA_YEAR,year);
+            args.putInt(EXTRA_MONTH,month);
+            args.putInt(EXTRA_DAY,day);
+
+            TimePickerFragment dialog = new TimePickerFragment();
+            dialog.setArguments(args);
+            return dialog;
+
+        }
 
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -35,6 +56,14 @@ public class TimeAndDatePickerFragment {
 
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
             // Do something with the time chosen by the user
+            Intent intent = new Intent();
+            intent.putExtra(EXTRA_HOUR,hourOfDay);
+            intent.putExtra(EXTRA_MIN,minute);
+            intent.putExtra(EXTRA_YEAR,getArguments().getInt(EXTRA_YEAR));
+            intent.putExtra(EXTRA_MONTH,getArguments().getInt(EXTRA_MONTH));
+            intent.putExtra(EXTRA_DAY,getArguments().getInt(EXTRA_DAY));
+
+            getTargetFragment().onActivityResult(TaskListFragment.REQUEST_TIME, Activity.RESULT_OK,intent);
         }
     }
 
@@ -43,11 +72,8 @@ public class TimeAndDatePickerFragment {
     public static class DatePickerFragment extends DialogFragment
             implements DatePickerDialog.OnDateSetListener {
 
-        FragmentManager mManager;
-
-        public DatePickerFragment(FragmentManager manager){
+        public DatePickerFragment(){
             super();
-            mManager=manager;
         }
 
         @Override
@@ -64,7 +90,9 @@ public class TimeAndDatePickerFragment {
 
         public void onDateSet(DatePicker view, int year, int month, int day) {
             // Do something with the date chosen by the user
-            new TimePickerFragment().show(mManager,"timePicker");
+            TimePickerFragment dialog =TimePickerFragment.newInstance(year,month,day);
+            dialog.setTargetFragment(getTargetFragment(),TaskListFragment.REQUEST_TIME);
+            dialog.show(getFragmentManager(),"pickers");
         }
     }
 }
