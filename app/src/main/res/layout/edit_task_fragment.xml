@@ -59,6 +59,16 @@
             android:gravity="center"
             android:minHeight="?android:attr/listPreferredItemHeight">
 
+            <Button
+                android:id="@+id/edit_Alarm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:background="@color/sunshine_blue"
+                android:textColor="@color/white"
+                android:text="@string/set_reminder"
+                android:layout_marginRight="10dp"/>
+
         </LinearLayout>
 
     </LinearLayout>

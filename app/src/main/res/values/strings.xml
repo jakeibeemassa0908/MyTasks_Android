@@ -30,6 +30,7 @@
     <string name="set_task_duration">Set Time</string>
     <string name="cancel">Cancel</string>
     <string name="done">Done</string>
+    <string name="set_reminder">Set Reminder</string>
 
     <string name="low">Low</string>
     <string name="normal">Normal</string>

@@ -29,6 +29,7 @@ import com.infiniteloop.mytasks.data.SQLiteCursorLoader;
 import com.infiniteloop.mytasks.data.TaskDataBaseHelper;
 
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 
 /**
  * Created by theotherside on 07/03/15.
@@ -47,7 +48,6 @@ public class TaskListFragment extends ListFragment implements LoaderManager.Load
     private int mPosition;
 
     public static final String DRAWER_ITEM_CHOICE = "DrawerItemChoice";
-    public static final int REQUEST_TIME=0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -111,13 +111,6 @@ public class TaskListFragment extends ListFragment implements LoaderManager.Load
                 if(resultCode==Activity.RESULT_OK){
                     //restart loader to get any edited task data
                     getLoaderManager().restartLoader(0,null,this);
-                }
-            case REQUEST_TIME:
-                if(resultCode==Activity.RESULT_OK){
-                    int day=data.getIntExtra(TimeAndDatePickerFragment.EXTRA_DAY,0);
-                    int month=data.getIntExtra(TimeAndDatePickerFragment.EXTRA_MONTH,0);
-                    int hour=data.getIntExtra(TimeAndDatePickerFragment.EXTRA_HOUR,0);
-                    Log.d(TAG,"Day"+day+"Month" +month+"hour"+hour);
                 }
             default:
                 break;
@@ -279,9 +272,9 @@ public class TaskListFragment extends ListFragment implements LoaderManager.Load
             mStart.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    TimeAndDatePickerFragment.DatePickerFragment pickers = new TimeAndDatePickerFragment.DatePickerFragment();
-                    pickers.setTargetFragment(TaskListFragment.this,REQUEST_TIME);
-                    pickers.show(getFragmentManager(),"pickers");
+                    /*
+                    * TODO Find replacement to this toolbar icon
+                    * */
                 }
             });
             mDelete=(ImageButton)toolbar.findViewById(R.id.delete_task_imageButton);

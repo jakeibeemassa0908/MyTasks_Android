@@ -10,10 +10,12 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -22,8 +24,10 @@ import android.widget.Toast;
 
 import com.infiniteloop.mytasks.data.TaskDataBaseHelper;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 
 /**
@@ -34,6 +38,7 @@ public class EditTaskFragment extends Fragment implements LoaderManager.LoaderCa
     private Spinner mPrioritySpinner;
     private Spinner mCategorySpinner;
     private EditText mTitleEditText;
+    private Button mEditAlarm;
 
     private ArrayList<String> mPriorities;
 
@@ -44,6 +49,7 @@ public class EditTaskFragment extends Fragment implements LoaderManager.LoaderCa
     private static final String TAG=EditTaskFragment.class.getSimpleName();
 
     public static String EXTRA_TASK="com.infiniteloop.task";
+    public static final int REQUEST_TIME=0;
 
     private Task mTask;
     private HashMap<String,Long> categoyIdName;
@@ -82,6 +88,26 @@ public class EditTaskFragment extends Fragment implements LoaderManager.LoaderCa
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode){
+            case REQUEST_TIME:
+                    if(resultCode==Activity.RESULT_OK){
+                        int day=data.getIntExtra(TimeAndDatePickerFragment.EXTRA_DAY,0);
+                        int month=data.getIntExtra(TimeAndDatePickerFragment.EXTRA_MONTH,0);
+                        int year=data.getIntExtra(TimeAndDatePickerFragment.EXTRA_YEAR,0);
+                        int hour=data.getIntExtra(TimeAndDatePickerFragment.EXTRA_HOUR,0);
+                        int minute=data.getIntExtra(TimeAndDatePickerFragment.EXTRA_MIN,0);
+                        GregorianCalendar calendar = new GregorianCalendar(year,month,day,hour,minute);
+                        Log.d(TAG, DateFormat.getDateTimeInstance().format(calendar.getTime()));
+                        break;
+                }
+            default:
+                super.onActivityResult(requestCode, resultCode, data);
+
+        }
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.edit_task_fragment,container,false);
@@ -93,6 +119,16 @@ public class EditTaskFragment extends Fragment implements LoaderManager.LoaderCa
 
         mCategorySpinner= (Spinner) rootView.findViewById(R.id.edit_task_category_spinner);
         mCategorySpinner.setAdapter(Helpers.getSpinnerAdapter(getActivity(),mCategoryList));
+
+        mEditAlarm=(Button)rootView.findViewById(R.id.edit_Alarm);
+        mEditAlarm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TimeAndDatePickerFragment.DatePickerFragment pickers = new TimeAndDatePickerFragment.DatePickerFragment();
+                pickers.setTargetFragment(EditTaskFragment.this,REQUEST_TIME);
+                pickers.show(getFragmentManager(),"pickers");
+            }
+        });
 
 //
 //        mCategoryAdd = (ImageView)rootView.findViewById(R.id.edit_add_category_imageView);

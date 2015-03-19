@@ -63,7 +63,7 @@ public class TimeAndDatePickerFragment {
             intent.putExtra(EXTRA_MONTH,getArguments().getInt(EXTRA_MONTH));
             intent.putExtra(EXTRA_DAY,getArguments().getInt(EXTRA_DAY));
 
-            getTargetFragment().onActivityResult(TaskListFragment.REQUEST_TIME, Activity.RESULT_OK,intent);
+            getTargetFragment().onActivityResult(EditTaskFragment.REQUEST_TIME, Activity.RESULT_OK,intent);
         }
     }
 
@@ -91,7 +91,7 @@ public class TimeAndDatePickerFragment {
         public void onDateSet(DatePicker view, int year, int month, int day) {
             // Do something with the date chosen by the user
             TimePickerFragment dialog =TimePickerFragment.newInstance(year,month,day);
-            dialog.setTargetFragment(getTargetFragment(),TaskListFragment.REQUEST_TIME);
+            dialog.setTargetFragment(getTargetFragment(),EditTaskFragment.REQUEST_TIME);
             dialog.show(getFragmentManager(),"pickers");
         }
     }
