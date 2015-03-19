@@ -37,6 +37,7 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
                 TaskEntry.COLUMN_DATE + " INTEGER NOT NULL, "+
                 TaskEntry.COLUMN_PRIORITY + " INTEGER NOT NULL, "+
                 TaskEntry.COLUMN_TASK_TITLE + " TEXT NOT NULL, " +
+                TaskEntry.COLUMN_REMINDER +" INTEGER NOT NULL, " +
                 TaskEntry.COLUMN_COMPLETED + " INTEGER NOT NULL);";
 //
 //                //set up the location category column as a foreign key to location table.
@@ -66,6 +67,7 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
         cv.put(TaskEntry.COLUMN_PRIORITY,task.getPriority());
         cv.put(TaskEntry.COLUMN_CAT_KEY,task.getCategory());
         cv.put(TaskEntry.COLUMN_COMPLETED,task.isCompleted());
+        cv.put(TaskEntry.COLUMN_REMINDER,task.getReminder());
         return getWritableDatabase().insert(TaskEntry.TABLE_NAME,null,cv);
     }
 
@@ -126,6 +128,7 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
         cv.put(TaskEntry.COLUMN_PRIORITY,task.getPriority());
         cv.put(TaskEntry.COLUMN_CAT_KEY,task.getCategory());
         cv.put(TaskEntry.COLUMN_COMPLETED,completed?1:0);
+        cv.put(TaskEntry.COLUMN_REMINDER,task.getReminder());
 
         String selection = TaskEntry._ID + " LIKE ?";
         String[] selectionArgs={String.valueOf(task.getId())};
@@ -226,6 +229,7 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
             task.setPriority(getInt(getColumnIndex(TaskEntry.COLUMN_PRIORITY)));
             task.setTitle(getString(getColumnIndex(TaskEntry.COLUMN_TASK_TITLE)));
             task.setCompleted(getInt(getColumnIndex(TaskEntry.COLUMN_COMPLETED))!=0);
+            task.setReminder(new Date(getLong(getColumnIndex(TaskEntry.COLUMN_REMINDER))));
             return task;
         }
 

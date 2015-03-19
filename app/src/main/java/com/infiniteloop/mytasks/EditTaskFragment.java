@@ -27,6 +27,7 @@ import com.infiniteloop.mytasks.data.TaskDataBaseHelper;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 
@@ -42,8 +43,7 @@ public class EditTaskFragment extends Fragment implements LoaderManager.LoaderCa
 
     private ArrayList<String> mPriorities;
 
-    private ImageView mCategoryAdd;
-
+    private Date mDateCaptured;
     private ArrayList<String> mCategoryList;
 
     private static final String TAG=EditTaskFragment.class.getSimpleName();
@@ -98,13 +98,18 @@ public class EditTaskFragment extends Fragment implements LoaderManager.LoaderCa
                         int hour=data.getIntExtra(TimeAndDatePickerFragment.EXTRA_HOUR,0);
                         int minute=data.getIntExtra(TimeAndDatePickerFragment.EXTRA_MIN,0);
                         GregorianCalendar calendar = new GregorianCalendar(year,month,day,hour,minute);
-                        Log.d(TAG, DateFormat.getDateTimeInstance().format(calendar.getTime()));
+                        mDateCaptured=calendar.getTime();
+                        updateReminderButton(mDateCaptured);
                         break;
                 }
             default:
                 super.onActivityResult(requestCode, resultCode, data);
 
         }
+    }
+
+    private void updateReminderButton(Date date) {
+        mEditAlarm.setText(DateFormat.getDateTimeInstance().format(date));
     }
 
     @Override
@@ -121,6 +126,11 @@ public class EditTaskFragment extends Fragment implements LoaderManager.LoaderCa
         mCategorySpinner.setAdapter(Helpers.getSpinnerAdapter(getActivity(),mCategoryList));
 
         mEditAlarm=(Button)rootView.findViewById(R.id.edit_Alarm);
+        if(mTask.getReminder()==-1){
+            mEditAlarm.setText(getResources().getString(R.string.set_reminder));
+        }else{
+            mEditAlarm.setText(DateFormat.getDateTimeInstance().format(new Date(mTask.getReminder())));
+        }
         mEditAlarm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -206,6 +216,7 @@ public class EditTaskFragment extends Fragment implements LoaderManager.LoaderCa
         mTask.setTitle(mTitleEditText.getText().toString());
         mTask.setPriority(Helpers.getPriority(getActivity(),mPrioritySpinner.getSelectedItem().toString()));
         mTask.setCategory(getCatId(mCategorySpinner.getSelectedItem().toString()));
+        mTask.setReminder(mDateCaptured);
     }
 
     private long getCatId(String s) {
@@ -216,6 +227,11 @@ public class EditTaskFragment extends Fragment implements LoaderManager.LoaderCa
         if(!mTask.getTitle().equals(mTitleEditText.getText().toString())) return true;
         if(mTask.getPriority()!= Helpers.getPriority(getActivity(),mPrioritySpinner.getSelectedItem().toString()))return true;
         if(mTask.getCategory()!=getCatId(mCategorySpinner.getSelectedItem().toString())) return true;
+        if(mTask.getReminder()==-1){
+            if(!mEditAlarm.getText().toString().equals(getResources().getString(R.string.set_reminder)))return true;
+        }else{
+            if(!DateFormat.getDateTimeInstance().format(mTask.getReminder()).equals(mEditAlarm.getText().toString()))return true;
+        }
         return false;
     }
 

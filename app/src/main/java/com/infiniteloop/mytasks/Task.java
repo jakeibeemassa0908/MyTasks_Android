@@ -17,6 +17,8 @@ public class Task implements Parcelable {
     private long mCategory;
     private String mVisibility;
     private boolean mCompleted;
+    private Date mReminder;
+
 
     public static final int LOW_PRIORITY=0;
     public static final int NORMAL_PRIORITY=1;
@@ -107,6 +109,7 @@ public class Task implements Parcelable {
         dest.writeLong(mCategory);
         dest.writeString(mVisibility);
         dest.writeByte((byte)(mCompleted?1:0));
+        dest.writeSerializable(mReminder);
     }
 
     public static final Creator<Task> CREATOR= new Creator<Task>(){
@@ -128,6 +131,7 @@ public class Task implements Parcelable {
         mCategory=in.readLong();
         mVisibility=in.readString();
         mCompleted=in.readByte() !=0;
+        mReminder=(Date)in.readSerializable();
     }
 
     public boolean isCompleted() {
@@ -136,5 +140,17 @@ public class Task implements Parcelable {
 
     public void setCompleted(boolean mCompleted) {
         this.mCompleted = mCompleted;
+    }
+
+    public long getReminder() {
+        if(mReminder!=null){
+            return mReminder.getTime();
+        }
+        return -1;
+
+    }
+
+    public void setReminder(Date mReminder) {
+        this.mReminder = mReminder;
     }
 }

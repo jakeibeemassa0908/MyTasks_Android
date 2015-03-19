@@ -36,5 +36,6 @@ public class TaskContract {
         public static final String COLUMN_TASK_TITLE="title";
         public static final String COLUMN_PRIORITY="priority";
         public static final String COLUMN_COMPLETED="completed";
+        public static final String COLUMN_REMINDER="reminder";
     }
 }
