@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -23,8 +24,11 @@ import android.widget.Toast;
 import com.infiniteloop.mytasks.data.SQLiteCursorLoader;
 import com.infiniteloop.mytasks.data.TaskDataBaseHelper;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 
 /**
@@ -37,6 +41,8 @@ public class NewTaskFragment extends Fragment implements LoaderManager.LoaderCal
     private ImageView mCategoryAdd;
     private Spinner mCategorySpinner;
     private EditText mTitleEditText;
+    private Button mSetAlarmButton;
+    private Date mDateCaptured;
     ArrayList<String> mCategoryList;
 
     @Override
@@ -45,7 +51,7 @@ public class NewTaskFragment extends Fragment implements LoaderManager.LoaderCal
         setHasOptionsMenu(true);
         mCategoryList=new ArrayList<String>();
         mCategoryList.add("No Category");
-        getLoaderManager().initLoader(0,null,this);
+        getLoaderManager().initLoader(0, null, this);
     }
 
     @Override
@@ -87,8 +93,42 @@ public class NewTaskFragment extends Fragment implements LoaderManager.LoaderCal
                 dialog.show();
             }
         });
+        mSetAlarmButton = (Button)rootView.findViewById(R.id.setAlarm);
+        mSetAlarmButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TimeAndDatePickerFragment.DatePickerFragment pickers = new TimeAndDatePickerFragment.DatePickerFragment();
+                pickers.setTargetFragment(NewTaskFragment.this,Helpers.REQUEST_TIME);
+                pickers.show(getFragmentManager(),"pickers");
+            }
+        });
 
         return rootView;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode){
+            case Helpers.REQUEST_TIME:
+                if(resultCode==Activity.RESULT_OK){
+                    int day=data.getIntExtra(TimeAndDatePickerFragment.EXTRA_DAY,0);
+                    int month=data.getIntExtra(TimeAndDatePickerFragment.EXTRA_MONTH,0);
+                    int year=data.getIntExtra(TimeAndDatePickerFragment.EXTRA_YEAR,0);
+                    int hour=data.getIntExtra(TimeAndDatePickerFragment.EXTRA_HOUR,0);
+                    int minute=data.getIntExtra(TimeAndDatePickerFragment.EXTRA_MIN,0);
+                    GregorianCalendar calendar = new GregorianCalendar(year,month,day,hour,minute);
+                    mDateCaptured=calendar.getTime();
+                    updateReminderButton(mDateCaptured);
+                    break;
+                }
+            default:
+                super.onActivityResult(requestCode, resultCode, data);
+
+        }
+    }
+
+    private void updateReminderButton(Date date) {
+        mSetAlarmButton.setText(DateFormat.getDateTimeInstance().format(date));
     }
 
     @Override
@@ -100,7 +140,7 @@ public class NewTaskFragment extends Fragment implements LoaderManager.LoaderCal
                 category=category.trim();
                 String priority=mPrioritySpinner.getSelectedItem().toString();
                 if(!title.matches("")){
-                    boolean isCreated=TaskLab.get(getActivity()).createTask(getActivity(),title,priority,category);
+                    boolean isCreated=TaskLab.get(getActivity()).createTask(getActivity(),title,priority,category,mDateCaptured);
                     if(isCreated){
                         Intent resultIntent = new Intent();
                         getActivity().setResult(Activity.RESULT_OK,resultIntent);

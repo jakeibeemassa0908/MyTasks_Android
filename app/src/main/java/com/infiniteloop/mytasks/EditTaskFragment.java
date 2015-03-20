@@ -49,7 +49,6 @@ public class EditTaskFragment extends Fragment implements LoaderManager.LoaderCa
     private static final String TAG=EditTaskFragment.class.getSimpleName();
 
     public static String EXTRA_TASK="com.infiniteloop.task";
-    public static final int REQUEST_TIME=0;
 
     private Task mTask;
     private HashMap<String,Long> categoyIdName;
@@ -90,7 +89,7 @@ public class EditTaskFragment extends Fragment implements LoaderManager.LoaderCa
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode){
-            case REQUEST_TIME:
+            case Helpers.REQUEST_TIME:
                     if(resultCode==Activity.RESULT_OK){
                         int day=data.getIntExtra(TimeAndDatePickerFragment.EXTRA_DAY,0);
                         int month=data.getIntExtra(TimeAndDatePickerFragment.EXTRA_MONTH,0);
@@ -135,7 +134,7 @@ public class EditTaskFragment extends Fragment implements LoaderManager.LoaderCa
             @Override
             public void onClick(View v) {
                 TimeAndDatePickerFragment.DatePickerFragment pickers = new TimeAndDatePickerFragment.DatePickerFragment();
-                pickers.setTargetFragment(EditTaskFragment.this,REQUEST_TIME);
+                pickers.setTargetFragment(EditTaskFragment.this,Helpers.REQUEST_TIME);
                 pickers.show(getFragmentManager(),"pickers");
             }
         });

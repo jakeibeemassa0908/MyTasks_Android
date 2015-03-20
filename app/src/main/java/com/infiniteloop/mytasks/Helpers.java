@@ -9,6 +9,7 @@ import java.util.ArrayList;
  * Created by theotherside on 14/03/15.
  */
 public class Helpers {
+    public static final int REQUEST_TIME=0;
     public  static ArrayAdapter getSpinnerAdapter(Context context,ArrayList<String> items){
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,android.R.layout.simple_spinner_item,items);

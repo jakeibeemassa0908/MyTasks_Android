@@ -4,6 +4,8 @@ import android.content.Context;
 import com.infiniteloop.mytasks.data.TaskDataBaseHelper;
 
 import java.util.ArrayList;
+import java.util.Date;
+
 /**
  * Created by theotherside on 07/03/15.
  */
@@ -31,12 +33,13 @@ public class TaskLab {
         return mTasks;
     }
 
-    public boolean  createTask(Context context,String title,String priority_s,String category_s){
+    public boolean  createTask(Context context,String title,String priority_s,String category_s,Date reminderDate){
             int priority=Helpers.getPriority(context,priority_s);
             if(priority!=-1){
                 long category=mHelper.insertCategory(category_s);
                 Task t = new Task(title,priority,category);
-                long taskId=saveTask(t);
+                t.setReminder(reminderDate);
+                saveTask(t);
                 mTasks.add(t);
                 return true;
             }
