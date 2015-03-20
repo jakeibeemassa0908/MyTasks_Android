@@ -28,7 +28,9 @@ import android.widget.Toast;
 import com.infiniteloop.mytasks.data.SQLiteCursorLoader;
 import com.infiniteloop.mytasks.data.TaskDataBaseHelper;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 /**
@@ -44,6 +46,7 @@ public class TaskListFragment extends ListFragment implements LoaderManager.Load
     private  View rootView;
     private View expandedToolbar;
     private ImageButton mDelete,mStart,mEdit,mComplete;
+    TextView titleTextView,categoryTextView,reminder,dateTextView;
 
     private int mPosition;
 
@@ -221,11 +224,13 @@ public class TaskListFragment extends ListFragment implements LoaderManager.Load
         @Override
         public void bindView(View convertView, Context context, Cursor cursor) {
             final Task task = mTaskCursor.getTask();
-            TextView titleTextView = (TextView)convertView.findViewById(R.id.task_item_title_textview);
+            titleTextView = (TextView)convertView.findViewById(R.id.task_item_title_textview);
             titleTextView.setText(task.getTitle());
-            TextView categoryTextView = (TextView)convertView.findViewById(R.id.task_item_category_textview);
+            categoryTextView = (TextView)convertView.findViewById(R.id.task_item_category_textview);
             categoryTextView.setText(TaskLab.get(getActivity()).queryCatName(task.getCategory()));
-            TextView dateTextView = (TextView)convertView.findViewById(R.id.task_item_date_textview);
+            reminder = (TextView)convertView.findViewById(R.id.task_item_reminder);
+            if(task.getReminder()!=-1)reminder.setText(DateFormat.getDateTimeInstance().format(new Date(task.getReminder())));
+            dateTextView = (TextView)convertView.findViewById(R.id.task_item_date_textview);
             dateTextView.setText(task.dateToString());
             View toolbar=convertView.findViewById(R.id.expandable_list_details);
 
