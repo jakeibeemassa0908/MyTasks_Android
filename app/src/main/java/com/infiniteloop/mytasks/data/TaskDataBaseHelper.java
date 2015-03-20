@@ -149,6 +149,10 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
         array.add(String.valueOf(0));
         String[] selectionArgs;
         switch (queryCode){
+            case 1:
+                selection+=" AND "+TaskEntry.COLUMN_REMINDER + " NOT LIKE ?";
+                array.add(String.valueOf(-1));
+                break;
             case 2:
                 selection+=" AND "+TaskEntry.COLUMN_PRIORITY + " LIKE ?";
                 array.add(String.valueOf(Task.VERY_HIGH_PRIORITY));
