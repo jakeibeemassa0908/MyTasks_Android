@@ -69,8 +69,6 @@ public class TaskListFragment extends ListFragment implements LoaderManager.Load
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.task_list_fragment,container,false);
-
-
         mAddTaskImageView = (ImageView)rootView.findViewById(R.id.add_task_imageView);
         mAddTaskImageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,8 +76,7 @@ public class TaskListFragment extends ListFragment implements LoaderManager.Load
                 createNewTask();
             }
         });
-
-         return rootView;
+        return rootView;
     }
 
     @Override
@@ -90,7 +87,6 @@ public class TaskListFragment extends ListFragment implements LoaderManager.Load
         listView.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
             @Override
             public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
-
             }
 
             @Override
@@ -127,6 +123,8 @@ public class TaskListFragment extends ListFragment implements LoaderManager.Load
 
                                 }
                                 mode.finish();
+
+                                //update listview
                                 restartLoader();
                             }
                         });
@@ -201,13 +199,6 @@ public class TaskListFragment extends ListFragment implements LoaderManager.Load
     }
 
 
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        //updateTaskList();
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode){
@@ -217,13 +208,13 @@ public class TaskListFragment extends ListFragment implements LoaderManager.Load
                     '"'+mTasks.get(+mTasks.size()-1).getTitle()+'"'+ getString(R.string.added),
                     Toast.LENGTH_SHORT).show();
                     //restart loader to get any new task available
-                    getLoaderManager().restartLoader(0,null,this);
+                    restartLoader();
                 }
                 break;
             case EDIT_TASK:
                 if(resultCode==Activity.RESULT_OK){
                     //restart loader to get any edited task data
-                    getLoaderManager().restartLoader(0,null,this);
+                    restartLoader();
                 }
             default:
                 break;
@@ -339,12 +330,12 @@ public class TaskListFragment extends ListFragment implements LoaderManager.Load
             categoryTextView = (TextView)convertView.findViewById(R.id.task_item_category_textview);
             categoryTextView.setText(TaskLab.get(getActivity()).queryCatName(task.getCategory()));
             reminder = (TextView)convertView.findViewById(R.id.task_item_reminder);
+
+            //if there is a reminder set for the given task
             if(task.getReminder()!=-1)reminder.setText(DateFormat.getDateTimeInstance().format(new Date(task.getReminder())));
             dateTextView = (TextView)convertView.findViewById(R.id.task_item_date_textview);
             dateTextView.setText(task.dateToString());
             View toolbar=convertView.findViewById(R.id.expandable_list_details);
-
-            Log.d(TAG,task.isCompleted()?"1":"0");
 
             mEdit = (ImageButton)toolbar.findViewById(R.id.edit_task_imageButton);
             mEdit.setOnClickListener(new View.OnClickListener() {
@@ -420,6 +411,7 @@ public class TaskListFragment extends ListFragment implements LoaderManager.Load
             });
 
 
+            //Set View and toolbar color according to priority
 
             switch (task.getPriority()){
                 case Task.VERY_HIGH_PRIORITY:
