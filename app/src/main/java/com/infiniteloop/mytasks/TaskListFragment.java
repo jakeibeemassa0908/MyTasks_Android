@@ -12,11 +12,16 @@ import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.util.Log;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
+import android.widget.AbsListView;
 import android.widget.CursorAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -78,6 +83,109 @@ public class TaskListFragment extends ListFragment implements LoaderManager.Load
     }
 
     @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        //Set Contextual action bar when user long press the items on the list
+        ListView listView = getListView();
+        listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+        listView.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
+            @Override
+            public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
+
+            }
+
+            @Override
+            public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+                MenuInflater inflater = mode.getMenuInflater();
+                inflater.inflate(R.menu.task_list_context,menu);
+
+                return true;
+            }
+
+            @Override
+            public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+                return false;
+            }
+
+            @Override
+            public boolean onActionItemClicked(final ActionMode mode, MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.delete_tasks:
+                        AlertDialog.Builder deleteDialog = new AlertDialog.Builder(getActivity());
+                        deleteDialog.setTitle(getString(R.string.delete_task));
+                        deleteDialog.setMessage(getString(R.string.delete_task_question));
+                        deleteDialog.setPositiveButton(getString(R.string.delete),new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                TaskCursorAdapter adapter = (TaskCursorAdapter)getListAdapter();
+                                TaskLab taskLab = TaskLab.get(getActivity());
+                                for(int i = adapter.getCount()-1;i>=0;i--){
+                                    if(getListView().isItemChecked(i)){
+                                        TaskDataBaseHelper.TaskCursor cursor = (TaskDataBaseHelper.TaskCursor)adapter.getItem(i);
+                                        Task t =cursor.getTask();
+                                        taskLab.removeTask(t);
+                                    }
+
+                                }
+                                mode.finish();
+                                restartLoader();
+                            }
+                        });
+
+                        deleteDialog.setNegativeButton(R.string.cancel,new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+                        deleteDialog.show();
+                        return true;
+                    case R.id.complete_tasks:
+                        AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+                        dialog.setTitle(getString(R.string.complete_dialog_title));
+                        dialog.setMessage(getString(R.string.complete_dialog_question));
+                        dialog.setPositiveButton(getString(R.string.complete_dialog_yes),new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                TaskCursorAdapter adapter = (TaskCursorAdapter)getListAdapter();
+                                for(int i=adapter.getCount()-1;i>=0;i--){
+                                    if(getListView().isItemChecked(i)){
+                                        TaskDataBaseHelper.TaskCursor cursor = (TaskDataBaseHelper.TaskCursor)adapter.getItem(i);
+                                        Task task = cursor.getTask();
+                                        TaskLab.get(getActivity()).setComplete(task);
+                                    }
+
+                                }
+                                mode.finish();
+                                restartLoader();
+
+                            }
+                        });
+                        dialog.setNegativeButton(R.string.cancel,new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+                        dialog.show();
+                        return true;
+
+                    default:
+                        return false;
+                }
+            }
+
+            @Override
+            public void onDestroyActionMode(ActionMode mode) {
+
+            }
+        });
+    }
+
+    private void restartLoader() {
+        getLoaderManager().restartLoader(0,null,TaskListFragment.this);
+    }
+
+    @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         View toolbar = v.findViewById(R.id.expandable_list_details);
 
@@ -91,6 +199,8 @@ public class TaskListFragment extends ListFragment implements LoaderManager.Load
             toolbar.startAnimation(expandAnimation);
 
     }
+
+
 
     @Override
     public void onResume() {

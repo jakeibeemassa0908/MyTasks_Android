@@ -2,6 +2,8 @@ package com.infiniteloop.mytasks;
 
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
