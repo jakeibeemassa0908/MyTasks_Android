@@ -22,6 +22,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -51,6 +52,7 @@ public class TaskListFragment extends ListFragment implements LoaderManager.Load
     private  View rootView;
     private View expandedToolbar;
     private ImageButton mDelete,mStart,mEdit,mComplete;
+    ListView mListView;
     TextView titleTextView,categoryTextView,reminder,dateTextView;
 
     private int mPosition;
@@ -76,17 +78,44 @@ public class TaskListFragment extends ListFragment implements LoaderManager.Load
                 createNewTask();
             }
         });
+
         return rootView;
     }
 
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+        mListView=getListView();
         //Set Contextual action bar when user long press the items on the list
-        ListView listView = getListView();
-        listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
-        listView.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
+        mListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+        mListView.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
             @Override
             public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
+                View v =mListView.getChildAt(position);
+                if(v.isActivated()){
+                    int priority=((TaskDataBaseHelper.TaskCursor) mListView.getAdapter().getItem(position)).getTask().getPriority();
+                    switch(priority){
+                        case Task.VERY_HIGH_PRIORITY:
+                            v.setBackgroundColor(getResources().getColor(R.color.red));
+                            break;
+
+                        case Task.HIGH_PRIORITY:
+                            v.setBackgroundColor(getResources().getColor(R.color.orange));
+                            break;
+
+                        case Task.NORMAL_PRIORITY:
+                            v.setBackgroundColor(getResources().getColor(R.color.sunshine_blue));
+                            break;
+
+                        case Task.LOW_PRIORITY:
+                            v.setBackgroundColor(getResources().getColor(R.color.green));
+                    }
+                }
+
+                else{
+                    v.setBackgroundColor(getResources().getColor(R.color.grey));
+                }
+
             }
 
             @Override
