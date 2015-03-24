@@ -91,30 +91,6 @@ public class TaskListFragment extends ListFragment implements LoaderManager.Load
         mListView.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
             @Override
             public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
-                View v =mListView.getChildAt(position);
-                if(v.isActivated()){
-                    int priority=((TaskDataBaseHelper.TaskCursor) mListView.getAdapter().getItem(position)).getTask().getPriority();
-                    switch(priority){
-                        case Task.VERY_HIGH_PRIORITY:
-                            v.setBackgroundColor(getResources().getColor(R.color.red));
-                            break;
-
-                        case Task.HIGH_PRIORITY:
-                            v.setBackgroundColor(getResources().getColor(R.color.orange));
-                            break;
-
-                        case Task.NORMAL_PRIORITY:
-                            v.setBackgroundColor(getResources().getColor(R.color.sunshine_blue));
-                            break;
-
-                        case Task.LOW_PRIORITY:
-                            v.setBackgroundColor(getResources().getColor(R.color.green));
-                    }
-                }
-
-                else{
-                    v.setBackgroundColor(getResources().getColor(R.color.grey));
-                }
 
             }
 
@@ -444,22 +420,22 @@ public class TaskListFragment extends ListFragment implements LoaderManager.Load
 
             switch (task.getPriority()){
                 case Task.VERY_HIGH_PRIORITY:
-                    convertView.setBackgroundColor(getResources().getColor(R.color.red));
+                    titleTextView.setTextColor(getResources().getColor(R.color.red));
                     toolbar.setBackgroundColor(getResources().getColor(R.color.dark_red));
                     break;
 
                 case Task.HIGH_PRIORITY:
-                    convertView.setBackgroundColor(getResources().getColor(R.color.orange));
+                    titleTextView.setTextColor(getResources().getColor(R.color.orange));
                     toolbar.setBackgroundColor(getResources().getColor(R.color.dark_orange));
                     break;
 
                 case Task.NORMAL_PRIORITY:
-                    convertView.setBackgroundColor(getResources().getColor(R.color.sunshine_blue));
+                    titleTextView.setTextColor(getResources().getColor(R.color.sunshine_blue));
                     toolbar.setBackgroundColor(getResources().getColor(R.color.sunshine_dark_blue));
                     break;
 
                 case Task.LOW_PRIORITY:
-                    convertView.setBackgroundColor(getResources().getColor(R.color.green));
+                    titleTextView.setTextColor(getResources().getColor(R.color.green));
                     toolbar.setBackgroundColor(getResources().getColor(R.color.dark_green));
 
             }

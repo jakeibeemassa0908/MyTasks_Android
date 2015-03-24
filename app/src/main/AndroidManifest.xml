@@ -32,6 +32,7 @@
                 android:value="com.infiniteloop.mytasks.TaskListActivity"/>
 
             </activity>
+        <service android:name=".ReminderService"/>
 
     </application>
 

@@ -52,6 +52,7 @@ public class TimeAndDatePickerFragment {
             // Create a new instance of TimePickerDialog and return it
             return new TimePickerDialog(getActivity(), this, hour, minute,
                     DateFormat.is24HourFormat(getActivity()));
+
         }
 
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
@@ -85,7 +86,9 @@ public class TimeAndDatePickerFragment {
             int day = c.get(Calendar.DAY_OF_MONTH);
 
             // Create a new instance of DatePickerDialog and return it
-            return new DatePickerDialog(getActivity(), this, year, month, day);
+            DatePickerDialog date= new DatePickerDialog(getActivity(), this, year, month, day);
+            date.getDatePicker().setMinDate(System.currentTimeMillis()-1000);
+            return date;
         }
 
         public void onDateSet(DatePicker view, int year, int month, int day) {

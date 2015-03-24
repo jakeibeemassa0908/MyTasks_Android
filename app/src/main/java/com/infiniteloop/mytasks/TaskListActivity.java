@@ -1,5 +1,6 @@
 package com.infiniteloop.mytasks;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.graphics.Color;
@@ -53,6 +54,9 @@ public class TaskListActivity extends ActionBarActivity {
         mDrawerList.setOnItemClickListener(new DrawerItemClickListenner());
 
         selectItem(0);
+        Intent i = new Intent(this,ReminderService.class);
+        startService(i);
+
     }
 
 
