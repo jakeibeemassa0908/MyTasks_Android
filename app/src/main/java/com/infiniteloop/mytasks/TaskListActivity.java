@@ -54,7 +54,6 @@ public class TaskListActivity extends ActionBarActivity {
         mDrawerList.setOnItemClickListener(new DrawerItemClickListenner());
 
         selectItem(0);
-        ReminderService.setServiceAlarm(this);
 
     }
 

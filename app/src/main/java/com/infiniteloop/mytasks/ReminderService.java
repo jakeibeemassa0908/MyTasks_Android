@@ -9,14 +9,26 @@ import android.util.Log;
 
 import com.infiniteloop.mytasks.data.TaskDataBaseHelper;
 
-import java.text.DateFormat;
-import java.util.Date;
+import java.util.ArrayList;
 
 /**
  * Created by theotherside on 23/03/15.
  */
 public class ReminderService extends IntentService {
+
+    private ReminderService mService;
+
+    public ReminderService getInstance(){
+
+        if(mService==null){
+            mService=new ReminderService();
+        }
+        return mService;
+
+    }
     public static final String TAG = ReminderService.class.getSimpleName();
+
+    private ArrayList<Task> mTasksWithReminder= new ArrayList<Task>();
 
     public ReminderService(){
         super(TAG);
@@ -24,29 +36,35 @@ public class ReminderService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
+        Log.d(TAG,"Alarm");
+    }
 
+    public void setServiceAlarm(Context context){
+
+        getAllTaskWithReminder();
+
+            for(Task t:mTasksWithReminder){
+                Intent i =new Intent(context,ReminderService.class);
+                PendingIntent pi = PendingIntent.getService(context,0,i,0);
+                AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+                alarmManager.set(AlarmManager.RTC,
+                        t.getReminder(), pi);
+            }
+
+
+    }
+
+    private ArrayList<Task> getAllTaskWithReminder() {
         //Load tasks
         TaskDataBaseHelper.TaskCursor cursor =TaskLab.get(this).queryTasks(1);
 
         cursor.moveToFirst();
         for(int i=0;i<cursor.getCount();i++){
             Task t =cursor.getTask();
-            Log.d(TAG,"Time is "+ DateFormat.getTimeInstance().format(new Date(t.getReminder())));
+            mTasksWithReminder.add(t);
             cursor.moveToNext();
         }
-
-    }
-
-    public static void setServiceAlarm(Context context){
-        Intent i =new Intent(context,ReminderService.class);
-        PendingIntent pi = PendingIntent.getService(context,0,i,0);
-
-        AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.setRepeating(AlarmManager.RTC,
-                System.currentTimeMillis(),1000*30,pi);
-
-        alarmManager.cancel(pi);
-        pi.cancel();
+        return mTasksWithReminder;
     }
 
 }

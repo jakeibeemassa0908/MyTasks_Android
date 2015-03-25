@@ -83,6 +83,7 @@ public class TaskListFragment extends ListFragment implements LoaderManager.Load
     }
 
 
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         mListView=getListView();
