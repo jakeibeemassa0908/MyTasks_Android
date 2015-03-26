@@ -7,6 +7,8 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 
 /**
@@ -16,6 +18,11 @@ public class ReminderService extends IntentService {
 
     public static final String TAG = ReminderService.class.getSimpleName();
     private static final String EXTRA_NOTIF="Notiication";
+
+    // Start without a delay
+    // Vibrate for 100 milliseconds
+    // Sleep for 1000 milliseconds
+    private long[] vibrationPattern = {100,100};
 
 
     public ReminderService(){
@@ -32,6 +39,7 @@ public class ReminderService extends IntentService {
         String title = task.getTitle();
 
 
+        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         Notification notification = new NotificationCompat.Builder(this)
                 .setTicker("Alarm")
                 .setSmallIcon(android.R.drawable.ic_menu_agenda)
@@ -39,7 +47,8 @@ public class ReminderService extends IntentService {
                 .setContentText(title)
                 .setContentIntent(pi)
                 .setPriority(Notification.PRIORITY_MAX)
-                .setVibrate(new long[0])
+                .setSound(alarmSound)
+                .setVibrate(vibrationPattern)
                 .setAutoCancel(true)
                 .build();
 
