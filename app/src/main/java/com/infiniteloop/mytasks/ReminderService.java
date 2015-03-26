@@ -38,8 +38,9 @@ public class ReminderService extends IntentService {
 
         String title = task.getTitle();
 
-
+        //get default notification sound
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+
         Notification notification = new NotificationCompat.Builder(this)
                 .setTicker("Alarm")
                 .setSmallIcon(android.R.drawable.ic_menu_agenda)

@@ -40,6 +40,12 @@ public class TaskLab {
                 Task t = new Task(title,priority,category);
                 t.setReminder(reminderDate);
                 saveTask(t);
+
+                //SetReminder if reminder is set
+                if(t.getReminder()!=-1){
+                    ReminderService.setServiceAlarm(context,t);
+                }
+
                 mTasks.add(t);
                 return true;
             }
