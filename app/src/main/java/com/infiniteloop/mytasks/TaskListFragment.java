@@ -380,15 +380,6 @@ public class TaskListFragment extends ListFragment implements LoaderManager.Load
 
                 }
             });
-            mStart=(ImageButton)toolbar.findViewById(R.id.start_timer_imageButton);
-            mStart.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    /*
-                    * TODO Find replacement to this toolbar icon
-                    * */
-                }
-            });
             mDelete=(ImageButton)toolbar.findViewById(R.id.delete_task_imageButton);
             mDelete.setOnClickListener(new View.OnClickListener() {
                 @Override

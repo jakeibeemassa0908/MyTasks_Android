@@ -92,10 +92,15 @@ public class TaskListActivity extends ActionBarActivity {
     }
 
     private void selectItem(int position){
-        Fragment fragment = new TaskListFragment();
-        Bundle args = new Bundle();
-        args.putInt(TaskListFragment.DRAWER_ITEM_CHOICE,position);
-        fragment.setArguments(args);
+        Fragment fragment;
+        if(position==9){
+            fragment=new AboutFragment();
+        }else{
+            fragment = new TaskListFragment();
+            Bundle args = new Bundle();
+            args.putInt(TaskListFragment.DRAWER_ITEM_CHOICE,position);
+            fragment.setArguments(args);
+        }
 
         //Insert fragment by replacing any existing fragment
         FragmentManager fm = getSupportFragmentManager();
