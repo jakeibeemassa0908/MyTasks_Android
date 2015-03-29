@@ -43,7 +43,7 @@ public class ReminderService extends IntentService {
 
         Notification notification = new NotificationCompat.Builder(this)
                 .setTicker("Alarm")
-                .setSmallIcon(android.R.drawable.ic_menu_agenda)
+                .setSmallIcon(R.drawable.ic_stat_t)
                 .setContentTitle("New Alarm")
                 .setContentText(title)
                 .setContentIntent(pi)

@@ -170,6 +170,8 @@ public class TaskListActivity extends ActionBarActivity {
             if(convertView==null){
                 convertView= getLayoutInflater().inflate(R.layout.drawer_list_item,null);
             }
+
+            TextView text = (TextView)convertView.findViewById(R.id.drawer_item);
             DrawerItem item = getItem(position);
 
             if(position == mPosition){
@@ -177,6 +179,22 @@ public class TaskListActivity extends ActionBarActivity {
             }else{
                 convertView.setBackgroundColor(getResources().getColor(R.color.white));
             }
+             switch (position){
+                 case 2:
+                     text.setTextColor(getResources().getColor(R.color.red));
+                     break;
+                 case 3:
+                     text.setTextColor(getResources().getColor(R.color.orange));
+                     break;
+                 case 4:
+                     text.setTextColor(getResources().getColor(R.color.sunshine_blue));
+                     break;
+                 case 5:
+                     text.setTextColor(getResources().getColor(R.color.green));
+                     break;
+                 default:
+
+             }
 
             TextView t = (TextView)convertView.findViewById(R.id.drawer_item);
             t.setText(item.getTitle());
