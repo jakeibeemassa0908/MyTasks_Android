@@ -2,7 +2,6 @@ package com.infiniteloop.mytasks;
 
 import android.content.Context;
 import android.content.res.Configuration;
-import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -20,10 +19,15 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.infiniteloop.mytasks.data.Category;
 import com.infiniteloop.mytasks.data.SQLiteCursorLoader;
 import com.infiniteloop.mytasks.data.TaskDataBaseHelper;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 public class TaskListActivity extends ActionBarActivity implements LoaderManager.LoaderCallbacks<Cursor> {
     private static final String TAG= TaskListActivity.class.getSimpleName();
@@ -31,11 +35,11 @@ public class TaskListActivity extends ActionBarActivity implements LoaderManager
     private ActionBarDrawerToggle mDrawerToggle;
     private ListView mDrawerList;
     private ArrayList<DrawerItem> mDrawerItems;
-    private String[] mDrawerTitle;
-    private TypedArray mDrawerIcons;
 
     private int mPosition;
-    private ArrayList<String>mCategories= new ArrayList<String>();
+    private ArrayList<Category>mCategories= new ArrayList<Category>();
+
+    private Map<String,Integer> mDrawerMapping = new HashMap<String, Integer>();
 
 
     @Override
@@ -111,12 +115,15 @@ public class TaskListActivity extends ActionBarActivity implements LoaderManager
             if(view.findViewById(R.id.drawer_title)!=null){
 
             }else{
-                selectItem(position);
+                TextView text = (TextView)view.findViewById(R.id.drawer_item);
+                String title = text.getText().toString();
+                selectItem(mDrawerMapping.get(title));
             }
         }
     }
 
     private void selectItem(int position){
+
         Fragment fragment;
         if(position==9){
             fragment=new AboutFragment();
@@ -135,8 +142,8 @@ public class TaskListActivity extends ActionBarActivity implements LoaderManager
 
         //highlight the selected title
         mDrawerList.setItemChecked(position,true);
-        DrawerItem item=(DrawerItem)mDrawerList.getAdapter().getItem(position);
-        setTitle(item.getTitle());
+        //set the actionbat title to the drawer item title
+        setTitle(getKeyByValue(mDrawerMapping,position));
         mDrawerLayout.closeDrawer(mDrawerList);
 
         mPosition=position;
@@ -181,7 +188,7 @@ public class TaskListActivity extends ActionBarActivity implements LoaderManager
         if(categoryCursor!=null){
             categoryCursor.moveToFirst();
             for(int i=0;i<categoryCursor.getCount();i++){
-                mCategories.add(categoryCursor.getCategory().getCategoryName());
+                mCategories.add(categoryCursor.getCategory());
                 categoryCursor.moveToNext();
             }
         }
@@ -191,11 +198,15 @@ public class TaskListActivity extends ActionBarActivity implements LoaderManager
 
         allTask=new DrawerItem(getString(R.string.all_task),R.drawable.ic_action_action_home);
         mDrawerItems.add(allTask);
+        mDrawerMapping.put(allTask.getTitle(),0);
+
         allReminder=new DrawerItem(getString(R.string.timed_task),R.drawable.ic_action_device_add_alarm);
         mDrawerItems.add(allReminder);
+        mDrawerMapping.put(allReminder.getTitle(),1);
 
         completed=new DrawerItem(getString(R.string.completed_task),R.drawable.ic_action_maps_beenhere);
         mDrawerItems.add(completed);
+        mDrawerMapping.put(completed.getTitle(),2);
 
         priorities= new DrawerItem(getString(R.string.priorities),0);
         priorities.setType(DrawerItem.TYPE_TITLE);
@@ -204,18 +215,22 @@ public class TaskListActivity extends ActionBarActivity implements LoaderManager
         vhPriority=new DrawerItem(getString(R.string.very_high_priority),R.drawable.ic_action_image_looks_one);
         vhPriority.setPriority(Task.VERY_HIGH_PRIORITY);
         mDrawerItems.add(vhPriority);
+        mDrawerMapping.put(vhPriority.getTitle(),3);
 
         hPriority=new DrawerItem(getString(R.string.high_priority),R.drawable.ic_action_image_looks_two);
         hPriority.setPriority(Task.HIGH_PRIORITY);
         mDrawerItems.add(hPriority);
+        mDrawerMapping.put(hPriority.getTitle(),4);
 
         nPriority=new DrawerItem(getString(R.string.normal_priority),R.drawable.ic_action_image_looks_3);
         nPriority.setPriority(Task.NORMAL_PRIORITY);
         mDrawerItems.add(nPriority);
+        mDrawerMapping.put(nPriority.getTitle(),5);
 
         lPriority=new DrawerItem(getString(R.string.low_priority),R.drawable.ic_action_image_looks_4);
         lPriority.setPriority(Task.LOW_PRIORITY);
         mDrawerItems.add(lPriority);
+        mDrawerMapping.put(lPriority.getTitle(),6);
 
         categories= new DrawerItem(getString(R.string.categories),0);
         categories.setType(DrawerItem.TYPE_TITLE);
@@ -223,25 +238,39 @@ public class TaskListActivity extends ActionBarActivity implements LoaderManager
 
         //Categories drawer Items
         for(int j=0;j<mCategories.size();j++){
-            String title = mCategories.get(j);
+            Category cat =mCategories.get(j);
+            String title = cat.getCategoryName();
             mDrawerItems.add(new DrawerItem(title,R.drawable.ic_action_action_description));
+
+            //set the category mapping to be the id of the category + 100
+            int assignedNumber=(int)cat.getId()+100;
+            mDrawerMapping.put(title,assignedNumber);
         }
 
         newCategory=new DrawerItem(getString(R.string.add_category),R.drawable.ic_action_content_add);
         mDrawerItems.add(newCategory);
+        mDrawerMapping.put(newCategory.getTitle(),11);
 
 
         more= new DrawerItem(getString(R.string.more),0);
         more.setType(DrawerItem.TYPE_TITLE);
         mDrawerItems.add(more);
+
         settings=new DrawerItem(getString(R.string.settings),R.drawable.ic_action_action_settings);
         mDrawerItems.add(settings);
+        mDrawerMapping.put(settings.getTitle(),7);
+
         feedback=new DrawerItem(getString(R.string.feedback),R.drawable.ic_action_action_stars);
         mDrawerItems.add(feedback);
+        mDrawerMapping.put(feedback.getTitle(),8);
+
         about=new DrawerItem(getString(R.string.about),R.drawable.ic_action_editor_insert_emoticon);
         mDrawerItems.add(about);
+        mDrawerMapping.put(about.getTitle(),9);
+
         help=new DrawerItem(getString(R.string.help),R.drawable.ic_action_question);
         mDrawerItems.add(help);
+        mDrawerMapping.put(help.getTitle(),10);
 
     }
 
@@ -290,11 +319,15 @@ public class TaskListActivity extends ActionBarActivity implements LoaderManager
                 }
             }
 
+            //check if the clicked text equal the select one
+            if(item.getType()!=DrawerItem.TYPE_TITLE){
+                String title=((TextView)convertView.findViewById(R.id.drawer_item)).getText().toString();
 
-            if(position == mPosition){
-                convertView.setBackgroundColor(getResources().getColor(R.color.grey));
-            }else{
-                convertView.setBackgroundColor(getResources().getColor(R.color.white));
+//                if(mDrawerMapping.get(title) == mPosition){
+//                    convertView.setBackgroundColor(getResources().getColor(R.color.grey));
+//                }else{
+//                    convertView.setBackgroundColor(getResources().getColor(R.color.white));
+//                }
             }
 
             return convertView;
@@ -313,6 +346,15 @@ public class TaskListActivity extends ActionBarActivity implements LoaderManager
             //Query the list of runs
             return TaskLab.get(getContext()).getCategories();
         }
+    }
+
+    public static String getKeyByValue(Map<String, Integer> map, int value) {
+        for (Map.Entry<String, Integer> entry : map.entrySet()) {
+            if (value==entry.getValue()) {
+                return entry.getKey();
+            }
+        }
+        return null;
     }
 
 }

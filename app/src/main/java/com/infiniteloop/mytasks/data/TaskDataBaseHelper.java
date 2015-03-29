@@ -153,28 +153,33 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
                 selection+=" AND "+TaskEntry.COLUMN_REMINDER + " NOT LIKE ?";
                 array.add(String.valueOf(-1));
                 break;
-            case 2:
+            case 3:
                 selection+=" AND "+TaskEntry.COLUMN_PRIORITY + " LIKE ?";
                 array.add(String.valueOf(Task.VERY_HIGH_PRIORITY));
                 break;
-            case 3:
+            case 4:
                 selection+=" AND "+TaskEntry.COLUMN_PRIORITY + " LIKE ?";
                 array.add(String.valueOf(Task.HIGH_PRIORITY));
                 break;
-            case 4:
+            case 5:
                 selection+=" AND "+TaskEntry.COLUMN_PRIORITY + " LIKE ?";
                 array.add(String.valueOf(Task.NORMAL_PRIORITY));
                 break;
-            case 5:
+            case 6:
                 selection+=" AND "+TaskEntry.COLUMN_PRIORITY + " LIKE ?";
                 array.add(String.valueOf(Task.LOW_PRIORITY));
                 break;
-            case 6:
+            case 2:
                 selection=TaskEntry.COLUMN_COMPLETED + " LIKE ? ";
                 array.remove(0);
                 array.add(String.valueOf(1));
                 break;
             default:
+                if(queryCode>=100){
+                    selection+=" AND "+TaskEntry.COLUMN_CAT_KEY + " LIKE ?";
+                    array.add(String.valueOf(queryCode-100));
+                }
+
         }
             selectionArgs=new String[array.size()];
             selectionArgs=array.toArray(selectionArgs);
