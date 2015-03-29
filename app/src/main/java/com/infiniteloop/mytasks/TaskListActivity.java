@@ -1,6 +1,8 @@
 package com.infiniteloop.mytasks;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -15,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -25,11 +28,13 @@ import com.infiniteloop.mytasks.data.TaskDataBaseHelper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 public class TaskListActivity extends ActionBarActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+
+    private static final int POSITION_ABOUT=9;
+    private static final int POSITION_CREATE_CATEGORY=11;
+
     private static final String TAG= TaskListActivity.class.getSimpleName();
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -124,14 +129,15 @@ public class TaskListActivity extends ActionBarActivity implements LoaderManager
 
     private void selectItem(int position){
 
-        Fragment fragment;
-        if(position==9){
-            fragment=new AboutFragment();
-        }else{
-            fragment = new TaskListFragment();
-            Bundle args = new Bundle();
-            args.putInt(TaskListFragment.DRAWER_ITEM_CHOICE,position);
-            fragment.setArguments(args);
+        Fragment fragment = new TaskListFragment();;
+        switch (position){
+            case POSITION_ABOUT:
+                fragment=new AboutFragment();
+                break;
+            default:
+                Bundle args = new Bundle();
+                args.putInt(TaskListFragment.DRAWER_ITEM_CHOICE,position);
+                fragment.setArguments(args);
         }
 
         //Insert fragment by replacing any existing fragment
@@ -145,6 +151,30 @@ public class TaskListActivity extends ActionBarActivity implements LoaderManager
         //set the actionbat title to the drawer item title
         setTitle(getKeyByValue(mDrawerMapping,position));
         mDrawerLayout.closeDrawer(mDrawerList);
+
+        if(position==POSITION_CREATE_CATEGORY){
+            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+            dialog.setTitle(getString(R.string.add_category));
+            final EditText newCategory = new EditText(this);
+            dialog.setView(newCategory);
+            dialog.setPositiveButton(getString(R.string.add),new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    String mAddCategory=newCategory.getText().toString();
+                    if(!mAddCategory.matches("")){
+                        TaskLab.get(TaskListActivity.this).insertCategory(mAddCategory);
+                    }
+                    
+                }
+            });
+            dialog.setNegativeButton(getString(R.string.cancel),new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            });
+            dialog.show();
+        }
 
         mPosition=position;
     }
@@ -348,6 +378,7 @@ public class TaskListActivity extends ActionBarActivity implements LoaderManager
         }
     }
 
+    //Get the key from the value
     public static String getKeyByValue(Map<String, Integer> map, int value) {
         for (Map.Entry<String, Integer> entry : map.entrySet()) {
             if (value==entry.getValue()) {

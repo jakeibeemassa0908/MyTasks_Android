@@ -91,6 +91,10 @@ public class TaskLab {
         return mHelper.queryCategoryName(id).getCategoryName();
     }
 
+    public long insertCategory(String catName){
+        return mHelper.insertCategory(catName);
+    }
+
     public TaskDataBaseHelper.CategoryCursor getCategories() {
         return (TaskDataBaseHelper.CategoryCursor)mHelper.queryCategories();
     }
