@@ -61,6 +61,9 @@
     <string name="about">About</string>
     <string name="feedback">Leave feedback</string>
     <string name="help">Help</string>
+    <string name="more">More</string>
+    <string name="categories">Categories</string>
+    <string name="priorities">Priorities</string>
 
     <string name="about_text">
 

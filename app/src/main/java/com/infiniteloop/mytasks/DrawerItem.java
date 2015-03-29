@@ -4,14 +4,17 @@ package com.infiniteloop.mytasks;
  * Created by theotherside on 09/03/15.
  */
 public class DrawerItem {
+    public static final int TYPE_TITLE=1;
 
     private String mTitle;
     private int mImage;
     private int mType;
+    private int mPriority;
 
     public DrawerItem(String title, int image){
         mImage=image;
         mTitle=title;
+        mPriority=-1;
     }
 
 
@@ -37,5 +40,13 @@ public class DrawerItem {
 
     public void setType(int mType) {
         this.mType = mType;
+    }
+
+    public int getPriority() {
+        return mPriority;
+    }
+
+    public void setPriority(int mPriority) {
+        this.mPriority = mPriority;
     }
 }

@@ -43,6 +43,7 @@ public class ReminderService extends IntentService {
 
         Notification notification = new NotificationCompat.Builder(this)
                 .setTicker("Alarm")
+                .setColor(getResources().getColor(R.color.sunshine_blue))
                 .setSmallIcon(R.drawable.ic_stat_t)
                 .setContentTitle("New Alarm")
                 .setContentText(title)

@@ -1,13 +1,13 @@
 package com.infiniteloop.mytasks;
 
-import android.content.Intent;
+import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.LoaderManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.ActionBarActivity;
@@ -20,9 +20,12 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.infiniteloop.mytasks.data.SQLiteCursorLoader;
+import com.infiniteloop.mytasks.data.TaskDataBaseHelper;
+
 import java.util.ArrayList;
 
-public class TaskListActivity extends ActionBarActivity {
+public class TaskListActivity extends ActionBarActivity implements LoaderManager.LoaderCallbacks<Cursor> {
     private static final String TAG= TaskListActivity.class.getSimpleName();
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -32,10 +35,12 @@ public class TaskListActivity extends ActionBarActivity {
     private TypedArray mDrawerIcons;
 
     private int mPosition;
+    private ArrayList<String>mCategories= new ArrayList<String>();
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        getSupportLoaderManager().initLoader(0, null, this);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawer);
@@ -83,11 +88,31 @@ public class TaskListActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public android.support.v4.content.Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+        return new CategoryListCursorLoader(this);
+    }
+
+    @Override
+    public void onLoadFinished(android.support.v4.content.Loader<Cursor> cursorLoader, Cursor cursor) {
+
+    }
+
+    @Override
+    public void onLoaderReset(android.support.v4.content.Loader<Cursor> cursorLoader) {
+
+    }
+
     private class DrawerItemClickListenner implements ListView.OnItemClickListener{
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            selectItem(position);
+            //if view is a title, dont set listenner
+            if(view.findViewById(R.id.drawer_title)!=null){
+
+            }else{
+                selectItem(position);
+            }
         }
     }
 
@@ -110,7 +135,8 @@ public class TaskListActivity extends ActionBarActivity {
 
         //highlight the selected title
         mDrawerList.setItemChecked(position,true);
-        setTitle(mDrawerTitle[position]);
+        DrawerItem item=(DrawerItem)mDrawerList.getAdapter().getItem(position);
+        setTitle(item.getTitle());
         mDrawerLayout.closeDrawer(mDrawerList);
 
         mPosition=position;
@@ -151,11 +177,71 @@ public class TaskListActivity extends ActionBarActivity {
     }
 
     private void setDrawerItems() {
-        mDrawerTitle=getResources().getStringArray(R.array.drawer_menu_array);
-        mDrawerIcons=getResources().obtainTypedArray(R.array.drawer_images);
-        for(int i=0;i<mDrawerTitle.length;i++){
-            mDrawerItems.add(new DrawerItem(mDrawerTitle[i],mDrawerIcons.getResourceId(i,0)));
+        TaskDataBaseHelper.CategoryCursor categoryCursor = TaskLab.get(this).getCategories();;
+        if(categoryCursor!=null){
+            categoryCursor.moveToFirst();
+            for(int i=0;i<categoryCursor.getCount();i++){
+                mCategories.add(categoryCursor.getCategory().getCategoryName());
+                categoryCursor.moveToNext();
+            }
         }
+        DrawerItem allTask,allReminder,vhPriority,hPriority,
+                nPriority,lPriority,completed,newCategory,settings,
+                feedback,about,help,more,categories,priorities;
+
+        allTask=new DrawerItem(getString(R.string.all_task),R.drawable.ic_action_action_home);
+        mDrawerItems.add(allTask);
+        allReminder=new DrawerItem(getString(R.string.timed_task),R.drawable.ic_action_device_add_alarm);
+        mDrawerItems.add(allReminder);
+
+        completed=new DrawerItem(getString(R.string.completed_task),R.drawable.ic_action_maps_beenhere);
+        mDrawerItems.add(completed);
+
+        priorities= new DrawerItem(getString(R.string.priorities),0);
+        priorities.setType(DrawerItem.TYPE_TITLE);
+        mDrawerItems.add(priorities);
+
+        vhPriority=new DrawerItem(getString(R.string.very_high_priority),R.drawable.ic_action_image_looks_one);
+        vhPriority.setPriority(Task.VERY_HIGH_PRIORITY);
+        mDrawerItems.add(vhPriority);
+
+        hPriority=new DrawerItem(getString(R.string.high_priority),R.drawable.ic_action_image_looks_two);
+        hPriority.setPriority(Task.HIGH_PRIORITY);
+        mDrawerItems.add(hPriority);
+
+        nPriority=new DrawerItem(getString(R.string.normal_priority),R.drawable.ic_action_image_looks_3);
+        nPriority.setPriority(Task.NORMAL_PRIORITY);
+        mDrawerItems.add(nPriority);
+
+        lPriority=new DrawerItem(getString(R.string.low_priority),R.drawable.ic_action_image_looks_4);
+        lPriority.setPriority(Task.LOW_PRIORITY);
+        mDrawerItems.add(lPriority);
+
+        categories= new DrawerItem(getString(R.string.categories),0);
+        categories.setType(DrawerItem.TYPE_TITLE);
+        mDrawerItems.add(categories);
+
+        //Categories drawer Items
+        for(int j=0;j<mCategories.size();j++){
+            String title = mCategories.get(j);
+            mDrawerItems.add(new DrawerItem(title,R.drawable.ic_action_action_description));
+        }
+
+        newCategory=new DrawerItem(getString(R.string.add_category),R.drawable.ic_action_content_add);
+        mDrawerItems.add(newCategory);
+
+
+        more= new DrawerItem(getString(R.string.more),0);
+        more.setType(DrawerItem.TYPE_TITLE);
+        mDrawerItems.add(more);
+        settings=new DrawerItem(getString(R.string.settings),R.drawable.ic_action_action_settings);
+        mDrawerItems.add(settings);
+        feedback=new DrawerItem(getString(R.string.feedback),R.drawable.ic_action_action_stars);
+        mDrawerItems.add(feedback);
+        about=new DrawerItem(getString(R.string.about),R.drawable.ic_action_editor_insert_emoticon);
+        mDrawerItems.add(about);
+        help=new DrawerItem(getString(R.string.help),R.drawable.ic_action_question);
+        mDrawerItems.add(help);
 
     }
 
@@ -167,42 +253,65 @@ public class TaskListActivity extends ActionBarActivity {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
+            DrawerItem item = getItem(position);
             if(convertView==null){
-                convertView= getLayoutInflater().inflate(R.layout.drawer_list_item,null);
+                //check whether it is a title of a item
+                if(item.getType()==DrawerItem.TYPE_TITLE){
+                    convertView=getLayoutInflater().inflate(R.layout.drawer_title,null);
+                }else{
+                    convertView= getLayoutInflater().inflate(R.layout.drawer_list_item,null);
+                }
+            }else{
+                //check again whether it is a title or an item when the review is returned
+                if(item.getType()==DrawerItem.TYPE_TITLE){
+                    convertView=getLayoutInflater().inflate(R.layout.drawer_title,null);
+                }else{
+                    convertView= getLayoutInflater().inflate(R.layout.drawer_list_item,null);
+                }
             }
 
-            TextView text = (TextView)convertView.findViewById(R.id.drawer_item);
-            DrawerItem item = getItem(position);
+
+            if(item.getType()==DrawerItem.TYPE_TITLE){
+                TextView text = (TextView)convertView.findViewById(R.id.drawer_title);
+                if(text!=null) {
+                    text.setText(item.getTitle());
+                }
+            }else{
+                //Set text of drawer item
+                TextView text = (TextView)convertView.findViewById(R.id.drawer_item);
+                if(text!=null){
+                    text.setText(item.getTitle());
+                }
+
+                //Set drawer item image
+                ImageView imageView =(ImageView)convertView.findViewById(R.id.drawer_item_image);
+                if(imageView!=null){
+                    imageView.setImageResource(item.getImage());
+                }
+            }
+
 
             if(position == mPosition){
                 convertView.setBackgroundColor(getResources().getColor(R.color.grey));
             }else{
                 convertView.setBackgroundColor(getResources().getColor(R.color.white));
             }
-             switch (position){
-                 case 2:
-                     text.setTextColor(getResources().getColor(R.color.red));
-                     break;
-                 case 3:
-                     text.setTextColor(getResources().getColor(R.color.orange));
-                     break;
-                 case 4:
-                     text.setTextColor(getResources().getColor(R.color.sunshine_blue));
-                     break;
-                 case 5:
-                     text.setTextColor(getResources().getColor(R.color.green));
-                     break;
-                 default:
-
-             }
-
-            TextView t = (TextView)convertView.findViewById(R.id.drawer_item);
-            t.setText(item.getTitle());
-
-            ImageView imageView =(ImageView)convertView.findViewById(R.id.drawer_item_image);
-            imageView.setImageResource(item.getImage());
 
             return convertView;
+        }
+    }
+
+    //TODO create category loader and load categories
+    public static class CategoryListCursorLoader extends SQLiteCursorLoader {
+
+        public CategoryListCursorLoader(Context context){
+            super (context);
+        }
+
+        @Override
+        protected Cursor loadCursor() {
+            //Query the list of runs
+            return TaskLab.get(getContext()).getCategories();
         }
     }
 

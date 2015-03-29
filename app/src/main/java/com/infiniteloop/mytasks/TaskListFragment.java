@@ -9,9 +9,8 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
-import android.support.v4.app.LoaderManager;
+import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
-import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -22,7 +21,6 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
 import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -37,12 +35,11 @@ import com.infiniteloop.mytasks.data.TaskDataBaseHelper;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 /**
  * Created by theotherside on 07/03/15.
  */
-public class TaskListFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class TaskListFragment extends ListFragment implements LoaderCallbacks<Cursor> {
 
     private static final String TAG= TaskListFragment.class.getSimpleName();
     private static final int CREATE_NEW_TASK=1;

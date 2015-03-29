@@ -20,6 +20,7 @@
         <item>@string/normal_priority</item>
         <item>@string/low_priority</item>
         <item>@string/completed_task</item>
+        <item>@string/add_category</item>
         <item>@string/settings</item>
         <item>@string/feedback</item>
         <item>@string/about</item>
@@ -34,8 +35,10 @@
         <item>@drawable/ic_action_image_looks_3</item>
         <item>@drawable/ic_action_image_looks_4</item>
         <item>@drawable/ic_action_maps_beenhere</item>
+        <item>@drawable/ic_action_content_add</item>
         <item>@drawable/ic_action_action_settings</item>
         <item>@drawable/ic_action_action_stars</item>
         <item>@drawable/ic_action_editor_insert_emoticon</item>
+        <item>@drawable/ic_action_question</item>
     </array>
 </resources>
