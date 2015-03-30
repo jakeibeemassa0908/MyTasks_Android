@@ -31,10 +31,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TaskListActivity extends ActionBarActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+public class TaskListActivity extends ActionBarActivity {
 
     private static final int POSITION_ABOUT=9;
     private static final int POSITION_CREATE_CATEGORY=11;
+    private static final int CAT_INDICATOR=100;
 
     private static final String TAG= TaskListActivity.class.getSimpleName();
     private DrawerLayout mDrawerLayout;
@@ -43,14 +44,12 @@ public class TaskListActivity extends ActionBarActivity implements LoaderManager
     private ArrayList<DrawerItem> mDrawerItems;
 
     private int mPosition;
-    private ArrayList<Category>mCategories= new ArrayList<Category>();
 
     private Map<String,Integer> mDrawerMapping = new HashMap<String, Integer>();
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        getSupportLoaderManager().initLoader(0, null, this);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawer);
@@ -97,21 +96,6 @@ public class TaskListActivity extends ActionBarActivity implements LoaderManager
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public android.support.v4.content.Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        return new CategoryListCursorLoader(this);
-    }
-
-    @Override
-    public void onLoadFinished(android.support.v4.content.Loader<Cursor> cursorLoader, Cursor cursor) {
-
-    }
-
-    @Override
-    public void onLoaderReset(android.support.v4.content.Loader<Cursor> cursorLoader) {
-
-    }
-
     private class DrawerItemClickListenner implements ListView.OnItemClickListener{
 
         @Override
@@ -152,6 +136,7 @@ public class TaskListActivity extends ActionBarActivity implements LoaderManager
         setTitle(getKeyByValue(mDrawerMapping,position));
         mDrawerLayout.closeDrawer(mDrawerList);
 
+        //Create new category from drawer -- No new Fragment needed
         if(position==POSITION_CREATE_CATEGORY){
             AlertDialog.Builder dialog = new AlertDialog.Builder(this);
             dialog.setTitle(getString(R.string.add_category));
@@ -162,7 +147,9 @@ public class TaskListActivity extends ActionBarActivity implements LoaderManager
                 public void onClick(DialogInterface dialog, int which) {
                     String mAddCategory=newCategory.getText().toString();
                     if(!mAddCategory.matches("")){
-                        TaskLab.get(TaskListActivity.this).insertCategory(mAddCategory);
+                        mAddCategory=mAddCategory.trim();
+                        long id=TaskLab.get(TaskListActivity.this).insertCategory(mAddCategory);
+                        refreshDrawerList((int)(id +CAT_INDICATOR));
                     }
 
                 }
@@ -214,11 +201,12 @@ public class TaskListActivity extends ActionBarActivity implements LoaderManager
     }
 
     private void setDrawerItems() {
+        ArrayList<Category> categoriesList= new ArrayList<Category>();
         TaskDataBaseHelper.CategoryCursor categoryCursor = TaskLab.get(this).getCategories();;
         if(categoryCursor!=null){
             categoryCursor.moveToFirst();
             for(int i=0;i<categoryCursor.getCount();i++){
-                mCategories.add(categoryCursor.getCategory());
+                categoriesList.add(categoryCursor.getCategory());
                 categoryCursor.moveToNext();
             }
         }
@@ -267,13 +255,13 @@ public class TaskListActivity extends ActionBarActivity implements LoaderManager
         mDrawerItems.add(categories);
 
         //Categories drawer Items
-        for(int j=0;j<mCategories.size();j++){
-            Category cat =mCategories.get(j);
+        for(int j=0;j<categoriesList.size();j++){
+            Category cat =categoriesList.get(j);
             String title = cat.getCategoryName();
             mDrawerItems.add(new DrawerItem(title,R.drawable.ic_action_action_description));
 
             //set the category mapping to be the id of the category + 100
-            int assignedNumber=(int)cat.getId()+100;
+            int assignedNumber=(int)cat.getId()+CAT_INDICATOR;
             mDrawerMapping.put(title,assignedNumber);
         }
 
@@ -302,6 +290,15 @@ public class TaskListActivity extends ActionBarActivity implements LoaderManager
         mDrawerItems.add(help);
         mDrawerMapping.put(help.getTitle(),10);
 
+    }
+
+    public void refreshDrawerList(int id){
+        mDrawerItems=new ArrayList<DrawerItem>();
+        setDrawerItems();
+        mDrawerList.setAdapter(null);
+        mDrawerList.setAdapter(new DrawerAdapter(mDrawerItems));
+        //show home task list
+        selectItem(id);
     }
 
     private class DrawerAdapter extends ArrayAdapter<DrawerItem>{
@@ -364,19 +361,6 @@ public class TaskListActivity extends ActionBarActivity implements LoaderManager
         }
     }
 
-    //TODO create category loader and load categories
-    public static class CategoryListCursorLoader extends SQLiteCursorLoader {
-
-        public CategoryListCursorLoader(Context context){
-            super (context);
-        }
-
-        @Override
-        protected Cursor loadCursor() {
-            //Query the list of runs
-            return TaskLab.get(getContext()).getCategories();
-        }
-    }
 
     //Get the key from the value
     public static String getKeyByValue(Map<String, Integer> map, int value) {

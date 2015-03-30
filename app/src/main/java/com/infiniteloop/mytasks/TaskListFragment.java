@@ -110,8 +110,8 @@ public class TaskListFragment extends ListFragment implements LoaderCallbacks<Cu
                             taskLab.removeTask(t);
                         }
 
-                        //TODO remove category from db and go to all DB
                         taskLab.deleteCategory(mPosition-100);
+                        ((TaskListActivity)getActivity()).refreshDrawerList(0); //Bad implementation I know, fragment shouldn't explicitly refer to an activity
 
                     }
                 });
