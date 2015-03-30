@@ -12,6 +12,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.ActionBarActivity;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,7 +71,6 @@ public class TaskListActivity extends ActionBarActivity implements LoaderManager
         selectItem(0);
 
     }
-
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
@@ -164,7 +164,7 @@ public class TaskListActivity extends ActionBarActivity implements LoaderManager
                     if(!mAddCategory.matches("")){
                         TaskLab.get(TaskListActivity.this).insertCategory(mAddCategory);
                     }
-                    
+
                 }
             });
             dialog.setNegativeButton(getString(R.string.cancel),new DialogInterface.OnClickListener() {

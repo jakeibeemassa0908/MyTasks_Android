@@ -63,6 +63,13 @@ public class TaskListFragment extends ListFragment implements LoaderCallbacks<Cu
         mTasks=TaskLab.get(getActivity()).getTasks();
         //Initialize the loader to load the list of runs
         getLoaderManager().initLoader(0,null,this);
+
+        //If it is a category, show option menu to delete the category
+        if(mPosition>=100){
+            setHasOptionsMenu(true);
+        }else{
+            setHasOptionsMenu(false);
+        }
     }
 
     @Override
@@ -79,7 +86,45 @@ public class TaskListFragment extends ListFragment implements LoaderCallbacks<Cu
         return rootView;
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.category_menu,menu);
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.delete_cat:
+                AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+                dialog.setTitle(getString(R.string.delete_category_dialog_title));
+                dialog.setMessage(getString(R.string.delete_category_dialog_question));
+                dialog.setPositiveButton(getString(R.string.delete),new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        //Remove all task with corresponding category
+                        TaskCursorAdapter adapter = (TaskCursorAdapter)getListAdapter();
+                        TaskLab taskLab = TaskLab.get(getActivity());
+                        for(int i =0;i<adapter.getCount();i++){
+                            Task t =((TaskDataBaseHelper.TaskCursor)adapter.getItem(i)).getTask();
+                            taskLab.removeTask(t);
+                        }
+
+                        //TODO remove category from db and go to all DB
+
+                    }
+                });
+                dialog.setNegativeButton(R.string.cancel,new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                dialog.show();
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
