@@ -72,8 +72,7 @@ public class TaskLab {
 
     public boolean removeTask(Task task){
         int result =mHelper.deleteTask(task);
-        if(result==-1)return false;
-        return true;
+        return result !=-1;
     }
 
     public void setComplete(Task task){
@@ -94,6 +93,11 @@ public class TaskLab {
     public long insertCategory(String catName){
         return mHelper.insertCategory(catName);
     }
+
+    public boolean deleteCategory(long id){
+        return mHelper.deleteCategory(id)!=-1;
+    }
+
 
     public TaskDataBaseHelper.CategoryCursor getCategories() {
         return (TaskDataBaseHelper.CategoryCursor)mHelper.queryCategories();

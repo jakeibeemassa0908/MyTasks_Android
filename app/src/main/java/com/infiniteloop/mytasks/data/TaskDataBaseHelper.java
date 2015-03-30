@@ -222,6 +222,12 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
         return new CategoryCursor(wrapped);
     }
 
+    public int deleteCategory(long id) {
+        String selection = CategoryEntry._ID + " LIKE ?";
+        String[] selectionArgs= {String.valueOf(id)};
+        return getWritableDatabase().delete(CategoryEntry.TABLE_NAME,selection,selectionArgs);
+    }
+
 
     public static class TaskCursor extends CursorWrapper{
         public TaskCursor(Cursor c){

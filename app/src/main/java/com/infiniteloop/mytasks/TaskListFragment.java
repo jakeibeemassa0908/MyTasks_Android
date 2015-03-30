@@ -111,6 +111,7 @@ public class TaskListFragment extends ListFragment implements LoaderCallbacks<Cu
                         }
 
                         //TODO remove category from db and go to all DB
+                        taskLab.deleteCategory(mPosition-100);
 
                     }
                 });
