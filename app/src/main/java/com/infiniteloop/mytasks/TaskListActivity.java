@@ -34,8 +34,10 @@ import java.util.Map;
 public class TaskListActivity extends ActionBarActivity {
 
     private static final int POSITION_ABOUT=9;
+    private static final int POSITION_FEEDBACK=8;
     private static final int POSITION_CREATE_CATEGORY=11;
     private static final int CAT_INDICATOR=100;
+
 
     private static final String TAG= TaskListActivity.class.getSimpleName();
     private DrawerLayout mDrawerLayout;
@@ -118,6 +120,8 @@ public class TaskListActivity extends ActionBarActivity {
             case POSITION_ABOUT:
                 fragment=new AboutFragment();
                 break;
+            case POSITION_FEEDBACK:
+                fragment = new FeedbackFragment();
             default:
                 Bundle args = new Bundle();
                 args.putInt(TaskListFragment.DRAWER_ITEM_CHOICE,position);
@@ -280,11 +284,11 @@ public class TaskListActivity extends ActionBarActivity {
 
         feedback=new DrawerItem(getString(R.string.feedback),R.drawable.ic_action_action_stars);
         mDrawerItems.add(feedback);
-        mDrawerMapping.put(feedback.getTitle(),8);
+        mDrawerMapping.put(feedback.getTitle(),POSITION_FEEDBACK);
 
         about=new DrawerItem(getString(R.string.about),R.drawable.ic_action_editor_insert_emoticon);
         mDrawerItems.add(about);
-        mDrawerMapping.put(about.getTitle(),9);
+        mDrawerMapping.put(about.getTitle(),POSITION_ABOUT);
 
         help=new DrawerItem(getString(R.string.help),R.drawable.ic_action_question);
         mDrawerItems.add(help);
