@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <CheckBoxPreference
+        android:key="pref_daily_reminder"
+        android:title="@string/daily_remider"
+        android:summary="@string/daily_remider_summary"
+        android:defaultValue="true"/>
+
+    <Preference
+        android:dependency="pref_daily_reminder"
+        android:key="pref_reminder_time"
+        android:title="@string/reminder_time"
+        />
+
+</PreferenceScreen>

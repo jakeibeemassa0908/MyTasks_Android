@@ -278,9 +278,6 @@ public class TaskListActivity extends ActionBarActivity {
         more.setType(DrawerItem.TYPE_TITLE);
         mDrawerItems.add(more);
 
-        settings=new DrawerItem(getString(R.string.settings),R.drawable.ic_action_action_settings);
-        mDrawerItems.add(settings);
-        mDrawerMapping.put(settings.getTitle(),7);
 
         feedback=new DrawerItem(getString(R.string.feedback),R.drawable.ic_action_action_stars);
         mDrawerItems.add(feedback);
@@ -289,6 +286,10 @@ public class TaskListActivity extends ActionBarActivity {
         about=new DrawerItem(getString(R.string.about),R.drawable.ic_action_editor_insert_emoticon);
         mDrawerItems.add(about);
         mDrawerMapping.put(about.getTitle(),POSITION_ABOUT);
+
+        settings=new DrawerItem(getString(R.string.settings),R.drawable.ic_action_action_settings);
+        mDrawerItems.add(settings);
+        mDrawerMapping.put(settings.getTitle(),7);
 
         help=new DrawerItem(getString(R.string.help),R.drawable.ic_action_question);
         mDrawerItems.add(help);

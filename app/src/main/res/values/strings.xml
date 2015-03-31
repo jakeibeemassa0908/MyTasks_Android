@@ -80,6 +80,9 @@
     <string name="submit_feedback">Submit Your feedback</string>
     <string name="rate_us">Rate us on Google Playstore</string>
     <string name="no_email_client">No email client found.</string>
+    <string name="daily_remider">Daily Reminder</string>
+    <string name="daily_remider_summary">Remind me everyday of uncompleted task</string>
+    <string name="reminder_time">Daily Reminder Time</string>
 
 
 </resources>
