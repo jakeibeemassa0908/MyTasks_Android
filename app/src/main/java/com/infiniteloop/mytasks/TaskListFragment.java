@@ -256,6 +256,8 @@ public class TaskListFragment extends ListFragment implements LoaderCallbacks<Cu
                     Toast.makeText(getActivity(),
                     '"'+mTasks.get(+mTasks.size()-1).getTitle()+'"'+ getString(R.string.added),
                     Toast.LENGTH_SHORT).show();
+                    //refresh drawer in case new category was created
+                    ((TaskListActivity)getActivity()).refreshDrawerList(0);
                     //restart loader to get any new task available
                     restartLoader();
                 }

@@ -1,18 +1,14 @@
 package com.infiniteloop.mytasks;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Configuration;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.LoaderManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.ActionBarActivity;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,11 +18,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import com.infiniteloop.mytasks.data.Category;
-import com.infiniteloop.mytasks.data.SQLiteCursorLoader;
 import com.infiniteloop.mytasks.data.TaskDataBaseHelper;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,6 +28,7 @@ public class TaskListActivity extends ActionBarActivity {
 
     private static final int POSITION_ABOUT=9;
     private static final int POSITION_FEEDBACK=8;
+    private static final int POSITION_SETTINGS=7;
     private static final int POSITION_CREATE_CATEGORY=11;
     private static final int CAT_INDICATOR=100;
 
@@ -122,6 +116,11 @@ public class TaskListActivity extends ActionBarActivity {
                 break;
             case POSITION_FEEDBACK:
                 fragment = new FeedbackFragment();
+                break;
+            case POSITION_SETTINGS:
+                //fragment = new SettingFragment();
+                //TODO settings
+                break;
             default:
                 Bundle args = new Bundle();
                 args.putInt(TaskListFragment.DRAWER_ITEM_CHOICE,position);
@@ -289,7 +288,7 @@ public class TaskListActivity extends ActionBarActivity {
 
         settings=new DrawerItem(getString(R.string.settings),R.drawable.ic_action_action_settings);
         mDrawerItems.add(settings);
-        mDrawerMapping.put(settings.getTitle(),7);
+        mDrawerMapping.put(settings.getTitle(),POSITION_SETTINGS);
 
         help=new DrawerItem(getString(R.string.help),R.drawable.ic_action_question);
         mDrawerItems.add(help);
@@ -297,6 +296,10 @@ public class TaskListActivity extends ActionBarActivity {
 
     }
 
+    /**
+     * Refresh the navigation drawer so that new item can appear
+     * @param id the id of the section of the drawer that should display after the refresh
+     */
     public void refreshDrawerList(int id){
         mDrawerItems=new ArrayList<DrawerItem>();
         setDrawerItems();

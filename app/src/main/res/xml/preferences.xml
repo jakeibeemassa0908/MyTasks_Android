@@ -10,7 +10,6 @@
     <Preference
         android:dependency="pref_daily_reminder"
         android:key="pref_reminder_time"
-        android:title="@string/reminder_time"
-        />
+        android:title="@string/reminder_time"/>
 
 </PreferenceScreen>
