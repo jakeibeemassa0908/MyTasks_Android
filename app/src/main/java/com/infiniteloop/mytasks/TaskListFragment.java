@@ -107,7 +107,7 @@ public class TaskListFragment extends ListFragment implements LoaderCallbacks<Cu
                         TaskLab taskLab = TaskLab.get(getActivity());
                         for(int i =0;i<adapter.getCount();i++){
                             Task t =((TaskDataBaseHelper.TaskCursor)adapter.getItem(i)).getTask();
-                            taskLab.removeTask(t);
+                            taskLab.removeTask(getActivity(),t);
                         }
 
                         taskLab.deleteCategory(mPosition-100);
@@ -167,7 +167,7 @@ public class TaskListFragment extends ListFragment implements LoaderCallbacks<Cu
                                     if(getListView().isItemChecked(i)){
                                         TaskDataBaseHelper.TaskCursor cursor = (TaskDataBaseHelper.TaskCursor)adapter.getItem(i);
                                         Task t =cursor.getTask();
-                                        taskLab.removeTask(t);
+                                        taskLab.removeTask(getActivity(),t);
                                     }
 
                                 }
@@ -435,7 +435,7 @@ public class TaskListFragment extends ListFragment implements LoaderCallbacks<Cu
                     deleteDialog.setPositiveButton(getString(R.string.delete),new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            boolean deleted=TaskLab.get(getActivity()).removeTask(task);
+                            boolean deleted=TaskLab.get(getActivity()).removeTask(getActivity(),task);
                             if(deleted){
                                 getLoaderManager().restartLoader(0,null,TaskListFragment.this);
                                 Toast.makeText(getActivity(),'"'+task.getTitle()+'"'+ getString(R.string.deleted),Toast.LENGTH_SHORT).show();

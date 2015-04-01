@@ -43,7 +43,7 @@ public class TaskLab {
 
                 //SetReminder if reminder is set
                 if(t.getReminder()!=-1){
-                    ReminderService.setServiceAlarm(context,t);
+                    ReminderService.activateServiceAlarm(context,t,true);
                 }
 
                 mTasks.add(t);
@@ -70,8 +70,11 @@ public class TaskLab {
         return task;
     }
 
-    public boolean removeTask(Task task){
+    public boolean removeTask(Context context,Task task){
         int result =mHelper.deleteTask(task);
+        if(task.getReminder()!=-1){
+            ReminderService.activateServiceAlarm(context,task,false);
+        }
         return result !=-1;
     }
 

@@ -59,14 +59,20 @@ public class ReminderService extends IntentService {
         notificationManager.notify(0,notification);
     }
 
-    public static void setServiceAlarm(Context context,Task t){
+    public static void activateServiceAlarm(Context context,Task t,boolean activate){
 
-                Intent i =new Intent(context,ReminderService.class);
-                i.putExtra(EXTRA_NOTIF,t);
-                PendingIntent pi = PendingIntent.getService(context,0,i,0);
-                AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-                alarmManager.set(AlarmManager.RTC,
-                        t.getReminder(), pi);
+        Intent i =new Intent(context,ReminderService.class);
+        i.putExtra(EXTRA_NOTIF,t);
+        PendingIntent pi = PendingIntent.getService(context,(int)t.getId(),i,0);
+        AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+                if(activate){
+                    alarmManager.set(AlarmManager.RTC,
+                            t.getReminder(), pi);
+                }else{
+                    alarmManager.cancel(pi);
+                    pi.cancel();
+                }
+
 
     }
 
