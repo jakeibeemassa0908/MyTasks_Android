@@ -217,7 +217,7 @@ public class EditTaskFragment extends Fragment implements LoaderManager.LoaderCa
         mTask.setCategory(getCatId(mCategorySpinner.getSelectedItem().toString()));
         mTask.setReminder(mDateCaptured);
         if(mTask.getReminder()!=-1){
-            ReminderService.setServiceAlarm(getActivity(),mTask);
+            ReminderService.activateServiceAlarm(getActivity(),mTask,true);
         }
     }
 

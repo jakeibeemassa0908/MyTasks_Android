@@ -61,7 +61,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:background="@color/sunshine_blue"
+                android:background="@drawable/button_custom"
                 android:textColor="@color/white"
                 android:text="@string/set_reminder"
                 android:layout_marginRight="10dp"/>

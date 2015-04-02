@@ -39,7 +39,7 @@
         android:padding="5dp"
         android:layout_gravity="center"
 
-        android:background="@color/sunshine_blue"
+        android:background="@drawable/button_custom"
         android:text="@string/submit_feedback"/>
 
     </LinearLayout>
@@ -52,7 +52,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:padding="5dp"
-        android:background="@color/green"
+        android:background="@drawable/button_custom_green"
         android:text="@string/rate_us"/>
 
 
