@@ -18,6 +18,8 @@ public class ReminderService extends IntentService {
 
     public static final String TAG = ReminderService.class.getSimpleName();
     private static final String EXTRA_NOTIF="Notiication";
+    public static final String ACTION_SHOW_NOTIFICATION=
+            "com.infiniteloop.taskr.SHOW_NOTIFICATION";
 
     // Start without a delay
     // Vibrate for 100 milliseconds
@@ -57,6 +59,8 @@ public class ReminderService extends IntentService {
         NotificationManager notificationManager = (NotificationManager)
                 getSystemService(NOTIFICATION_SERVICE);
         notificationManager.notify(0,notification);
+
+        sendBroadcast(new Intent(ACTION_SHOW_NOTIFICATION));
     }
 
     public static void activateServiceAlarm(Context context,Task t,boolean activate){

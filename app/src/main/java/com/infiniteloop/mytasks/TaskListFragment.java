@@ -39,7 +39,7 @@ import java.util.Date;
 /**
  * Created by theotherside on 07/03/15.
  */
-public class TaskListFragment extends ListFragment implements LoaderCallbacks<Cursor> {
+public class TaskListFragment extends VisibleListFragment implements LoaderCallbacks<Cursor> {
 
     private static final String TAG= TaskListFragment.class.getSimpleName();
     private static final int CREATE_NEW_TASK=1;

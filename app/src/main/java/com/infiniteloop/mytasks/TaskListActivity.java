@@ -290,10 +290,6 @@ public class TaskListActivity extends ActionBarActivity {
         mDrawerItems.add(settings);
         mDrawerMapping.put(settings.getTitle(),POSITION_SETTINGS);
 
-        help=new DrawerItem(getString(R.string.help),R.drawable.ic_action_question);
-        mDrawerItems.add(help);
-        mDrawerMapping.put(help.getTitle(),10);
-
     }
 
     /**

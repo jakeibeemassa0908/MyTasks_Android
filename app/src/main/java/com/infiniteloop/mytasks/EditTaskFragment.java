@@ -34,7 +34,7 @@ import java.util.HashMap;
 /**
  * Created by theotherside on 14/03/15.
  */
-public class EditTaskFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class EditTaskFragment extends VisibleFragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private Spinner mPrioritySpinner;
     private Spinner mCategorySpinner;

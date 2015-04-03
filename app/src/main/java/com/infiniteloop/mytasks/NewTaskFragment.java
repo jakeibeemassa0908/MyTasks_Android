@@ -34,7 +34,7 @@ import java.util.GregorianCalendar;
 /**
  * Created by theotherside on 07/03/15.
  */
-public class NewTaskFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class NewTaskFragment extends VisibleFragment implements LoaderManager.LoaderCallbacks<Cursor> {
     public static final String TAG = NewTaskFragment.class.getSimpleName();
 
     private Spinner mPrioritySpinner;
