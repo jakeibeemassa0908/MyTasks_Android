@@ -6,10 +6,4 @@
         android:title="@string/daily_remider"
         android:summary="@string/daily_remider_summary"
         android:defaultValue="true"/>
-
-    <Preference
-        android:dependency="pref_daily_reminder"
-        android:key="pref_reminder_time"
-        android:title="@string/reminder_time"/>
-
 </PreferenceScreen>
