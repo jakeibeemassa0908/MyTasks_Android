@@ -60,11 +60,7 @@ public class ReminderService extends IntentService {
                 .setAutoCancel(true)
                 .build();
 
-        NotificationManager notificationManager = (NotificationManager)
-                getSystemService(NOTIFICATION_SERVICE);
-        notificationManager.notify(0,notification);
-
-        sendBroadcast(new Intent(ACTION_SHOW_NOTIFICATION),PERM_PRIVATE);
+        showBackroundNotification(0,notification);
     }
 
     public static void activateServiceAlarm(Context context,Task t,boolean activate){

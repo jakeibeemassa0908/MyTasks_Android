@@ -53,6 +53,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.infiniteloop.mytasks.TaskListActivity" />
         </activity>
+        <receiver android:name=".NotificationReceiver"
+            android:exported="false">
+            <intent-filter
+                android:priority="-999">
+                <action
+                    android:name="com.infiniteloop.taskr.SHOW_NOTIFICATION"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
