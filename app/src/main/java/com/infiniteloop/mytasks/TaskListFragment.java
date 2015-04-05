@@ -328,9 +328,7 @@ public class TaskListFragment extends VisibleListFragment implements LoaderCallb
 
             view.setVisibility(View.VISIBLE);
             expandedToolbar=view;
-
         }
-
         @Override
         protected void applyTransformation(float interpolatedTime, Transformation t) {
             super.applyTransformation(interpolatedTime, t);
