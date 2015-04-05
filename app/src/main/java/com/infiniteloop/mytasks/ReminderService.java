@@ -1,5 +1,6 @@
 package com.infiniteloop.mytasks;
 
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.IntentService;
 import android.app.Notification;
@@ -20,6 +21,9 @@ public class ReminderService extends IntentService {
     private static final String EXTRA_NOTIF="Notiication";
     public static final String ACTION_SHOW_NOTIFICATION=
             "com.infiniteloop.taskr.SHOW_NOTIFICATION";
+
+    public static final String PERM_PRIVATE="" +
+            "com.infiniteloop.mytasks.PRIVATE";
 
     // Start without a delay
     // Vibrate for 100 milliseconds
@@ -60,7 +64,7 @@ public class ReminderService extends IntentService {
                 getSystemService(NOTIFICATION_SERVICE);
         notificationManager.notify(0,notification);
 
-        sendBroadcast(new Intent(ACTION_SHOW_NOTIFICATION));
+        sendBroadcast(new Intent(ACTION_SHOW_NOTIFICATION),PERM_PRIVATE);
     }
 
     public static void activateServiceAlarm(Context context,Task t,boolean activate){
@@ -76,8 +80,14 @@ public class ReminderService extends IntentService {
                     alarmManager.cancel(pi);
                     pi.cancel();
                 }
+    }
 
+    void showBackroundNotification(int requestCode,Notification notification){
+        Intent i = new Intent(ACTION_SHOW_NOTIFICATION);
+        i.putExtra("REQUEST_CODE",requestCode);
+        i.putExtra("NOTIFICATION",notification);
 
+        sendOrderedBroadcast(i,PERM_PRIVATE,null,null, Activity.RESULT_OK,null,null);
     }
 
 }

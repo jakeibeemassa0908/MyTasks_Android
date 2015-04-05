@@ -2,7 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.infiniteloop.mytasks" >
 
+    <permission android:name="com.infiniteloop.mytasks.PRIVATE"
+        android:protectionLevel="signature"/>
+
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="com.infiniteloop.mytasks.PRIVATE"/>
 
     <application
         android:allowBackup="true"

@@ -1,10 +1,10 @@
 package com.infiniteloop.mytasks;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
 import android.widget.Toast;
 
@@ -17,7 +17,8 @@ public class VisibleListFragment extends ListFragment {
     public BroadcastReceiver mOnShowNotification  = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Toast.makeText(getActivity(),"Got a broadcast",Toast.LENGTH_LONG).show();
+            //if we receive this, we're visible so cancel the notification
+            setResultCode(Activity.RESULT_CANCELED);
         }
     };
 
@@ -25,7 +26,7 @@ public class VisibleListFragment extends ListFragment {
     public void onResume() {
         super.onResume();
         IntentFilter filter = new IntentFilter(ReminderService.ACTION_SHOW_NOTIFICATION);
-        getActivity().registerReceiver(mOnShowNotification,filter);
+        getActivity().registerReceiver(mOnShowNotification,filter,ReminderService.PERM_PRIVATE,null);
 
     }
 
