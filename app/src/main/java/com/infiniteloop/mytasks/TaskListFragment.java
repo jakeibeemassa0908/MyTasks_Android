@@ -377,7 +377,10 @@ public class TaskListFragment extends VisibleListFragment implements LoaderCallb
             titleTextView = (TextView)convertView.findViewById(R.id.task_item_title_textview);
             titleTextView.setText(task.getTitle());
             categoryTextView = (TextView)convertView.findViewById(R.id.task_item_category_textview);
-            categoryTextView.setText(TaskLab.get(getActivity()).queryCatName(task.getCategory()));
+            String category=TaskLab.get(getActivity()).queryCatName(task.getCategory());
+            if(category!=null){
+                categoryTextView.setText(TaskLab.get(getActivity()).queryCatName(task.getCategory()));
+            }
             reminder = (TextView)convertView.findViewById(R.id.task_item_reminder);
 
             //if there is a reminder set for the given task

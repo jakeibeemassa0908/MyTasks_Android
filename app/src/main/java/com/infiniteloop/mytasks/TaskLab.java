@@ -1,6 +1,8 @@
 package com.infiniteloop.mytasks;
 
 import android.content.Context;
+
+import com.infiniteloop.mytasks.data.Category;
 import com.infiniteloop.mytasks.data.TaskDataBaseHelper;
 
 import java.util.ArrayList;
@@ -90,7 +92,11 @@ public class TaskLab {
     }
 
     public String queryCatName(long id){
-        return mHelper.queryCategoryName(id).getCategoryName();
+        Category cat = mHelper.queryCategoryName(id);
+        if(cat!=null)
+            return cat.getCategoryName();
+        else
+            return null;
     }
 
     public long insertCategory(String catName){
