@@ -1,9 +1,9 @@
-package com.infiniteloop.mytasks.data;
+package com.infiniteloop.mytasks.loaders;
 
 import android.content.Context;
 
-import com.infiniteloop.mytasks.Task;
-import com.infiniteloop.mytasks.TaskLab;
+import com.infiniteloop.mytasks.data.Task;
+import com.infiniteloop.mytasks.data.TaskLab;
 
 /**
  * Created by theotherside on 14/03/15.

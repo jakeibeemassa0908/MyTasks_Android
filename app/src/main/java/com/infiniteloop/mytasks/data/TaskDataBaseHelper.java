@@ -6,9 +6,7 @@ import android.database.Cursor;
 import android.database.CursorWrapper;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
-import com.infiniteloop.mytasks.Task;
 import com.infiniteloop.mytasks.data.TaskContract.TaskEntry;
 import com.infiniteloop.mytasks.data.TaskContract.CategoryEntry;
 

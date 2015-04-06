@@ -1,16 +1,19 @@
-package com.infiniteloop.mytasks;
+package com.infiniteloop.mytasks.services;
 
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.IntentService;
 import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
+
+import com.infiniteloop.mytasks.R;
+import com.infiniteloop.mytasks.activities.TaskListActivity;
+import com.infiniteloop.mytasks.data.Task;
 
 /**
  * Created by theotherside on 23/03/15.

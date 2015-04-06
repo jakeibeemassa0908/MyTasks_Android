@@ -1,4 +1,4 @@
-package com.infiniteloop.mytasks;
+package com.infiniteloop.mytasks.data;
 
 import android.os.Parcel;
 import android.os.Parcelable;

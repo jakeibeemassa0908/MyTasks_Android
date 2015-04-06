@@ -1,4 +1,4 @@
-package com.infiniteloop.mytasks.data;
+package com.infiniteloop.mytasks.loaders;
 
 import android.content.Context;
 import android.database.Cursor;

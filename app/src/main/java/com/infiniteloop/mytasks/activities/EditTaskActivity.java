@@ -1,8 +1,12 @@
-package com.infiniteloop.mytasks;
+package com.infiniteloop.mytasks.activities;
 
 
 import android.support.v4.app.Fragment;
 import android.view.Menu;
+
+import com.infiniteloop.mytasks.fragments.EditTaskFragment;
+import com.infiniteloop.mytasks.R;
+import com.infiniteloop.mytasks.data.Task;
 
 /**
  * Created by theotherside on 14/03/15.

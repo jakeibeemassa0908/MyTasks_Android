@@ -1,7 +1,5 @@
-package com.infiniteloop.mytasks;
+package com.infiniteloop.mytasks.fragments;
 
-import android.app.AlertDialog;
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.infiniteloop.mytasks.R;
 
 /**
  * Created by theotherside on 30/03/15.

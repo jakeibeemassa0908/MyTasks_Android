@@ -1,9 +1,9 @@
-package com.infiniteloop.mytasks;
+package com.infiniteloop.mytasks.data;
 
 import android.content.Context;
 
-import com.infiniteloop.mytasks.data.Category;
-import com.infiniteloop.mytasks.data.TaskDataBaseHelper;
+import com.infiniteloop.mytasks.Helpers;
+import com.infiniteloop.mytasks.services.ReminderService;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -36,7 +36,7 @@ public class TaskLab {
     }
 
     public boolean  createTask(Context context,String title,String priority_s,String category_s,Date reminderDate){
-            int priority=Helpers.getPriority(context,priority_s);
+            int priority= Helpers.getPriority(context, priority_s);
             if(priority!=-1){
                 long category=mHelper.insertCategory(category_s);
                 Task t = new Task(title,priority,category);
@@ -45,7 +45,7 @@ public class TaskLab {
 
                 //SetReminder if reminder is set
                 if(t.getReminder()!=-1){
-                    ReminderService.activateServiceAlarm(context,t,true);
+                    ReminderService.activateServiceAlarm(context, t, true);
                 }
 
                 mTasks.add(t);

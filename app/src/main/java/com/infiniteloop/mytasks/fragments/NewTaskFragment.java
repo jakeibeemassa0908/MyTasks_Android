@@ -1,13 +1,11 @@
-package com.infiniteloop.mytasks;
+package com.infiniteloop.mytasks.fragments;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.util.Log;
@@ -21,7 +19,10 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.infiniteloop.mytasks.data.SQLiteCursorLoader;
+import com.infiniteloop.mytasks.loaders.CursorLoader;
+import com.infiniteloop.mytasks.Helpers;
+import com.infiniteloop.mytasks.R;
+import com.infiniteloop.mytasks.data.TaskLab;
 import com.infiniteloop.mytasks.data.TaskDataBaseHelper;
 
 import java.text.DateFormat;
@@ -62,7 +63,7 @@ public class NewTaskFragment extends VisibleFragment implements LoaderManager.Lo
 
         mPrioritySpinner = (Spinner)rootView.findViewById(R.id.task_priority_spinner);
         ArrayList<String> priorities = new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.task_priority_array)));
-        mPrioritySpinner.setAdapter(Helpers.getSpinnerAdapter(getActivity(),priorities));
+        mPrioritySpinner.setAdapter(Helpers.getSpinnerAdapter(getActivity(), priorities));
 
         mCategorySpinner=(Spinner)rootView.findViewById(R.id.task_category_spinner);
 
@@ -140,7 +141,7 @@ public class NewTaskFragment extends VisibleFragment implements LoaderManager.Lo
                 category=category.trim();
                 String priority=mPrioritySpinner.getSelectedItem().toString();
                 if(!title.matches("")){
-                    boolean isCreated=TaskLab.get(getActivity()).createTask(getActivity(),title,priority,category,mDateCaptured);
+                    boolean isCreated= TaskLab.get(getActivity()).createTask(getActivity(),title,priority,category,mDateCaptured);
                     if(isCreated){
                         Intent resultIntent = new Intent();
                         getActivity().setResult(Activity.RESULT_OK,resultIntent);

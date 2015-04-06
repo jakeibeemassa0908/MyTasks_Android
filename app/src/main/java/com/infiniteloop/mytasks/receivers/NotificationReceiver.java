@@ -1,4 +1,4 @@
-package com.infiniteloop.mytasks;
+package com.infiniteloop.mytasks.receivers;
 
 import android.app.Activity;
 import android.app.Notification;

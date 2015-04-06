@@ -1,9 +1,9 @@
-package com.infiniteloop.mytasks;
+package com.infiniteloop.mytasks.loaders;
 
 import android.content.Context;
 import android.database.Cursor;
 
-import com.infiniteloop.mytasks.data.SQLiteCursorLoader;
+import com.infiniteloop.mytasks.data.TaskLab;
 
 /**
  * Created by theotherside on 17/03/15.

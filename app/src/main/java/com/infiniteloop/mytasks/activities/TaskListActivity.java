@@ -1,4 +1,4 @@
-package com.infiniteloop.mytasks;
+package com.infiniteloop.mytasks.activities;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -19,6 +19,14 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.infiniteloop.mytasks.fragments.AboutFragment;
+import com.infiniteloop.mytasks.DrawerItem;
+import com.infiniteloop.mytasks.fragments.FeedbackFragment;
+import com.infiniteloop.mytasks.R;
+import com.infiniteloop.mytasks.data.Task;
+import com.infiniteloop.mytasks.data.TaskLab;
+import com.infiniteloop.mytasks.fragments.TaskListFragment;
 import com.infiniteloop.mytasks.data.Category;
 import com.infiniteloop.mytasks.data.TaskDataBaseHelper;
 import java.util.ArrayList;
@@ -151,7 +159,7 @@ public class TaskListActivity extends ActionBarActivity {
                     String mAddCategory=newCategory.getText().toString();
                     if(!mAddCategory.matches("")){
                         mAddCategory=mAddCategory.trim();
-                        long id=TaskLab.get(TaskListActivity.this).insertCategory(mAddCategory);
+                        long id= TaskLab.get(TaskListActivity.this).insertCategory(mAddCategory);
                         refreshDrawerList((int)(id +CAT_INDICATOR));
                     }
 

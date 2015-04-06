@@ -1,4 +1,4 @@
-package com.infiniteloop.mytasks;
+package com.infiniteloop.mytasks.fragments;
 
 
 import android.app.Activity;
@@ -8,7 +8,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
 import android.view.ActionMode;
@@ -29,7 +28,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.infiniteloop.mytasks.data.SQLiteCursorLoader;
+import com.infiniteloop.mytasks.R;
+import com.infiniteloop.mytasks.data.Task;
+import com.infiniteloop.mytasks.data.TaskLab;
+import com.infiniteloop.mytasks.activities.EditTaskActivity;
+import com.infiniteloop.mytasks.activities.NewTaskActivity;
+import com.infiniteloop.mytasks.activities.TaskListActivity;
+import com.infiniteloop.mytasks.loaders.SQLiteCursorLoader;
 import com.infiniteloop.mytasks.data.TaskDataBaseHelper;
 
 import java.text.DateFormat;
@@ -60,7 +65,7 @@ public class TaskListFragment extends VisibleListFragment implements LoaderCallb
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mPosition = getArguments().getInt(DRAWER_ITEM_CHOICE);
-        mTasks=TaskLab.get(getActivity()).getTasks();
+        mTasks= TaskLab.get(getActivity()).getTasks();
         //Initialize the loader to load the list of runs
         getLoaderManager().initLoader(0,null,this);
 

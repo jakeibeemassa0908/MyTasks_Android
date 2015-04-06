@@ -1,4 +1,4 @@
-package com.infiniteloop.mytasks;
+package com.infiniteloop.mytasks.fragments;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -12,6 +12,8 @@ import android.support.v4.app.FragmentManager;
 import android.text.format.DateFormat;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
+
+import com.infiniteloop.mytasks.Helpers;
 
 import java.util.Calendar;
 import java.util.Date;

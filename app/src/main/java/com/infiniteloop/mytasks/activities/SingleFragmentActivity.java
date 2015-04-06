@@ -1,9 +1,11 @@
-package com.infiniteloop.mytasks;
+package com.infiniteloop.mytasks.activities;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
+
+import com.infiniteloop.mytasks.R;
 
 /**
  * Created by Jake Ibee Massa on 07/03/15.

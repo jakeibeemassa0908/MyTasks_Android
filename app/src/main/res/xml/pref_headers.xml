@@ -3,15 +3,15 @@
     <!-- These settings headers are only used on tablets. -->
 
     <header
-        android:fragment="com.infiniteloop.mytasks.SettingsActivity$GeneralPreferenceFragment"
+        android:fragment="com.infiniteloop.mytasks.activities.SettingsActivity$GeneralPreferenceFragment"
         android:title="@string/pref_header_general" />
 
     <header
-        android:fragment="com.infiniteloop.mytasks.SettingsActivity$NotificationPreferenceFragment"
+        android:fragment="com.infiniteloop.mytasks.activities.SettingsActivity$NotificationPreferenceFragment"
         android:title="@string/pref_header_notifications" />
 
     <header
-        android:fragment="com.infiniteloop.mytasks.SettingsActivity$DataSyncPreferenceFragment"
+        android:fragment="com.infiniteloop.mytasks.activities.SettingsActivity$DataSyncPreferenceFragment"
         android:title="@string/pref_header_data_sync" />
 
 </preference-headers>

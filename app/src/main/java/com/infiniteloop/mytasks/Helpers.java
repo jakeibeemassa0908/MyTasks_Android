@@ -3,6 +3,8 @@ package com.infiniteloop.mytasks;
 import android.content.Context;
 import android.widget.ArrayAdapter;
 
+import com.infiniteloop.mytasks.data.Task;
+
 import java.util.ArrayList;
 
 /**
