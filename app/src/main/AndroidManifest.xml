@@ -2,11 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.infiniteloop.mytasks" >
 
-    <permission android:name="com.infiniteloop.mytasks.PRIVATE"
-        android:protectionLevel="signature"/>
+    <permission
+        android:name="com.infiniteloop.mytasks.PRIVATE"
+        android:protectionLevel="signature" />
 
     <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="com.infiniteloop.mytasks.PRIVATE"/>
+    <uses-permission android:name="com.infiniteloop.mytasks.PRIVATE" />
 
     <application
         android:allowBackup="true"
@@ -47,20 +48,21 @@
         <activity
             android:name=".activities.SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:theme="@style/SettingsTheme"
-            android:parentActivityName=".activities.TaskListActivity" >
+            android:parentActivityName=".activities.TaskListActivity"
+            android:theme="@style/SettingsTheme" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.infiniteloop.mytasks.TaskListActivity" />
         </activity>
-        <receiver android:name=".receivers.NotificationReceiver"
-            android:exported="false">
-            <intent-filter
-                android:priority="-999">
-                <action
-                    android:name="com.infiniteloop.taskr.SHOW_NOTIFICATION"/>
+
+        <receiver
+            android:name=".receivers.NotificationReceiver"
+            android:exported="false" >
+            <intent-filter android:priority="-999" >
+                <action android:name="com.infiniteloop.taskr.SHOW_NOTIFICATION" />
             </intent-filter>
         </receiver>
+
     </application>
 
 </manifest>
