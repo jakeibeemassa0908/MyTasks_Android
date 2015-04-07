@@ -12,8 +12,11 @@ import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 
 import com.infiniteloop.mytasks.R;
+import com.infiniteloop.mytasks.activities.AlarmActivity;
 import com.infiniteloop.mytasks.activities.TaskListActivity;
 import com.infiniteloop.mytasks.data.Task;
+
+import java.util.Random;
 
 /**
  * Created by theotherside on 23/03/15.
@@ -21,12 +24,14 @@ import com.infiniteloop.mytasks.data.Task;
 public class ReminderService extends IntentService {
 
     public static final String TAG = ReminderService.class.getSimpleName();
-    private static final String EXTRA_NOTIF="Notiication";
+    public static final String EXTRA_NOTIF="Notiication";
     public static final String ACTION_SHOW_NOTIFICATION=
             "com.infiniteloop.taskr.SHOW_NOTIFICATION";
 
     public static final String PERM_PRIVATE="" +
             "com.infiniteloop.mytasks.PRIVATE";
+
+    public static final String EXTRA_ALARM_TASK="AlarmTask";
 
     // Start without a delay
     // Vibrate for 100 milliseconds
@@ -40,10 +45,17 @@ public class ReminderService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        PendingIntent pi = PendingIntent
-                .getActivity(this, 0, new Intent(this, TaskListActivity.class), 0);
-
         Task task = intent.getParcelableExtra(EXTRA_NOTIF);
+
+        Intent notificationIntent = new Intent(this,AlarmActivity.class);
+        notificationIntent.putExtra(EXTRA_ALARM_TASK,task);
+        notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+
+        PendingIntent pi = PendingIntent
+                .getActivity(this, new Random().nextInt(), notificationIntent, 0);
+
+
 
         String title = task.getTitle();
 
@@ -63,7 +75,8 @@ public class ReminderService extends IntentService {
                 .setAutoCancel(true)
                 .build();
 
-        showBackroundNotification(0,notification);
+
+        showBackroundNotification(0,notification,task);
     }
 
     public static void activateServiceAlarm(Context context,Task t,boolean activate){
@@ -81,10 +94,11 @@ public class ReminderService extends IntentService {
                 }
     }
 
-    void showBackroundNotification(int requestCode,Notification notification){
+    void showBackroundNotification(int requestCode,Notification notification,Task t){
         Intent i = new Intent(ACTION_SHOW_NOTIFICATION);
         i.putExtra("REQUEST_CODE",requestCode);
         i.putExtra("NOTIFICATION",notification);
+        i.putExtra("TASK",t);
 
         sendOrderedBroadcast(i,PERM_PRIVATE,null,null, Activity.RESULT_OK,null,null);
     }
