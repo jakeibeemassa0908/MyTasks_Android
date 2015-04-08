@@ -71,8 +71,6 @@
     <string name="daily_remider">Daily Reminder Notification</string>
     <string name="daily_remider_summary">Remind me everyday of uncompleted task</string>
     <string name="reminder_time">Daily Reminder Time</string>
-    <string name="title_activity_fullscreen">FullscreenActivity</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="title_activity_settings">Settings</string>
 
 </resources>

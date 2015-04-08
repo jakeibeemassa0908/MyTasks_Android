@@ -71,5 +71,6 @@
     <string name="daily_remider">Notification quotidienne</string>
     <string name="daily_remider_summary">Me rappeler chaque jours de taches imcomplete</string>
     <string name="reminder_time">Temps de rapel</string>
+    <string name="title_activity_settings">Configurations</string>
 
 </resources>
