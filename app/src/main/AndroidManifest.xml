@@ -34,7 +34,7 @@
                 android:value="com.infiniteloop.mytasks.TaskListActivity" />
         </activity>
         <activity
-            android:name=".activities.EditTaskActivity"
+            android:name=".activities.DetailTaskActivity"
             android:label="@string/task_details"
             android:parentActivityName=".activities.TaskListActivity"
             android:screenOrientation="portrait" >

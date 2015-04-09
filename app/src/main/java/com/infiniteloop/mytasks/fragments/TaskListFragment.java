@@ -29,9 +29,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.infiniteloop.mytasks.R;
+import com.infiniteloop.mytasks.activities.DetailTaskActivity;
 import com.infiniteloop.mytasks.data.Task;
 import com.infiniteloop.mytasks.data.TaskLab;
-import com.infiniteloop.mytasks.activities.EditTaskActivity;
 import com.infiniteloop.mytasks.activities.NewTaskActivity;
 import com.infiniteloop.mytasks.activities.TaskListActivity;
 import com.infiniteloop.mytasks.loaders.SQLiteCursorLoader;
@@ -398,7 +398,7 @@ public class TaskListFragment extends VisibleListFragment implements LoaderCallb
             mEdit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(getActivity(),EditTaskActivity.class);
+                    Intent intent = new Intent(getActivity(),DetailTaskActivity.class);
                     intent.putExtra(EditTaskFragment.EXTRA_TASK,task);
                     startActivityForResult(intent,EDIT_TASK);
                 }
