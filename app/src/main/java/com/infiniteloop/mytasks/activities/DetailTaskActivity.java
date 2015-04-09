@@ -11,7 +11,7 @@ import com.infiniteloop.mytasks.data.Task;
 /**
  * Created by theotherside on 14/03/15.
  */
-public class EditTaskActivity extends SingleFragmentActivity {
+public class DetailTaskActivity extends SingleFragmentActivity {
 
 
 
