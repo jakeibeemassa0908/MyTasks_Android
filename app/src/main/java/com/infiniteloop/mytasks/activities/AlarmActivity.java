@@ -15,6 +15,7 @@ import com.infiniteloop.mytasks.services.ReminderService;
 /**
  * Created by theotherside on 07/04/15.
  */
+
 public class AlarmActivity extends ActionBarActivity {
 
     private static final String TAG = AlarmActivity.class.getSimpleName();
@@ -32,7 +33,6 @@ public class AlarmActivity extends ActionBarActivity {
 
     @Override
     protected void onNewIntent(Intent intent) {
-
         Bundle extras = intent.getExtras();
         Log.d(TAG,extras.toString());
         if(extras!=null)

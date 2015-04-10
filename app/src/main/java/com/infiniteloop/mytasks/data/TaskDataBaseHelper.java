@@ -27,6 +27,10 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
         super(context,DATABASE_NAME,null,DATABASE_VERSION);
     }
 
+    /**
+     * Create a new Database function
+     * @param db
+     */
     @Override
     public void onCreate(SQLiteDatabase db) {
         final String SQL_CREATE_TASK_TABLE="CREATE TABLE "+ TaskEntry.TABLE_NAME + " ("+
@@ -54,10 +58,21 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
 
     }
 
+    /**
+     * Upgrade database
+     * @param db
+     * @param oldVersion
+     * @param newVersion
+     */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
     }
 
+    /**
+     * Insert new Task
+     * @param task
+     * @return
+     */
     public long insertTask(Task task){
         ContentValues cv = new ContentValues();
         cv.put(TaskEntry.COLUMN_TASK_TITLE,task.getTitle());
@@ -69,6 +84,11 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
         return getWritableDatabase().insert(TaskEntry.TABLE_NAME,null,cv);
     }
 
+    /**
+     * Insert new Category
+     * @param category
+     * @return
+     */
     public long insertCategory(String category) {
         Category storedCat =queryCategoryName(category);
         if (storedCat!=null){
@@ -81,6 +101,11 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
         return getWritableDatabase().insert(CategoryEntry.TABLE_NAME,null,cv);
     }
 
+    /**
+     * Get category from name
+     * @param category
+     * @return
+     */
     private Category queryCategoryName(String category) {
         String selection =CategoryEntry.COLUMN_NAME + " LIKE ?";
         String [] selectionArgs={String.valueOf(category)};
@@ -96,6 +121,11 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
         return new CategoryCursor(wrapped).getCategory();
     }
 
+    /**
+     * Query category from id
+     * @param id
+     * @return
+     */
     public Category queryCategoryName(long id) {
         String selection =CategoryEntry._ID + " = ?";
         String [] selectionArgs={String.valueOf(id)};
@@ -111,6 +141,11 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
         return new CategoryCursor(wrapped).getCategory();
     }
 
+    /**
+     * Delete task
+     * @param task
+     * @return
+     */
     public int deleteTask(Task task){
         long id = task.getId();
         if(id==-1) return -1;

@@ -55,7 +55,6 @@ public class TaskListActivity extends ActionBarActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawer);
 
@@ -102,7 +101,6 @@ public class TaskListActivity extends ActionBarActivity {
     }
 
     private class DrawerItemClickListenner implements ListView.OnItemClickListener{
-
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             //if view is a title, dont set listenner
@@ -116,8 +114,11 @@ public class TaskListActivity extends ActionBarActivity {
         }
     }
 
+    /**
+     * Function called when item in the Navigation Drawer are called
+     * @param position
+     */
     private void selectItem(int position){
-
         Fragment fragment = new TaskListFragment();;
         switch (position){
             case POSITION_ABOUT:
@@ -211,6 +212,10 @@ public class TaskListActivity extends ActionBarActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
     }
 
+
+    /**
+     * Populate Navigation Drawer items
+     */
     private void setDrawerItems() {
         ArrayList<Category> categoriesList= new ArrayList<Category>();
         TaskDataBaseHelper.CategoryCursor categoryCursor = TaskLab.get(this).getCategories();;

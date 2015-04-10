@@ -8,6 +8,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
 import android.view.ActionMode;
@@ -99,34 +101,11 @@ public class TaskListFragment extends VisibleListFragment implements LoaderCallb
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case R.id.delete_cat:
-                AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
-                dialog.setTitle(getString(R.string.delete_category_dialog_title));
-                dialog.setMessage(getString(R.string.delete_category_dialog_question));
-                dialog.setPositiveButton(getString(R.string.delete),new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        //Remove all task with corresponding category
-                        TaskCursorAdapter adapter = (TaskCursorAdapter)getListAdapter();
-                        TaskLab taskLab = TaskLab.get(getActivity());
-                        for(int i =0;i<adapter.getCount();i++){
-                            Task t =((TaskDataBaseHelper.TaskCursor)adapter.getItem(i)).getTask();
-                            taskLab.removeTask(getActivity(),t);
-                        }
-
-                        taskLab.deleteCategory(mPosition-100);
-                        ((TaskListActivity)getActivity()).refreshDrawerList(0); //Bad implementation I know, fragment shouldn't explicitly refer to an activity
-
-                    }
-                });
-                dialog.setNegativeButton(R.string.cancel,new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                });
-                dialog.show();
+            case R.id.edit_cat:
+                FragmentManager fm =getActivity().getSupportFragmentManager();
+                Fragment fragmentEditCat = EditCategoryFragment.newInstance(mPosition);
+                fm.beginTransaction().replace(R.id.container,fragmentEditCat).commit();
+                break;
 
         }
         return super.onOptionsItemSelected(item);
@@ -382,9 +361,9 @@ public class TaskListFragment extends VisibleListFragment implements LoaderCallb
             titleTextView = (TextView)convertView.findViewById(R.id.task_item_title_textview);
             titleTextView.setText(task.getTitle());
             categoryTextView = (TextView)convertView.findViewById(R.id.task_item_category_textview);
-            String category=TaskLab.get(getActivity()).queryCatName(task.getCategory());
+            String category=TaskLab.get(getActivity()).queryCategory(task.getCategory()).getCategoryName();
             if(category!=null){
-                categoryTextView.setText(TaskLab.get(getActivity()).queryCatName(task.getCategory()));
+                categoryTextView.setText(TaskLab.get(getActivity()).queryCategory(task.getCategory()).getCategoryName());
             }
             reminder = (TextView)convertView.findViewById(R.id.task_item_reminder);
 

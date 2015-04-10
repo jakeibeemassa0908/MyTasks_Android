@@ -91,10 +91,10 @@ public class TaskLab {
         return false;
     }
 
-    public String queryCatName(long id){
+    public Category queryCategory(long id){
         Category cat = mHelper.queryCategoryName(id);
         if(cat!=null)
-            return cat.getCategoryName();
+            return cat;
         else
             return null;
     }
