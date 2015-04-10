@@ -1,19 +1,20 @@
 package com.infiniteloop.mytasks.fragments;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.infiniteloop.mytasks.R;
 import com.infiniteloop.mytasks.activities.TaskListActivity;
-import com.infiniteloop.mytasks.data.Category;
-import com.infiniteloop.mytasks.data.TaskDataBaseHelper;
 import com.infiniteloop.mytasks.data.TaskLab;
 
 /**
@@ -44,13 +45,50 @@ public class EditCategoryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.edit_category,container,false);
 
+        //Get category name
+        final String catName =mTaskLab.queryCategory(mCatId).getCategoryName();
+        getActivity().setTitle(catName);
 
-        TextView catName = (TextView)rootView.findViewById(R.id.cat_name);
-        Category cat=mTaskLab.queryCategory(mCatId);
-        catName.setText(cat.getCategoryName());
+        final TextView catNameTextView = (TextView)rootView.findViewById(R.id.cat_name);
+        catNameTextView.setText(catName);
 
-        TextView deleteCat = (TextView)rootView.findViewById(R.id.delete_cat);
-        deleteCat.setText("Delete "+ cat.getCategoryName());
+        final TextView deleteCat = (TextView)rootView.findViewById(R.id.delete_cat);
+        deleteCat.setText("Delete "+ catName);
+
+        View catNameView = rootView.findViewById(R.id.set_cat_name);
+        catNameView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+                dialog.setTitle(getString(R.string.name));
+                final EditText catNameText = new EditText(getActivity());
+                catNameText.setText(catName);
+                catNameText.setSelection(catNameText.getText().length());
+                dialog.setView(catNameText);
+                dialog.setPositiveButton(getString(R.string.edit),new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String newCatName = catNameText.getText().toString();
+                        //Save if not null
+                        if(!newCatName.matches("")){
+                            mTaskLab.editCat(mCatId,newCatName);
+                            //update the Edit category fragment with new data.
+                            catNameTextView.setText(newCatName);
+                            deleteCat.setText(String.format(getResources().getString(R.string.delete_str),newCatName));
+                            getActivity().setTitle(newCatName);
+                        }
+                    }
+                });
+                dialog.setNegativeButton(getString(R.string.cancel),new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                dialog.show();
+            }
+        });
+
 
         View deleteView = rootView.findViewById(R.id.delete_cat_layout);
         deleteView.setOnClickListener(new View.OnClickListener() {
@@ -63,7 +101,8 @@ public class EditCategoryFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         mTaskLab.deleteCategory(mCatId);
-                        ((TaskListActivity)getActivity()).refreshDrawerList(0); //Bad implementation I know, fragment shouldn't explicitly refer to an activity
+                        getActivity().setResult(Activity.RESULT_CANCELED);
+                        getActivity().finish();
                     }
                 });
                 dialog.setNegativeButton(R.string.cancel,new DialogInterface.OnClickListener() {

@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
+import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -32,6 +33,8 @@ import android.widget.Toast;
 
 import com.infiniteloop.mytasks.R;
 import com.infiniteloop.mytasks.activities.DetailTaskActivity;
+import com.infiniteloop.mytasks.activities.EditCategoryActivity;
+import com.infiniteloop.mytasks.data.Category;
 import com.infiniteloop.mytasks.data.Task;
 import com.infiniteloop.mytasks.data.TaskLab;
 import com.infiniteloop.mytasks.activities.NewTaskActivity;
@@ -48,6 +51,8 @@ import java.util.Date;
  */
 public class TaskListFragment extends VisibleListFragment implements LoaderCallbacks<Cursor> {
 
+    public static final String EXTRA_POSITION="cat_position";
+
     private static final String TAG= TaskListFragment.class.getSimpleName();
     private static final int CREATE_NEW_TASK=1;
     private static final int EDIT_TASK=2;
@@ -56,6 +61,8 @@ public class TaskListFragment extends VisibleListFragment implements LoaderCallb
     private  View rootView;
     private View expandedToolbar;
     private ImageButton mDelete,mStart,mEdit,mComplete;
+
+    public static final int DELETE_CAT_REQUEST=5;
     ListView mListView;
     TextView titleTextView,categoryTextView,reminder,dateTextView;
 
@@ -102,9 +109,9 @@ public class TaskListFragment extends VisibleListFragment implements LoaderCallb
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.edit_cat:
-                FragmentManager fm =getActivity().getSupportFragmentManager();
-                Fragment fragmentEditCat = EditCategoryFragment.newInstance(mPosition);
-                fm.beginTransaction().replace(R.id.container,fragmentEditCat).commit();
+                Intent intent = new Intent(getActivity(),EditCategoryActivity.class);
+                intent.putExtra(EXTRA_POSITION,mPosition);
+                getActivity().startActivityForResult(intent,DELETE_CAT_REQUEST);
                 break;
 
         }
@@ -361,7 +368,7 @@ public class TaskListFragment extends VisibleListFragment implements LoaderCallb
             titleTextView = (TextView)convertView.findViewById(R.id.task_item_title_textview);
             titleTextView.setText(task.getTitle());
             categoryTextView = (TextView)convertView.findViewById(R.id.task_item_category_textview);
-            String category=TaskLab.get(getActivity()).queryCategory(task.getCategory()).getCategoryName();
+            Category category=TaskLab.get(getActivity()).queryCategory(task.getCategory());
             if(category!=null){
                 categoryTextView.setText(TaskLab.get(getActivity()).queryCategory(task.getCategory()).getCategoryName());
             }

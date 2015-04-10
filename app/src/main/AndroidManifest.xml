@@ -49,6 +49,7 @@
             android:name=".activities.SettingsActivity"
             android:label="@string/title_activity_settings"
             android:parentActivityName=".activities.TaskListActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/SettingsTheme" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -59,6 +60,12 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait">
 
+        </activity>
+        <activity android:name=".activities.EditCategoryActivity"
+            android:parentActivityName=".activities.TaskListActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.infiniteloop.mytasks.TaskListActivity" />
         </activity>
 
         <receiver

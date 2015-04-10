@@ -261,6 +261,27 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
         return getWritableDatabase().delete(CategoryEntry.TABLE_NAME,selection,selectionArgs);
     }
 
+    /**
+     * Edit category name
+     * @param id
+     * @param name
+     * @return
+     */
+    public int editCategory(long id,String name){
+        ContentValues cv = new ContentValues();
+        cv.put(CategoryEntry.COLUMN_NAME,name);
+
+        String selection = CategoryEntry._ID + " LIKE ?";
+        String[] selectionArgs={String.valueOf(id)};
+        int count = getReadableDatabase().update(
+                CategoryEntry.TABLE_NAME,
+                cv,
+                selection,
+                selectionArgs
+        );
+        return count;
+    }
+
 
     public static class TaskCursor extends CursorWrapper{
         public TaskCursor(Cursor c){

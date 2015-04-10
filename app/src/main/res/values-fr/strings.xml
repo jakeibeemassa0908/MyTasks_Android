@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="add_task">Ajouter Tache</string>
-    <string name="added">Ajouteée</string>
+    <string name="add_task">Ajouter Tâche</string>
+    <string name="added">Ajoutée</string>
     <string name="app_name">Taskr</string>
-    <string name="new_task">Nouvelle Tache</string>
-    <string name="edit_task">Modifier Tache</string>
+    <string name="new_task">Nouvelle Tâche</string>
+    <string name="edit_task">Modifier Tâche</string>
     <string name="action_settings">Paramatres</string>
-    <string name="empty_list_view">Pas encore de Tache</string>
-    <string name="click_add_button">Commencer une nouvelle tache avec le signe plus ci dessous!</string>
-    <string name="delete_task">Effacer Tache</string>
-    <string name="delete_task_question">Voulez-vous effacer cette tache?</string>
+    <string name="empty_list_view">Pas encore de Tâche</string>
+    <string name="click_add_button">Commencer une nouvelle tâche avec le signe plus ci dessous!</string>
+    <string name="delete_task">Effacer Tâche</string>
+    <string name="delete_task_question">Voulez-vous effacer cette tâche?</string>
     <string name="delete">Effacer</string>
-    <string name="deleted">Effaceée</string>
-    <string name="complete_dialog_title">Termineée</string>
-    <string name="complete_dialog_question">Avez-vous terminer cette tache?</string>
-    <string name="complete_dialog_yes">Oui, Termineée</string>
-    <string name="complete_dialog_toast">Termineée, Felicitations!</string>
+    <string name="deleted">Effacée</string>
+    <string name="complete_dialog_title">Terminer</string>
+    <string name="complete_dialog_question">Avez-vous terminer cette tâche?</string>
+    <string name="complete_dialog_yes">Oui, Terminer</string>
+    <string name="complete_dialog_toast">Terminée, Felicitations!</string>
     <string name="add_category">Ajouter nouvelle categorie</string>
     <string name="add">Ajouter</string>
-    <string name="edit_dialog_title">Modifier tache</string>
-    <string name="edit_dialog_question">Voulez vous modifier cette tache?</string>
+    <string name="edit_dialog_title">Modifier tâche</string>
+    <string name="edit_dialog_question">Voulez vous modifier cette tâche?</string>
     <string name="empty_task_title">Pas de titre</string>
-    <string name="task_duration">Dureée</string>
-    <string name="task_title_hint">Titre tache</string>
+    <string name="task_duration">Durée</string>
+    <string name="task_title_hint">Titre tâche</string>
     <string name="set_task_duration">Configurer temps</string>
     <string name="cancel">Annuler</string>
-    <string name="task_details">Detaille Tache</string>
+    <string name="task_details">Detaille Tâche</string>
     <string name="done">Fait</string>
     <string name="set_reminder">Configurer Rappel</string>
     <string name="low">Basse</string>
     <string name="normal">Normale</string>
     <string name="high">Haute</string>
     <string name="very_high">Tres Haute</string>
-    <string name="private_visibility">Priveée</string>
+    <string name="private_visibility">Privée</string>
     <string name="public_visibility">Publique</string>
     <string name="drawer_open">Ouvrir Navigateur</string>
     <string name="drawer_close">Fermer Navigateur</string>
@@ -41,9 +41,9 @@
     <string name="edit">Modifier</string>
     <string name="hours">Heures</string>
     <string name="minutes">Minutes</string>
-    <string name="select_duration">Selectionner Dureée</string>
+    <string name="select_duration">Selectionner Durée</string>
     <string name="imageViewDrawerItem">Navigateur Image</string>
-    <string name="all_task">Toutes Taches</string>
+    <string name="all_task">Toutes Tâches</string>
     <string name="timed_task">Tous Rappel</string>
     <string name="very_high_priority">Tres Haute Priorité</string>
     <string name="high_priority">Haute Priorité</string>
@@ -62,7 +62,7 @@
     <string name="copyright_text">Jake Ibee Massa. Copyright ©2015</string>
     <string name="version">Version 1.0.1</string>
     <string name="delete_category_dialog_title">Effacer Categorie</string>
-    <string name="delete_category_dialog_question">Voulez vous effacer cette categorie? (Toute les taches seront effacer)</string>
+    <string name="delete_category_dialog_question">Voulez vous effacer cette categorie? \n(Vos tâches seront preservées)</string>
     <string name="write_feedback_hint">Votre avis est tres important pour nous, Merci de prendre votre temps.</string>
     <string name="hint_email">Addresse email (Facultatif)</string>
     <string name="suggestion_hint">Ecrivez vos opinions et suggestions ici</string>
@@ -73,5 +73,9 @@
     <string name="daily_remider_summary">Me rappeler chaque jours de taches imcomplete</string>
     <string name="reminder_time">Temps de rapel</string>
     <string name="title_activity_settings">Configurations</string>
+    <string name="edit_category">Modifier Categorie</string>
+    <string name="name">Nom</string>
+    <string name="delete_str">Effacer %1$s</string>
+    <string name="no_category">Sans categorie</string>
 
 </resources>

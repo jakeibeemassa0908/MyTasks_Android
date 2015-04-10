@@ -87,8 +87,7 @@ public class TaskLab {
 
     public boolean editTask(Task task){
         int rowCount =mHelper.updateTask(task,false);
-        if( rowCount==1) return true;
-        return false;
+        return rowCount==1;
     }
 
     public Category queryCategory(long id){
@@ -105,6 +104,11 @@ public class TaskLab {
 
     public boolean deleteCategory(long id){
         return mHelper.deleteCategory(id)!=-1;
+    }
+
+    public boolean editCat(long id, String name){
+        int rowCount = mHelper.editCategory(id,name);
+        return rowCount==1;
     }
 
 

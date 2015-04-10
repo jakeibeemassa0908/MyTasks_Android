@@ -28,7 +28,7 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:background="@color/red"
+        android:background="@drawable/button_custom_red"
         android:id="@+id/delete_cat_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

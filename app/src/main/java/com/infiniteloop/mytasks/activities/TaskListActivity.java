@@ -1,5 +1,6 @@
 package com.infiniteloop.mytasks.activities;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -73,6 +74,17 @@ public class TaskListActivity extends ActionBarActivity {
 
         selectItem(0);
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case TaskListFragment.DELETE_CAT_REQUEST:
+                if(resultCode== Activity.RESULT_CANCELED)
+                refreshDrawerList(0);
+                break;
+        }
     }
 
     @Override
