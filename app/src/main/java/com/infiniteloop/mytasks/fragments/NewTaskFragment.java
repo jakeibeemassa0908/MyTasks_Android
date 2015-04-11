@@ -104,6 +104,34 @@ public class NewTaskFragment extends VisibleFragment implements LoaderManager.Lo
             }
         });
 
+        //Remove alarm option when long click
+        mSetAlarmButton.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if(!mSetAlarmButton.getText().equals(getResources().getString(R.string.set_reminder))){
+                    AlertDialog.Builder removeAlarmDialog = new AlertDialog.Builder(getActivity());
+                    removeAlarmDialog.setMessage(R.string.removeAlarm);
+                    removeAlarmDialog.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            //remove reminder
+                            mDateCaptured=null;
+                            mSetAlarmButton.setText(getResources().getString(R.string.set_reminder));
+                        }
+                    });
+                    removeAlarmDialog.setNegativeButton(R.string.cancel,new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    });
+                    removeAlarmDialog.show();
+
+                    return true;
+                }
+                return true;
+            }
+        });
+
         return rootView;
     }
 
