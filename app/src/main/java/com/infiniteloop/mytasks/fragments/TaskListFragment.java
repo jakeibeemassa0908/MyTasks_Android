@@ -108,7 +108,7 @@ public class TaskListFragment extends VisibleListFragment implements LoaderCallb
             case R.id.edit_cat:
                 Intent intent = new Intent(getActivity(),EditCategoryActivity.class);
                 intent.putExtra(EXTRA_POSITION,mPosition);
-                getActivity().startActivityForResult(intent,DELETE_CAT_REQUEST);
+                getActivity().startActivityForResult(intent, DELETE_CAT_REQUEST);
                 break;
 
         }
@@ -382,7 +382,7 @@ public class TaskListFragment extends VisibleListFragment implements LoaderCallb
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(getActivity(),DetailTaskActivity.class);
-                    intent.putExtra(EditTaskFragment.EXTRA_TASK,task);
+                    intent.putExtra(DetailTaskFragment.EXTRA_TASK,task);
                     startActivityForResult(intent,EDIT_TASK);
                 }
             });

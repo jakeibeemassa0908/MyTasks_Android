@@ -4,7 +4,7 @@ package com.infiniteloop.mytasks.activities;
 import android.support.v4.app.Fragment;
 import android.view.Menu;
 
-import com.infiniteloop.mytasks.fragments.EditTaskFragment;
+import com.infiniteloop.mytasks.fragments.DetailTaskFragment;
 import com.infiniteloop.mytasks.R;
 import com.infiniteloop.mytasks.data.Task;
 
@@ -23,7 +23,7 @@ public class DetailTaskActivity extends SingleFragmentActivity {
 
     @Override
     protected Fragment createFragment() {
-         Task task= getIntent().getExtras().getParcelable(EditTaskFragment.EXTRA_TASK);
-        return EditTaskFragment.newInstance(task);
+         Task task= getIntent().getExtras().getParcelable(DetailTaskFragment.EXTRA_TASK);
+        return DetailTaskFragment.newInstance(task);
     }
 }

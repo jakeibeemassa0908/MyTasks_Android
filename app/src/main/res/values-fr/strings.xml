@@ -77,5 +77,6 @@
     <string name="name">Nom</string>
     <string name="delete_str">Effacer %1$s</string>
     <string name="no_category">Sans categorie</string>
+    <string name="removeAlarm">Enlever rappel</string>
 
 </resources>

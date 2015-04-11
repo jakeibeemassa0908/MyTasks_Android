@@ -35,7 +35,7 @@ import java.util.HashMap;
 /**
  * Created by theotherside on 14/03/15.
  */
-public class EditTaskFragment extends VisibleFragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class DetailTaskFragment extends VisibleFragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private Spinner mPrioritySpinner;
     private Spinner mCategorySpinner;
@@ -45,17 +45,17 @@ public class EditTaskFragment extends VisibleFragment implements LoaderManager.L
     private Date mDateCaptured;
     private ArrayList<String> mCategoryList;
 
-    private static final String TAG=EditTaskFragment.class.getSimpleName();
+    private static final String TAG=DetailTaskFragment.class.getSimpleName();
 
     public static String EXTRA_TASK="com.infiniteloop.task";
 
     private Task mTask;
     private HashMap<String,Long> categoyIdName;
 
-    public static EditTaskFragment newInstance(Task task){
+    public static DetailTaskFragment newInstance(Task task){
         Bundle args = new Bundle();
         args.putParcelable(EXTRA_TASK, task);
-        EditTaskFragment fragment = new EditTaskFragment();
+        DetailTaskFragment fragment = new DetailTaskFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -133,8 +133,34 @@ public class EditTaskFragment extends VisibleFragment implements LoaderManager.L
             @Override
             public void onClick(View v) {
                 TimeAndDatePickerFragment.DatePickerFragment pickers = new TimeAndDatePickerFragment.DatePickerFragment();
-                pickers.setTargetFragment(EditTaskFragment.this,Helpers.REQUEST_TIME);
+                pickers.setTargetFragment(DetailTaskFragment.this,Helpers.REQUEST_TIME);
                 pickers.show(getFragmentManager(),"pickers");
+            }
+        });
+
+        mEditAlarm.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if(!mEditAlarm.getText().equals(getResources().getString(R.string.set_reminder))){
+                    AlertDialog.Builder removeAlarmDialog = new AlertDialog.Builder(getActivity());
+                    removeAlarmDialog.setMessage(R.string.removeAlarm);
+                    removeAlarmDialog.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            //remove reminder
+                            mEditAlarm.setText(getResources().getString(R.string.set_reminder));
+                        }
+                    });
+                    removeAlarmDialog.setNegativeButton(R.string.cancel,new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    });
+                    removeAlarmDialog.show();
+
+                    return true;
+                }
+                return true;
             }
         });
 
@@ -216,6 +242,9 @@ public class EditTaskFragment extends VisibleFragment implements LoaderManager.L
         mTask.setCategory(getCatId(mCategorySpinner.getSelectedItem().toString()));
         if(mDateCaptured != null)
             mTask.setReminder(mDateCaptured);
+        //If reminder has been removed, set it to -1
+        if(mEditAlarm.getText().equals(getResources().getString(R.string.set_reminder)))
+            mTask.setReminder(null);
         if(mTask.getReminder()!=-1){
             ReminderService.activateServiceAlarm(getActivity(), mTask, true);
         }
