@@ -22,9 +22,10 @@ public class AboutFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView= inflater.inflate(R.layout.about_fragment,container,false);
+
+
         TextView versionText = (TextView)rootView.findViewById(R.id.version);
         String name="";
-
         try {
             PackageInfo pInfo = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0);
             name = pInfo.versionName;
@@ -33,9 +34,9 @@ public class AboutFragment extends Fragment {
         }
         versionText.setText(String.format(getResources().getString(R.string.version),name));
 
+
         int year = Calendar.getInstance().get(Calendar.YEAR);
         TextView copyrightYear = (TextView)rootView.findViewById(R.id.copyright);
-
         copyrightYear.setText(String.format(getResources().getString(R.string.copyright_text),year));
         return rootView;
     }

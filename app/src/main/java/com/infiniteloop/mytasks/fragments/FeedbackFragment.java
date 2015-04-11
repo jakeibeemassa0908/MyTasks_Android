@@ -23,7 +23,6 @@ public class FeedbackFragment extends Fragment {
     public static final String TAG= FeedbackFragment.class.getSimpleName();
     private static final String SUBJECT = "Task Android App Feedback";
     private static final String EMAIL = "jac.massa0908@gmail.com";
-
     private static final String URL_STORE="https://play.google.com/store/apps/details?id=com.infiniteloop.mytasks";
 
     private EditText mFeedback;
@@ -42,7 +41,6 @@ public class FeedbackFragment extends Fragment {
                 if(!feedback.matches("")){
                     Intent intent = new Intent(Intent.ACTION_SEND);
                     intent.setType("message/rfc822");
-
                     intent.putExtra(Intent.EXTRA_SUBJECT,SUBJECT);
                     intent.putExtra(Intent.EXTRA_TEXT,feedback);
                     intent.putExtra(Intent.EXTRA_EMAIL,new String[]{EMAIL});
@@ -55,6 +53,7 @@ public class FeedbackFragment extends Fragment {
                 }
             }
         });
+
         mGooglePlay = (Button)root.findViewById(R.id.rateusButton);
         mGooglePlay.setOnClickListener(new View.OnClickListener() {
             @Override

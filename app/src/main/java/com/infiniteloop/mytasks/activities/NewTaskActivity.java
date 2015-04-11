@@ -2,7 +2,6 @@ package com.infiniteloop.mytasks.activities;
 
 import android.support.v4.app.Fragment;
 import android.view.Menu;
-
 import com.infiniteloop.mytasks.fragments.NewTaskFragment;
 import com.infiniteloop.mytasks.R;
 

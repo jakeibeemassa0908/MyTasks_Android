@@ -41,9 +41,7 @@ public class EditTaskFragment extends VisibleFragment implements LoaderManager.L
     private Spinner mCategorySpinner;
     private EditText mTitleEditText;
     private Button mEditAlarm;
-
     private ArrayList<String> mPriorities;
-
     private Date mDateCaptured;
     private ArrayList<String> mCategoryList;
 
@@ -216,16 +214,26 @@ public class EditTaskFragment extends VisibleFragment implements LoaderManager.L
         mTask.setTitle(mTitleEditText.getText().toString());
         mTask.setPriority(Helpers.getPriority(getActivity(),mPrioritySpinner.getSelectedItem().toString()));
         mTask.setCategory(getCatId(mCategorySpinner.getSelectedItem().toString()));
-        mTask.setReminder(mDateCaptured);
+        if(mDateCaptured != null)
+            mTask.setReminder(mDateCaptured);
         if(mTask.getReminder()!=-1){
             ReminderService.activateServiceAlarm(getActivity(), mTask, true);
         }
     }
 
+    /**
+     * Get category id from the category name by querying the HashMap
+     * @param s category name
+     * @return category id
+     */
     private long getCatId(String s) {
         return categoyIdName.get(s);
     }
 
+    /**
+     * Check if the data has changed
+     * @return true if any data has changed
+     */
     private boolean hasDataChanged() {
         if(!mTask.getTitle().equals(mTitleEditText.getText().toString())) return true;
         if(mTask.getPriority()!= Helpers.getPriority(getActivity(),mPrioritySpinner.getSelectedItem().toString()))return true;

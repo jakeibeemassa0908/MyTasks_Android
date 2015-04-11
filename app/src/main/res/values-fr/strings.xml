@@ -59,8 +59,8 @@
     <string name="priorities">Priorités</string>
     <string name="delete_category">Effacer Categorie</string>
     <string name="about_text"></string>
-    <string name="copyright_text">Jake Ibee Massa. Copyright ©2015</string>
-    <string name="version">Version 1.0.1</string>
+    <string name="copyright_text">Jake Ibee Massa. Copyright ©%1$d</string>
+    <string name="version">Version %1$s</string>
     <string name="delete_category_dialog_title">Effacer Categorie</string>
     <string name="delete_category_dialog_question">Voulez vous effacer cette categorie? \n(Vos tâches seront preservées)</string>
     <string name="write_feedback_hint">Votre avis est tres important pour nous, Merci de prendre votre temps.</string>
