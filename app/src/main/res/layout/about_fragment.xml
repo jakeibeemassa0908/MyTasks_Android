@@ -14,6 +14,7 @@
         android:src="@drawable/ic_launcher"/>
 
     <TextView
+        android:id="@+id/version"
         android:layout_width="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_height="wrap_content"
@@ -21,6 +22,7 @@
         android:textColor="@color/white"
         android:text="@string/version"/>
     <TextView
+        android:id="@+id/copyright"
         android:layout_width="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_height="wrap_content"
