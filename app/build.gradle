@@ -8,12 +8,11 @@ android {
         applicationId "com.infiniteloop.mytasks"
         minSdkVersion 11
         targetSdkVersion 21
-        versionCode 3
-        versionName "1.0.3"
+        versionCode 4
+        versionName "1.0.5"
     }
     buildTypes {
-        debug {
-            applicationIdSuffix ".debug"
+        release {
             runProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
