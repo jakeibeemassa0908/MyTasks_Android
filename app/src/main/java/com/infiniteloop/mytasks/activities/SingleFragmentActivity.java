@@ -35,5 +35,7 @@ public abstract class SingleFragmentActivity extends ActionBarActivity {
                     .commit();
         }
 
+        getSupportActionBar().setElevation(0);
+
     }
 }

@@ -61,6 +61,18 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.infiniteloop.mytasks.TaskListActivity" />
         </activity>
+        <activity android:name=".activities.AboutActivity"
+            android:parentActivityName=".activities.TaskListActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.infiniteloop.mytasks.TaskListActivity" />
+        </activity>
+        <activity android:name=".activities.FeedbackActivity"
+            android:parentActivityName=".activities.TaskListActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.infiniteloop.mytasks.TaskListActivity" />
+        </activity>
 
         <receiver
             android:name=".receivers.NotificationReceiver"

@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,6 +73,8 @@ public class TaskListActivity extends ActionBarActivity {
         //set list's click listener
         mDrawerList.setOnItemClickListener(new DrawerItemClickListenner());
 
+        getSupportActionBar().setElevation(0);
+
         selectItem(0);
 
     }
@@ -91,19 +94,22 @@ public class TaskListActivity extends ActionBarActivity {
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         // Sync the toggle state after onRestoreInstanceState has occurred.
-        mDrawerToggle.syncState();
+        if(mDrawerLayout!=null)
+            mDrawerToggle.syncState();
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        mDrawerToggle.onConfigurationChanged(newConfig);
+        if(mDrawerLayout!=null)
+            mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Pass the event to ActionBarDrawerToggle, if it returns
         // true, then it has handled the app icon touch event
+        if(mDrawerLayout!=null)
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
@@ -134,11 +140,11 @@ public class TaskListActivity extends ActionBarActivity {
         Fragment fragment = new TaskListFragment();;
         switch (position){
             case POSITION_ABOUT:
-                fragment=new AboutFragment();
-                break;
+                startActivity(new Intent(this,AboutActivity.class));
+                return;
             case POSITION_FEEDBACK:
-                fragment = new FeedbackFragment();
-                break;
+                startActivity(new Intent(this,FeedbackActivity.class));
+                return;
             case POSITION_SETTINGS:
                 startActivity(new Intent(this,SettingsActivity.class));
                 return;
@@ -158,7 +164,8 @@ public class TaskListActivity extends ActionBarActivity {
         mDrawerList.setItemChecked(position,true);
         //set the actionbat title to the drawer item title
         setTitle(getKeyByValue(mDrawerMapping,position));
-        mDrawerLayout.closeDrawer(mDrawerList);
+        if (mDrawerLayout!=null)
+            mDrawerLayout.closeDrawer(mDrawerList);
 
         //Create new category from drawer -- No new Fragment needed
         if(position==POSITION_CREATE_CATEGORY){
@@ -196,32 +203,38 @@ public class TaskListActivity extends ActionBarActivity {
     }
 
     private void setUpDrawerToggle(){
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerToggle = new ActionBarDrawerToggle(
-                this,                  /* host Activity */
-                mDrawerLayout,         /* DrawerLayout object */
-                R.string.drawer_open,  /* "open drawer" description */
-                R.string.drawer_close  /* "close drawer" description */
-        ) {
+        if (mDrawerLayout!=null) {
+            mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+            mDrawerToggle = new ActionBarDrawerToggle(
+                    this,                  /* host Activity */
+                    mDrawerLayout,         /* DrawerLayout object */
+                    R.string.drawer_open,  /* "open drawer" description */
+                    R.string.drawer_close  /* "close drawer" description */
+            ) {
 
-            /** Called when a drawer has settled in a completely closed state. */
-            public void onDrawerClosed(View view) {
-                super.onDrawerClosed(view);
+                /**
+                 * Called when a drawer has settled in a completely closed state.
+                 */
+                public void onDrawerClosed(View view) {
+                    super.onDrawerClosed(view);
 
-            }
+                }
 
-            /** Called when a drawer has settled in a completely open state. */
-            public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
+                /**
+                 * Called when a drawer has settled in a completely open state.
+                 */
+                public void onDrawerOpened(View drawerView) {
+                    super.onDrawerOpened(drawerView);
 
-            }
-        };
+                }
+            };
 
-        // Set the drawer toggle as the DrawerListener
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
+            // Set the drawer toggle as the DrawerListener
+            mDrawerLayout.setDrawerListener(mDrawerToggle);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeButtonEnabled(true);
+        }
     }
 
 
@@ -378,12 +391,11 @@ public class TaskListActivity extends ActionBarActivity {
             //check if the clicked text equal the select one
             if(item.getType()!=DrawerItem.TYPE_TITLE){
                 String title=((TextView)convertView.findViewById(R.id.drawer_item)).getText().toString();
-
-//                if(mDrawerMapping.get(title) == mPosition){
-//                    convertView.setBackgroundColor(getResources().getColor(R.color.grey));
-//                }else{
-//                    convertView.setBackgroundColor(getResources().getColor(R.color.white));
-//                }
+                if(mDrawerMapping.get(title) == mPosition){
+                    convertView.setBackgroundColor(getResources().getColor(R.color.light_grey));
+                }else{
+                    convertView.setBackgroundColor(getResources().getColor(R.color.white));
+                }
             }
 
             return convertView;
