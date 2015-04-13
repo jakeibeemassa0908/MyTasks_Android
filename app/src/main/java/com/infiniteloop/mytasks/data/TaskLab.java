@@ -11,6 +11,11 @@ import java.util.Date;
 /**
  * Created by theotherside on 07/03/15.
  */
+
+/**
+ * Class that handles all the database query coming from the UI,
+ * It is the interface between the Database methods and the UI calls
+ */
 public class TaskLab {
 
     private static TaskLab sTaskLab;
@@ -35,6 +40,15 @@ public class TaskLab {
         return mTasks;
     }
 
+    /**
+     * Create a new task
+     * @param context
+     * @param title
+     * @param priority_s
+     * @param category_s
+     * @param reminderDate
+     * @return true or false whether the task as been successfully added to the database or not
+     */
     public boolean  createTask(Context context,String title,String priority_s,String category_s,Date reminderDate){
             int priority= Helpers.getPriority(context, priority_s);
             if(priority!=-1){
@@ -51,14 +65,29 @@ public class TaskLab {
         return false;
     }
 
-    public long saveTask(Task t){
+    /**
+     * save the task to the database
+     * @param t
+     * @return
+     */
+    private long saveTask(Task t){
         return mHelper.insertTask(t);
     }
 
+    /**
+     * Query list of tasks
+     * @param queryCode selection code corresponding to item on the navigation drawer
+     * @return a list of task matching the query code
+     */
     public TaskDataBaseHelper.TaskCursor queryTasks(int queryCode){
         return mHelper.queryTasks(queryCode);
     }
 
+    /**
+     * Query a single task
+     * @param id ID of the task to be queried
+     * @return
+     */
     public Task queryTask(long id){
         Task task = null;
         TaskDataBaseHelper.TaskCursor cursor = mHelper.queryTask(id);
@@ -69,18 +98,34 @@ public class TaskLab {
         return task;
     }
 
+    /**
+     * Remove a task
+     * @param context
+     * @param task
+     * @return whether or not the task has been successfully deleted
+     */
     public boolean removeTask(Context context,Task task){
         int result =mHelper.deleteTask(task);
         setTaskAlarm(task,context,false);
         return result !=-1;
     }
 
+    /**
+     * Set a task as completed
+     * @param task
+     * @param context
+     */
     public void setComplete(Task task,Context context){
         mHelper.updateTask(task,true);
         setTaskAlarm(task,context,false);
     }
 
-
+    /**
+     * Edit Task informations
+     * @param newTask new task to be saved
+     * @param context
+     * @return
+     */
     public boolean editTask(Task newTask,Context context){
         Task oldTask=queryTask(newTask.getId());
 
@@ -93,6 +138,11 @@ public class TaskLab {
         return rowCount==1;
     }
 
+    /**
+     * Get single category from db given its ID
+     * @param id
+     * @return
+     */
     public Category queryCategory(long id){
         Category cat = mHelper.queryCategoryName(id);
         if(cat!=null)
@@ -105,24 +155,39 @@ public class TaskLab {
         return mHelper.insertCategory(catName);
     }
 
+    /**
+     * Delete single category from databse
+     * @param id
+     * @return
+     */
     public boolean deleteCategory(long id){
         return mHelper.deleteCategory(id)!=-1;
     }
 
+    /**
+     * Edit the category name
+     * @param id id of the category that needs to be edited
+     * @param name the new category name
+     * @return
+     */
     public boolean editCat(long id, String name){
         int rowCount = mHelper.editCategory(id,name);
         return rowCount==1;
     }
 
-
+    /**
+     * Get all the categories in the database
+     * @return
+     */
     public TaskDataBaseHelper.CategoryCursor getCategories() {
         return (TaskDataBaseHelper.CategoryCursor)mHelper.queryCategories();
     }
 
     /**
-     * Remove the alarm pending on a Task
-     * @param task
-     * @param context
+     * Set Task Alarm on or off
+     * @param task the task whose alarm need to be set
+     * @param context the application context
+     * @param onOrOff the value of the switch, true =on ; false =off
      */
     private void setTaskAlarm(Task task,Context context,boolean onOrOff){
         if(task.getReminder()!=-1){
