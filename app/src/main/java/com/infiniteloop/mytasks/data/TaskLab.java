@@ -44,10 +44,7 @@ public class TaskLab {
                 saveTask(t);
 
                 //SetReminder if reminder is set
-                if(t.getReminder()!=-1){
-                    ReminderService.activateServiceAlarm(context, t, true);
-                }
-
+                setTaskAlarm(t,context,true);
                 mTasks.add(t);
                 return true;
             }
@@ -74,19 +71,25 @@ public class TaskLab {
 
     public boolean removeTask(Context context,Task task){
         int result =mHelper.deleteTask(task);
-        if(task.getReminder()!=-1){
-            ReminderService.activateServiceAlarm(context,task,false);
-        }
+        setTaskAlarm(task,context,false);
         return result !=-1;
     }
 
-    public void setComplete(Task task){
+    public void setComplete(Task task,Context context){
         mHelper.updateTask(task,true);
+        setTaskAlarm(task,context,false);
     }
 
 
-    public boolean editTask(Task task){
-        int rowCount =mHelper.updateTask(task,false);
+    public boolean editTask(Task newTask,Context context){
+        Task oldTask=queryTask(newTask.getId());
+
+        //Remove the Alarm reminder on the old task
+        setTaskAlarm(oldTask,context,false);
+        //Set the Reminder for the newTask
+        setTaskAlarm(newTask,context,true);
+
+        int rowCount =mHelper.updateTask(newTask,false);
         return rowCount==1;
     }
 
@@ -114,5 +117,16 @@ public class TaskLab {
 
     public TaskDataBaseHelper.CategoryCursor getCategories() {
         return (TaskDataBaseHelper.CategoryCursor)mHelper.queryCategories();
+    }
+
+    /**
+     * Remove the alarm pending on a Task
+     * @param task
+     * @param context
+     */
+    private void setTaskAlarm(Task task,Context context,boolean onOrOff){
+        if(task.getReminder()!=-1){
+            ReminderService.activateServiceAlarm(context,task,onOrOff);
+        }
     }
 }

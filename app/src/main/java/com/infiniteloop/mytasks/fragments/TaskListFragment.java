@@ -186,7 +186,7 @@ public class TaskListFragment extends VisibleListFragment implements LoaderCallb
                                     if(getListView().isItemChecked(i)){
                                         TaskDataBaseHelper.TaskCursor cursor = (TaskDataBaseHelper.TaskCursor)adapter.getItem(i);
                                         Task task = cursor.getTask();
-                                        TaskLab.get(getActivity()).setComplete(task);
+                                        TaskLab.get(getActivity()).setComplete(task,getActivity());
                                     }
 
                                 }
@@ -396,7 +396,7 @@ public class TaskListFragment extends VisibleListFragment implements LoaderCallb
                     dialog.setPositiveButton(getString(R.string.complete_dialog_yes),new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                                TaskLab.get(getActivity()).setComplete(task);
+                                TaskLab.get(getActivity()).setComplete(task,getActivity());
                                 getLoaderManager().restartLoader(0,null,TaskListFragment.this);
                                 Toast.makeText(getActivity(),
                                         '"'+task.getTitle()+'"'+ getString(R.string.complete_dialog_toast),

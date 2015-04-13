@@ -62,6 +62,8 @@ public class ReminderService extends IntentService {
         //get default notification sound
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
+
+        //Set Notification
         Notification notification = new NotificationCompat.Builder(this)
                 .setTicker("Alarm")
                 .setColor(getResources().getColor(R.color.sunshine_blue))

@@ -212,7 +212,7 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
                     deleteDialog.setPositiveButton(R.string.edit, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            boolean edited = TaskLab.get(getActivity()).editTask(mTask);
+                            boolean edited = TaskLab.get(getActivity()).editTask(mTask,getActivity());
                             if (edited) {
                                 Intent resultIntent = new Intent();
                                 getActivity().setResult(Activity.RESULT_OK, resultIntent);
