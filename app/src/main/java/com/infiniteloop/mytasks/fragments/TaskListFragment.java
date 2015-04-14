@@ -368,11 +368,17 @@ public class TaskListFragment extends VisibleListFragment implements LoaderCallb
             Category category=TaskLab.get(getActivity()).queryCategory(task.getCategory());
             if(category!=null){
                 categoryTextView.setText(TaskLab.get(getActivity()).queryCategory(task.getCategory()).getCategoryName());
+            }else{
+                categoryTextView.setText(getResources().getString(R.string.no_category));
             }
             reminder = (TextView)convertView.findViewById(R.id.task_item_reminder);
 
             //if there is a reminder set for the given task
             if(task.getReminder()!=-1)reminder.setText(DateFormat.getDateTimeInstance().format(new Date(task.getReminder())));
+            //reset the text to null since the views are reusable.
+            else{
+                reminder.setText("");
+            }
             dateTextView = (TextView)convertView.findViewById(R.id.task_item_date_textview);
             dateTextView.setText(task.dateToString());
             View toolbar=convertView.findViewById(R.id.expandable_list_details);
