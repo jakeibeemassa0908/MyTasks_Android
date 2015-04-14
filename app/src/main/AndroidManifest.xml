@@ -8,6 +8,9 @@
 
     <uses-permission android:name="android.permission.VIBRATE" />
   <uses-permission android:name="com.infiniteloop.mytasks.PRIVATE" />
+    <supports-screens
+        android:largeScreens="true"
+        android:xlargeScreens="true"/>
 
     <application
         android:allowBackup="true"
@@ -81,6 +84,8 @@
                 <action android:name="com.infiniteloop.taskr.SHOW_NOTIFICATION" />
             </intent-filter>
         </receiver>
+
+
 
     </application>
 
