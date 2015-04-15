@@ -237,7 +237,7 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
     }
 
     private void setNewTaskValues() {
-        mTask.setTitle(mTitleEditText.getText().toString());
+        mTask.setTitle(mTitleEditText.getText().toString().trim());
         mTask.setPriority(Helpers.getPriority(getActivity(),mPrioritySpinner.getSelectedItem().toString()));
         mTask.setCategory(getCatId(mCategorySpinner.getSelectedItem().toString()));
         if(mDateCaptured != null)

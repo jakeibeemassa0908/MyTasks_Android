@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.infiniteloop.mytasks.data.Task;
 import com.infiniteloop.mytasks.loaders.CursorLoader;
 import com.infiniteloop.mytasks.Helpers;
 import com.infiniteloop.mytasks.R;
@@ -44,11 +45,27 @@ public class NewTaskFragment extends VisibleFragment implements LoaderManager.Lo
     private EditText mTitleEditText;
     private Button mSetAlarmButton;
     private Date mDateCaptured;
+    private String mReceivedText;
     ArrayList<String> mCategoryList;
+
+    public static final String EXTRA_TEXT="extra_text_from_intent";
+
+    public static NewTaskFragment newInstance(String text){
+        Bundle args = new Bundle();
+        args.putString(EXTRA_TEXT, text);
+        NewTaskFragment fragment = new NewTaskFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //check if there is a text sent
+        Bundle args =getArguments();
+        mReceivedText =args.getString(EXTRA_TEXT);
+
+
         setHasOptionsMenu(true);
         mCategoryList=new ArrayList<String>();
         mCategoryList.add("No Category");
@@ -60,6 +77,11 @@ public class NewTaskFragment extends VisibleFragment implements LoaderManager.Lo
         View rootView = inflater.inflate(R.layout.new_task,container,false);
 
         mTitleEditText = (EditText) rootView.findViewById(R.id.task_title_textview);
+
+        // if text was sent on the start of the fragment
+        if(mReceivedText!=null){
+            mTitleEditText.setText(mReceivedText);
+        }
 
         mPrioritySpinner = (Spinner)rootView.findViewById(R.id.task_priority_spinner);
         ArrayList<String> priorities = new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.task_priority_array)));
@@ -164,7 +186,7 @@ public class NewTaskFragment extends VisibleFragment implements LoaderManager.Lo
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.save_task_menu:
-                String title=mTitleEditText.getText().toString();
+                String title=mTitleEditText.getText().toString().trim();
                 String category=mCategorySpinner.getSelectedItem().toString();
                 category=category.trim();
                 String priority=mPrioritySpinner.getSelectedItem().toString();
