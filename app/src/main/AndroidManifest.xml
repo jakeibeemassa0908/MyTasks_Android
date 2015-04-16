@@ -2,12 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.infiniteloop.mytasks" >
 
-  <permission
+  <!--<permission
         android:name="com.infiniteloop.mytasks.PRIVATE"
-        android:protectionLevel="signature" />
+        android:protectionLevel="signature" />-->
 
     <uses-permission android:name="android.permission.VIBRATE" />
-  <uses-permission android:name="com.infiniteloop.mytasks.PRIVATE" />
+  <!--<uses-permission android:name="com.infiniteloop.mytasks.PRIVATE" />-->
     <supports-screens
         android:largeScreens="true"
         android:xlargeScreens="true"/>
