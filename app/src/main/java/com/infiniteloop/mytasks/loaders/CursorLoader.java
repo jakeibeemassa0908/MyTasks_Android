@@ -17,7 +17,7 @@ public class CursorLoader {
 
         @Override
         protected Cursor loadCursor() {
-            return TaskLab.get(getContext()).getCategories();
+            return TaskLab.get(getContext()).getCategoryCursor();
         }
     }
 

@@ -41,6 +41,7 @@ import com.infiniteloop.mytasks.data.TaskDataBaseHelper;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 
 /**
@@ -57,7 +58,7 @@ public class TaskListFragment extends VisibleListFragment implements LoaderCallb
     private ImageView mAddTaskImageView;
     private  View rootView;
     private View expandedToolbar;
-    private ImageButton mDelete,mStart,mEdit,mComplete;
+    private ImageButton mDelete,mEdit,mComplete;
 
     public static final int DELETE_CAT_REQUEST=5;
     ListView mListView;
@@ -141,6 +142,16 @@ public class TaskListFragment extends VisibleListFragment implements LoaderCallb
 
             @Override
             public boolean onActionItemClicked(final ActionMode mode, MenuItem item) {
+
+                final ArrayList<Category> categoriesArrayList=TaskLab.get(getActivity()).getCategories();
+
+                //Get all the category names
+                ArrayList<String> categoriesName=new ArrayList<String>();
+                for(int i=0;i<categoriesArrayList.size();i++)
+                    categoriesName.add(categoriesArrayList.get(i).getCategoryName());
+
+                //Create a charsequence with the obtained category names
+                final CharSequence[] categories= categoriesName.toArray(new CharSequence[categoriesArrayList.size()]);
                 switch (item.getItemId()){
                     case R.id.delete_tasks:
                         AlertDialog.Builder deleteDialog = new AlertDialog.Builder(getActivity());
@@ -192,7 +203,6 @@ public class TaskListFragment extends VisibleListFragment implements LoaderCallb
                                 }
                                 mode.finish();
                                 restartLoader();
-
                             }
                         });
                         dialog.setNegativeButton(R.string.cancel,new DialogInterface.OnClickListener() {
@@ -202,6 +212,25 @@ public class TaskListFragment extends VisibleListFragment implements LoaderCallb
                             }
                         });
                         dialog.show();
+                        return true;
+                    case R.id.move_to:
+                        AlertDialog.Builder moveToDialog = new AlertDialog.Builder(getActivity());
+                        moveToDialog.setTitle(getString(R.string.move_to));
+                        final TaskCursorAdapter adapter = (TaskCursorAdapter)getListAdapter();
+                        moveToDialog.setItems(categories,new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                for(int i=adapter.getCount()-1;i>=0;i--){
+                                    TaskDataBaseHelper.TaskCursor cursor = (TaskDataBaseHelper.TaskCursor)adapter.getItem(i);
+                                    Task task = cursor.getTask();
+                                    task.setCategory(categoriesArrayList.get(which).getId());
+                                    TaskLab.get(getActivity()).editTask(task,getActivity());
+                                }
+                                mode.finish();
+                                restartLoader();
+                            }
+                        });
+                        moveToDialog.show();
                         return true;
 
                     default:

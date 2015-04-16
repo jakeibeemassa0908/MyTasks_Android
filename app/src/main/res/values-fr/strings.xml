@@ -78,5 +78,6 @@
     <string name="delete_str">Effacer %1$s</string>
     <string name="no_category">Sans categorie</string>
     <string name="removeAlarm">Enlever rappel</string>
+    <string name="move_to">Deplacer vers</string>
 
 </resources>

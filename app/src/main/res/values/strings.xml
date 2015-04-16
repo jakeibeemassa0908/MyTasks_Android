@@ -78,5 +78,6 @@
     <string name="delete_str">Delete %1$s</string>
     <string name="no_category">No Category</string>
     <string name="removeAlarm">Remove reminder?</string>
+    <string name="move_to">Move to</string>
 
 </resources>

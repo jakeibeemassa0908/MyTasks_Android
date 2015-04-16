@@ -1,6 +1,7 @@
 package com.infiniteloop.mytasks.data;
 
 import android.content.Context;
+import android.database.Cursor;
 
 import com.infiniteloop.mytasks.Helpers;
 import com.infiniteloop.mytasks.services.ReminderService;
@@ -106,7 +107,7 @@ public class TaskLab {
      */
     public boolean removeTask(Context context,Task task){
         int result =mHelper.deleteTask(task);
-        setTaskAlarm(task,context,false);
+        setTaskAlarm(task, context, false);
         return result !=-1;
     }
 
@@ -175,12 +176,25 @@ public class TaskLab {
         return rowCount==1;
     }
 
+    public Cursor getCategoryCursor(){
+        return mHelper.queryCategories();
+    }
+
     /**
-     * Get all the categories in the database
+     * return all categories name
      * @return
      */
-    public TaskDataBaseHelper.CategoryCursor getCategories() {
-        return (TaskDataBaseHelper.CategoryCursor)mHelper.queryCategories();
+    public ArrayList<Category> getCategories(){
+        ArrayList<Category> categories = new ArrayList<Category>();
+        TaskDataBaseHelper.CategoryCursor categoryCursor = (TaskDataBaseHelper.CategoryCursor)mHelper.queryCategories();
+        if(categoryCursor!=null){
+            categoryCursor.moveToFirst();
+            for(int i=0;i<categoryCursor.getCount();i++){
+                categories.add(categoryCursor.getCategory());
+                categoryCursor.moveToNext();
+            }
+        }
+        return categories;
     }
 
     /**

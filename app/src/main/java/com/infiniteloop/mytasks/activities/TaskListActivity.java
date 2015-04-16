@@ -242,15 +242,7 @@ public class TaskListActivity extends ActionBarActivity {
      * Populate Navigation Drawer items
      */
     private void setDrawerItems() {
-        ArrayList<Category> categoriesList= new ArrayList<Category>();
-        TaskDataBaseHelper.CategoryCursor categoryCursor = TaskLab.get(this).getCategories();;
-        if(categoryCursor!=null){
-            categoryCursor.moveToFirst();
-            for(int i=0;i<categoryCursor.getCount();i++){
-                categoriesList.add(categoryCursor.getCategory());
-                categoryCursor.moveToNext();
-            }
-        }
+        ArrayList<Category> categoriesList= TaskLab.get(this).getCategories();
         DrawerItem allTask,allReminder,vhPriority,hPriority,
                 nPriority,lPriority,completed,newCategory,settings,
                 feedback,about,help,more,categories,priorities;
