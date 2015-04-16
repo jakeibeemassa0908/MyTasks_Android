@@ -221,10 +221,12 @@ public class TaskListFragment extends VisibleListFragment implements LoaderCallb
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 for(int i=adapter.getCount()-1;i>=0;i--){
-                                    TaskDataBaseHelper.TaskCursor cursor = (TaskDataBaseHelper.TaskCursor)adapter.getItem(i);
-                                    Task task = cursor.getTask();
-                                    task.setCategory(categoriesArrayList.get(which).getId());
-                                    TaskLab.get(getActivity()).editTask(task,getActivity());
+                                    if(getListView().isItemChecked(i)) {
+                                        TaskDataBaseHelper.TaskCursor cursor = (TaskDataBaseHelper.TaskCursor) adapter.getItem(i);
+                                        Task task = cursor.getTask();
+                                        task.setCategory(categoriesArrayList.get(which).getId());
+                                        TaskLab.get(getActivity()).editTask(task, getActivity());
+                                    }
                                 }
                                 mode.finish();
                                 restartLoader();
