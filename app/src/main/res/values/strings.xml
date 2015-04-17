@@ -85,5 +85,8 @@
     <string name="task_note">Task Note</string>
     <string name="checklist_title_hint">Checklist Title</string>
     <string name="task_checklist">Task CheckList</string>
+    <string name="add_picture">Add picture</string>
+    <string name="take_photo">Take photo</string>
+    <string name="chose_image">Chose image</string>
 
 </resources>

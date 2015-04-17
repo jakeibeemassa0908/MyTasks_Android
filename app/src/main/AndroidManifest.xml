@@ -7,6 +7,8 @@
         android:protectionLevel="signature" />-->
 
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-feature android:name="android.hardware.camera"
+        android:required="true" />
   <!--<uses-permission android:name="com.infiniteloop.mytasks.PRIVATE" />-->
     <supports-screens
         android:largeScreens="true"

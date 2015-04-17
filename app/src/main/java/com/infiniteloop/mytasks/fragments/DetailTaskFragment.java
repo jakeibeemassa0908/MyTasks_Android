@@ -2,21 +2,26 @@ package com.infiniteloop.mytasks.fragments;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.infiniteloop.mytasks.activities.CheckListActivity;
 import com.infiniteloop.mytasks.activities.NoteActivity;
@@ -181,7 +186,39 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
         });
 
         mImage =(ImageButton)rootView.findViewById(R.id.add_image);
-        
+        mImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Dialog dialog = new Dialog(getActivity());
+                dialog.setTitle(getString(R.string.add_picture));
+                dialog.setContentView(R.layout.camera_dialog);
+                //Set dialog size
+                WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+                lp.copyFrom(dialog.getWindow().getAttributes());
+                lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+                lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+                lp.gravity = Gravity.CENTER;
+                dialog.getWindow().setAttributes(lp);
+
+                View take_pick = dialog.findViewById(R.id.take_pic);
+                take_pick.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(getActivity(),"Clicked",Toast.LENGTH_LONG).show();
+                    }
+                });
+
+                View open_gallery = dialog.findViewById(R.id.goto_gallery);
+                open_gallery.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(Intent.ACTION_PICK)
+                    }
+                });
+
+                dialog.show();
+            }
+        });
         mCheckList=(ImageButton)rootView.findViewById(R.id.add_list);
         mCheckList.setOnClickListener(new View.OnClickListener() {
             @Override
