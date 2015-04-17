@@ -79,5 +79,7 @@
     <string name="no_category">No Category</string>
     <string name="removeAlarm">Remove reminder?</string>
     <string name="move_to">Move to</string>
+    <string name="note_title_hint">Note Title</string>
+    <string name="hint_note">Enter Your note here</string>
 
 </resources>

@@ -15,8 +15,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 
+import com.infiniteloop.mytasks.activities.NewNoteActivity;
 import com.infiniteloop.mytasks.loaders.CursorLoader;
 import com.infiniteloop.mytasks.Helpers;
 import com.infiniteloop.mytasks.R;
@@ -44,6 +46,8 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
     private ArrayList<String> mPriorities;
     private Date mDateCaptured;
     private ArrayList<String> mCategoryList;
+    private ImageButton mNotes, mImage,mCheckList;
+
 
     private static final String TAG=DetailTaskFragment.class.getSimpleName();
 
@@ -163,6 +167,20 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
                 return true;
             }
         });
+
+        //Bottom options
+
+        mNotes = (ImageButton)rootView.findViewById(R.id.add_note);
+        mNotes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(),NewNoteActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        mImage =(ImageButton)rootView.findViewById(R.id.add_image);
+        mCheckList=(ImageButton)rootView.findViewById(R.id.add_list);
 
 //
 //        mCategoryAdd = (ImageView)rootView.findViewById(R.id.edit_add_category_imageView);

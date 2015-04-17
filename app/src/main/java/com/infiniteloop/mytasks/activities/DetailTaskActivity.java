@@ -23,7 +23,7 @@ public class DetailTaskActivity extends SingleFragmentActivity {
 
     @Override
     protected Fragment createFragment() {
-         Task task= getIntent().getExtras().getParcelable(DetailTaskFragment.EXTRA_TASK);
+        Task task= getIntent().getExtras().getParcelable(DetailTaskFragment.EXTRA_TASK);
         return DetailTaskFragment.newInstance(task);
     }
 }
