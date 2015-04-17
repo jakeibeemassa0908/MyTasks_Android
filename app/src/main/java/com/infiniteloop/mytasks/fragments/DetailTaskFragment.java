@@ -6,7 +6,9 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.LoaderManager;
@@ -20,6 +22,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -53,6 +56,10 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
     private Date mDateCaptured;
     private ArrayList<String> mCategoryList;
     private ImageButton mNotes, mImage,mCheckList;
+    ImageView mImageView;
+
+
+    public static final int REQUEST_IMAGE_CAPTURE = 1;
 
 
     private static final String TAG=DetailTaskFragment.class.getSimpleName();
@@ -108,7 +115,13 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
                         GregorianCalendar calendar = new GregorianCalendar(year,month,day,hour,minute);
                         mDateCaptured=calendar.getTime();
                         updateReminderButton(mDateCaptured);
-                        break;
+                }
+                break;
+            case REQUEST_IMAGE_CAPTURE:
+                if(resultCode == Activity.RESULT_OK){
+                    Bundle extras = data.getExtras();
+                    Bitmap imageBitmap = (Bitmap)extras.get("data");
+                    mImageView.setImageBitmap(imageBitmap);
                 }
             default:
                 super.onActivityResult(requestCode, resultCode, data);
@@ -132,6 +145,8 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
 
         mCategorySpinner= (Spinner) rootView.findViewById(R.id.edit_task_category_spinner);
         mCategorySpinner.setAdapter(Helpers.getSpinnerAdapter(getActivity(),mCategoryList));
+
+        mImageView = (ImageView)rootView.findViewById(R.id.task_image);
 
         mEditAlarm=(Button)rootView.findViewById(R.id.edit_Alarm);
         if(mTask.getReminder()==-1){
@@ -189,7 +204,7 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
         mImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Dialog dialog = new Dialog(getActivity());
+                final Dialog dialog = new Dialog(getActivity());
                 dialog.setTitle(getString(R.string.add_picture));
                 dialog.setContentView(R.layout.camera_dialog);
                 //Set dialog size
@@ -204,7 +219,10 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
                 take_pick.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(getActivity(),"Clicked",Toast.LENGTH_LONG).show();
+                        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        if(takePictureIntent.resolveActivity(getActivity().getPackageManager())!=null)
+                            dialog.dismiss();
+                            startActivityForResult(takePictureIntent,REQUEST_IMAGE_CAPTURE);
                     }
                 });
 
@@ -212,7 +230,7 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
                 open_gallery.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(Intent.ACTION_PICK)
+                        //Intent intent = new Intent(Intent.ACTION_PICK)
                     }
                 });
 
@@ -260,6 +278,7 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
 
         return rootView;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

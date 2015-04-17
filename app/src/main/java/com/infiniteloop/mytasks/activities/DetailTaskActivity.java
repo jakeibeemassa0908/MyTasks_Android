@@ -1,6 +1,7 @@
 package com.infiniteloop.mytasks.activities;
 
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.view.Menu;
 
@@ -25,5 +26,10 @@ public class DetailTaskActivity extends SingleFragmentActivity {
     protected Fragment createFragment() {
         Task task= getIntent().getExtras().getParcelable(DetailTaskFragment.EXTRA_TASK);
         return DetailTaskFragment.newInstance(task);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }
