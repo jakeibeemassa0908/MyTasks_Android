@@ -60,6 +60,7 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
 
 
     public static final int REQUEST_IMAGE_CAPTURE = 1;
+    public static final int REQUEST_PICK_IMAGE=2;
 
 
     private static final String TAG=DetailTaskFragment.class.getSimpleName();
@@ -219,6 +220,7 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
                 take_pick.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        
                         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                         if(takePictureIntent.resolveActivity(getActivity().getPackageManager())!=null)
                             dialog.dismiss();
@@ -230,7 +232,11 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
                 open_gallery.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //Intent intent = new Intent(Intent.ACTION_PICK)
+                        dialog.dismiss();
+                        Intent intent = new Intent();
+                        intent.setType("image/*");
+                        intent.setAction(Intent.ACTION_GET_CONTENT);
+                        startActivityForResult(Intent.createChooser(intent, "Select Picture"), REQUEST_PICK_IMAGE);
                     }
                 });
 
