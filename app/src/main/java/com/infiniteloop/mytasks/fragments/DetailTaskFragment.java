@@ -18,7 +18,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 
-import com.infiniteloop.mytasks.activities.NewNoteActivity;
+import com.infiniteloop.mytasks.activities.CheckListActivity;
+import com.infiniteloop.mytasks.activities.NoteActivity;
 import com.infiniteloop.mytasks.loaders.CursorLoader;
 import com.infiniteloop.mytasks.Helpers;
 import com.infiniteloop.mytasks.R;
@@ -174,13 +175,21 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
         mNotes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(),NewNoteActivity.class);
+                Intent intent = new Intent(getActivity(),NoteActivity.class);
                 startActivity(intent);
             }
         });
 
         mImage =(ImageButton)rootView.findViewById(R.id.add_image);
+        
         mCheckList=(ImageButton)rootView.findViewById(R.id.add_list);
+        mCheckList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), CheckListActivity.class);
+                startActivity(intent);
+            }
+        });
 
 //
 //        mCategoryAdd = (ImageView)rootView.findViewById(R.id.edit_add_category_imageView);

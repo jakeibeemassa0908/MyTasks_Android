@@ -88,8 +88,19 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.infiniteloop.mytasks.TaskListActivity" />
         </activity>
-        
-        <activity android:name=".activities.NewNoteActivity"
+
+        <activity
+            android:name=".activities.NoteActivity"
+            android:label="@string/task_note"
+            android:parentActivityName=".activities.DetailTaskActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.infiniteloop.mytasks.DetailTaskActivity" />
+        </activity>
+
+        <activity
+            android:name=".activities.CheckListActivity"
+            android:label="@string/task_checklist"
             android:parentActivityName=".activities.DetailTaskActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

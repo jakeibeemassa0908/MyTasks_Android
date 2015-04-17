@@ -81,5 +81,9 @@
     <string name="move_to">Move to</string>
     <string name="note_title_hint">Note Title</string>
     <string name="hint_note">Enter Your note here</string>
+    <string name="save_note">Save Note</string>
+    <string name="task_note">Task Note</string>
+    <string name="checklist_title_hint">Checklist Title</string>
+    <string name="task_checklist">Task CheckList</string>
 
 </resources>

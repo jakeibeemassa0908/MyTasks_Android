@@ -12,7 +12,7 @@ import com.infiniteloop.mytasks.R;
 /**
  * Created by theotherside on 17/04/15.
  */
-public class NewNoteFragment extends Fragment{
+public class NoteFragment extends Fragment{
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
