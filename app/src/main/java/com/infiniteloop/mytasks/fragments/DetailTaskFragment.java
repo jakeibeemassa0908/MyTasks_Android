@@ -3,10 +3,12 @@ package com.infiniteloop.mytasks.fragments;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -128,11 +130,30 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
             case REQUEST_IMAGE_CAPTURE:
                 if(resultCode == Activity.RESULT_OK){
                     for(String filename: mCurrentPhotoPath){
-                        Log.d(TAG,filename);
+                        //Share the picture with phone's gallery
                         galleryPic(filename);
 
+                        Bitmap imageBitmap=getImageBitmap(filename);
+                        if(imageBitmap!=null){
+                            mImageView.setImageBitmap(imageBitmap);
+                        }
                     }
                 }
+                break;
+
+            case REQUEST_PICK_IMAGE:
+                if(resultCode == Activity.RESULT_OK){
+                    Uri selectedImageUri = data.getData();
+                    //get the real path from Uri
+                    String path = getRealPathFromURI(getActivity(),selectedImageUri);
+
+                    Bitmap imageBitmap=getImageBitmap(path);
+                    if(imageBitmap!=null){
+                        mImageView.setImageBitmap(imageBitmap);
+                    }
+
+                }
+                break;
             default:
                 super.onActivityResult(requestCode, resultCode, data);
 
@@ -217,6 +238,7 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
                 final Dialog dialog = new Dialog(getActivity());
                 dialog.setTitle(getString(R.string.add_picture));
                 dialog.setContentView(R.layout.camera_dialog);
+
                 //Set dialog size
                 WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
                 lp.copyFrom(dialog.getWindow().getAttributes());
@@ -225,6 +247,7 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
                 lp.gravity = Gravity.CENTER;
                 dialog.getWindow().setAttributes(lp);
 
+                //When clicked on Take photo
                 View take_pick = dialog.findViewById(R.id.take_pic);
                 take_pick.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -436,7 +459,7 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
         );
 
         //Save a file :path for use whith ACTION_VIEW intents
-        mCurrentPhotoPath.add("file:"+image.getAbsolutePath());
+        mCurrentPhotoPath.add(image.getAbsolutePath());
         return image;
     }
 
@@ -450,4 +473,37 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
         mediaSanIntent.setData(contentUri);
         getActivity().sendBroadcast(mediaSanIntent);
     }
+
+    /**
+     * Get the absolute path from the Uri
+     * @param context
+     * @param uri
+     * @return
+     */
+    public String getRealPathFromURI(Context context, Uri uri) {
+        Cursor cursor = context.getContentResolver().query(uri, null, null, null, null);
+        cursor.moveToFirst();
+        String document_id = cursor.getString(0);
+        document_id = document_id.substring(document_id.lastIndexOf(":")+1);
+        cursor.close();
+
+        cursor = context.getContentResolver().query(
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                null, MediaStore.Images.Media._ID + " = ? ", new String[]{document_id}, null);
+        cursor.moveToFirst();
+        String path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+        cursor.close();
+
+        return path;
+    }
+
+    public Bitmap getImageBitmap(String path){
+        File imgFile = new  File(path);
+
+        if(imgFile.exists()){
+            return BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+        }
+        return null;
+    }
+
 }
