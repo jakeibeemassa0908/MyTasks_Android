@@ -7,12 +7,15 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -36,7 +39,10 @@ import com.infiniteloop.mytasks.data.Task;
 import com.infiniteloop.mytasks.data.TaskLab;
 import com.infiniteloop.mytasks.data.TaskDataBaseHelper;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -56,6 +62,7 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
     private Date mDateCaptured;
     private ArrayList<String> mCategoryList;
     private ImageButton mNotes, mImage,mCheckList;
+    private ArrayList<String> mCurrentPhotoPath = new ArrayList<String>();
     ImageView mImageView;
 
 
@@ -120,9 +127,11 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
                 break;
             case REQUEST_IMAGE_CAPTURE:
                 if(resultCode == Activity.RESULT_OK){
-                    Bundle extras = data.getExtras();
-                    Bitmap imageBitmap = (Bitmap)extras.get("data");
-                    mImageView.setImageBitmap(imageBitmap);
+                    for(String filename: mCurrentPhotoPath){
+                        Log.d(TAG,filename);
+                        galleryPic(filename);
+
+                    }
                 }
             default:
                 super.onActivityResult(requestCode, resultCode, data);
@@ -222,9 +231,23 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
                     public void onClick(View v) {
                         
                         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        if(takePictureIntent.resolveActivity(getActivity().getPackageManager())!=null)
+                        //Ensure that there's a camera activity to handle the intent
+                        if(takePictureIntent.resolveActivity(getActivity().getPackageManager())!=null){
                             dialog.dismiss();
-                            startActivityForResult(takePictureIntent,REQUEST_IMAGE_CAPTURE);
+                            //Create the file where the photo should go
+                            File photoFile = null;
+                            try{
+                                photoFile=createImageFile();
+                            }catch (IOException ex){
+                                Log.e(TAG,ex.getMessage());
+                            }
+                            if(photoFile!=null){
+                                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
+                                        Uri.fromFile(photoFile));
+                                startActivityForResult(takePictureIntent,REQUEST_IMAGE_CAPTURE);
+                            }
+                        }
+
                     }
                 });
 
@@ -394,5 +417,37 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
     @Override
     public void onLoaderReset(Loader<Cursor> cursorLoader) {
 
+    }
+
+    /**
+     * Create a file, and save the file_name in the current file list for intent use
+     * @return
+     * @throws IOException
+     */
+    private File createImageFile() throws IOException{
+        String timeStamp = new SimpleDateFormat("yyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_"+ timeStamp + "_";
+        File storageDir = Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES);
+        File image= File.createTempFile(
+                imageFileName,
+                ".jpg",
+                storageDir
+        );
+
+        //Save a file :path for use whith ACTION_VIEW intents
+        mCurrentPhotoPath.add("file:"+image.getAbsolutePath());
+        return image;
+    }
+
+    /**
+     * Make the picture available to the gallery
+     */
+    private void galleryPic(String filePath){
+        Intent mediaSanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        File f = new File(filePath);
+        Uri contentUri = Uri.fromFile(f);
+        mediaSanIntent.setData(contentUri);
+        getActivity().sendBroadcast(mediaSanIntent);
     }
 }
