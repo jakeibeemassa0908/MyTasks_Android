@@ -135,7 +135,7 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
 
                         Bitmap imageBitmap=getImageBitmap(filename);
                         if(imageBitmap!=null){
-                            mImageView.setImageBitmap(imageBitmap);
+                            mImageView.setImageBitmap(getTailoredBitmap(filename,mImageView));
                         }
                     }
                 }
@@ -149,7 +149,7 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
 
                     Bitmap imageBitmap=getImageBitmap(path);
                     if(imageBitmap!=null){
-                        mImageView.setImageBitmap(imageBitmap);
+                        mImageView.setImageBitmap(getTailoredBitmap(path,mImageView));
                     }
 
                 }
@@ -497,6 +497,11 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
         return path;
     }
 
+    /**
+     * Get the bitmap from the path
+     * @param path
+     * @return
+     */
     public Bitmap getImageBitmap(String path){
         File imgFile = new  File(path);
 
@@ -504,6 +509,37 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
             return BitmapFactory.decodeFile(imgFile.getAbsolutePath());
         }
         return null;
+    }
+
+    /**
+     * Get bitmap tailored to the size of the imageview container for better memory management
+     * @param path
+     * @param imageView
+     * @return
+     */
+    private Bitmap getTailoredBitmap(String path,ImageView imageView) {
+        // Get the dimensions of the View
+        int targetW = imageView.getWidth();
+        int targetH = imageView.getHeight();
+
+        // Get the dimensions of the bitmap
+        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+        bmOptions.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(path, bmOptions);
+        int photoW = bmOptions.outWidth;
+        int photoH = bmOptions.outHeight;
+
+        // Determine how much to scale down the image
+        int scaleFactor = Math.min(photoW/targetW, photoH/targetH);
+
+        // Decode the image file into a Bitmap sized to fill the View
+        bmOptions.inJustDecodeBounds = false;
+        bmOptions.inSampleSize = scaleFactor;
+        bmOptions.inPurgeable = true;
+
+        Bitmap bitmap = BitmapFactory.decodeFile(path, bmOptions);
+
+        return bitmap;
     }
 
 }

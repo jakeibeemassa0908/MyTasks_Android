@@ -144,32 +144,19 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <Button
-                    android:layout_weight="3"
-                    android:layout_width="0dp"
-                    android:layout_marginRight="5dp"
-                    android:background="@color/dark_orange"
-                    android:layout_height="80dp" />
-                <Button
-                    android:layout_weight="3"
-                    android:layout_marginRight="5dp"
-                    android:layout_width="0dp"
-                    android:background="@color/dark_orange"
-                    android:layout_height="80dp" />
-                <ImageView
+
+                <com.infiniteloop.mytasks.DynamicImageView
                     android:id="@+id/task_image"
-                    android:layout_weight="3"
-                    android:layout_width="0dp"
+                    android:layout_width="150dp"
+                    android:scaleType="centerCrop"
                     android:layout_marginRight="5dp"
-                    android:background="@color/dark_orange"
-                    android:layout_height="80dp" />
+                    android:layout_height="220dp" />
 
                 <ImageButton
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:src="@drawable/ic_hardware_keyboard_arrow_right"
-                    android:layout_gravity="bottom"
-                    android:layout_height="48dp" />
+                    android:layout_gravity="bottom" />
             </LinearLayout>
 
 
