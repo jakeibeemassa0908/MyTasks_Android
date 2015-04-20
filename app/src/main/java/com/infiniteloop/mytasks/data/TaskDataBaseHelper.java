@@ -183,33 +183,33 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
         String[] selectionArgs;
         switch (queryCode){
             case 1:
-                selection+=" AND "+TaskEntry.COLUMN_REMINDER + " NOT LIKE ?";
+                selection+=" AND "+TaskEntry.COLUMN_REMINDER + " NOT LIKE ?"; //Task with reminder
                 array.add(String.valueOf(-1));
                 break;
             case 3:
-                selection+=" AND "+TaskEntry.COLUMN_PRIORITY + " LIKE ?";
+                selection+=" AND "+TaskEntry.COLUMN_PRIORITY + " LIKE ?";  //Very high priority task
                 array.add(String.valueOf(Task.VERY_HIGH_PRIORITY));
                 break;
             case 4:
-                selection+=" AND "+TaskEntry.COLUMN_PRIORITY + " LIKE ?";
+                selection+=" AND "+TaskEntry.COLUMN_PRIORITY + " LIKE ?"; //High priority task
                 array.add(String.valueOf(Task.HIGH_PRIORITY));
                 break;
             case 5:
-                selection+=" AND "+TaskEntry.COLUMN_PRIORITY + " LIKE ?";
+                selection+=" AND "+TaskEntry.COLUMN_PRIORITY + " LIKE ?"; //Normal priority task
                 array.add(String.valueOf(Task.NORMAL_PRIORITY));
                 break;
             case 6:
-                selection+=" AND "+TaskEntry.COLUMN_PRIORITY + " LIKE ?";
+                selection+=" AND "+TaskEntry.COLUMN_PRIORITY + " LIKE ?"; //Low priority task
                 array.add(String.valueOf(Task.LOW_PRIORITY));
                 break;
             case 2:
-                selection=TaskEntry.COLUMN_COMPLETED + " LIKE ? ";
+                selection=TaskEntry.COLUMN_COMPLETED + " LIKE ? ";  //Task completed
                 array.remove(0);
                 array.add(String.valueOf(1));
                 break;
             default:
                 if(queryCode>=100){
-                    selection+=" AND "+TaskEntry.COLUMN_CAT_KEY + " LIKE ?";
+                    selection+=" AND "+TaskEntry.COLUMN_CAT_KEY + " LIKE ?"; //Task belonging to a certain category
                     array.add(String.valueOf(queryCode-100));
                 }
 

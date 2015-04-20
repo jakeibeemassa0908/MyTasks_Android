@@ -79,5 +79,14 @@
     <string name="no_category">Sans categorie</string>
     <string name="removeAlarm">Enlever rappel</string>
     <string name="move_to">Deplacer vers</string>
+    <string name="note_title_hint">Titre Note</string>
+    <string name="hint_note">Ecrivez votre note ici</string>
+    <string name="save_note">Enregistrer note</string>
+    <string name="task_note">Note de Tâche</string>
+    <string name="checklist_title_hint">Titre de la liste</string>
+    <string name="task_checklist">Liste de la tâche</string>
+    <string name="add_picture">Ajouter image</string>
+    <string name="take_photo">Capturer photo</string>
+    <string name="chose_image">Choisir image</string>
 
 </resources>

@@ -33,10 +33,9 @@ public class RestartAlarmService extends IntentService {
 
         mTaskLab = TaskLab.get(this);
 
-        //Query all task
+        //Query all task with reminder
         ArrayList<Task> taskList = new ArrayList<Task>();
-
-        TaskDataBaseHelper.TaskCursor taskCursor=mTaskLab.queryTasks(-1);
+        TaskDataBaseHelper.TaskCursor taskCursor=mTaskLab.queryTasks(1);
 
         if(taskCursor.getCount()>0){
             taskCursor.moveToFirst();
@@ -49,10 +48,9 @@ public class RestartAlarmService extends IntentService {
         //Set reminder for all task with reminders that are not overdue
         for(int i=0;i<taskList.size();i++){
             Task taskToResetAlarm =taskList.get(i);
-            if(taskToResetAlarm.getReminder()!=-1)
-                if(taskToResetAlarm.getReminder() > new Date().getTime()){
-                    mTaskLab.setTaskAlarm(taskToResetAlarm,this,true);
-                }
+            if(taskToResetAlarm.getReminder() > new Date().getTime()){
+                   mTaskLab.setTaskAlarm(taskToResetAlarm,this,true);
+            }
         }
     }
 }
