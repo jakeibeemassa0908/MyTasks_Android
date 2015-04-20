@@ -154,6 +154,12 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
         return getWritableDatabase().delete(TaskEntry.TABLE_NAME,selection,selectionArgs);
     }
 
+    /**
+     * Update Task with new task value
+     * @param task the new task to be saved
+     * @param completed whether the task is completed or not
+     * @return
+     */
     public int updateTask(Task task,boolean completed){
         ContentValues cv= new ContentValues();
         cv.put(TaskEntry.COLUMN_TASK_TITLE,task.getTitle());
@@ -176,6 +182,11 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
     }
 
 
+    /**
+     * Query Tasks all task according to a query code
+     * @param queryCode determines what task should be returned
+     * @return
+     */
     public TaskCursor queryTasks(int queryCode){
         String selection=TaskEntry.COLUMN_COMPLETED +" LIKE ? ";
         ArrayList<String>array= new ArrayList<String>();
@@ -228,6 +239,11 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
         return new TaskCursor(wrapped);
     }
 
+    /**
+     * Query a single Task from its ID
+     * @param rowId
+     * @return
+     */
     public TaskCursor queryTask(long rowId){
         String selection =TaskEntry._ID + " LIKE ?";
         String [] selectionArgs={String.valueOf(rowId)};
@@ -242,6 +258,10 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
         return new TaskCursor(wrapped);
     }
 
+    /**
+     * Return all categories in a Cursor
+     * @return
+     */
     public Cursor queryCategories() {
         String [] column = {CategoryEntry.COLUMN_NAME};
         Cursor wrapped = getReadableDatabase().query(
@@ -255,6 +275,11 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
         return new CategoryCursor(wrapped);
     }
 
+    /**
+     * Delete a category given its ID
+     * @param id
+     * @return
+     */
     public int deleteCategory(long id) {
         String selection = CategoryEntry._ID + " LIKE ?";
         String[] selectionArgs= {String.valueOf(id)};
@@ -283,6 +308,9 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
     }
 
 
+    /**
+     * Customed cursor for Task
+     */
     public static class TaskCursor extends CursorWrapper{
         public TaskCursor(Cursor c){
             super(c);
@@ -304,6 +332,9 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
 
     }
 
+    /**
+     * Custom cursor for category
+     */
     public static class CategoryCursor extends CursorWrapper{
         public CategoryCursor(Cursor c){
             super(c);

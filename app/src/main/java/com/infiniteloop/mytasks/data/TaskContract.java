@@ -14,7 +14,7 @@ public class TaskContract {
     // the database to the start of the Juilian day at UTC
 
     public static long normalizeDate(long date){
-        //Normalize the date to the begining of the (UTC) day
+        //Normalize the date to the beginning of the (UTC) day
         Time time = new Time();
         time.set(date);
         int julianDay= Time.getJulianDay(date,time.gmtoff);
