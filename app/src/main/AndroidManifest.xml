@@ -55,8 +55,6 @@
                 android:value="com.infiniteloop.mytasks.TaskListActivity" />
         </activity>
 
-        <service android:name=".services.ReminderService" />
-
         <activity
             android:name=".activities.SettingsActivity"
             android:label="@string/title_activity_settings"
@@ -120,6 +118,14 @@
             </intent-filter>
         </receiver>
 
+        <receiver android:name=".receivers.StartupReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
+
+        <service android:name=".services.ReminderService" />
+        <service android:name=".services.RestartAlarmService"/>
 
 
     </application>
