@@ -15,7 +15,7 @@ public class NotificationReceiver extends BroadcastReceiver {
     private static final String TAG=NotificationReceiver.class.getSimpleName();
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.i(TAG,"received result: "+ getResultCode());
+
         if(getResultCode()!= Activity.RESULT_OK)
             //A foreground activity cancelled the broadcast
             return;

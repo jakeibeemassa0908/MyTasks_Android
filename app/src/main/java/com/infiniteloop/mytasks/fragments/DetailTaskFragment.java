@@ -381,7 +381,7 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
         if(mEditAlarm.getText().equals(getResources().getString(R.string.set_reminder)))
             mTask.setReminder(null);
         if(mTask.getReminder()!=-1){
-            ReminderService.activateServiceAlarm(getActivity(), mTask, true);
+            TaskLab.get(getActivity()).activateServiceAlarm(getActivity(), mTask, true);
         }
     }
 

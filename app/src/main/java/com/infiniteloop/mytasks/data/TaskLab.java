@@ -1,6 +1,9 @@
 package com.infiniteloop.mytasks.data;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 
 import com.infiniteloop.mytasks.Helpers;
@@ -203,9 +206,30 @@ public class TaskLab {
      * @param context the application context
      * @param onOrOff the value of the switch, true =on ; false =off
      */
-    private void setTaskAlarm(Task task,Context context,boolean onOrOff){
+    public void setTaskAlarm(Task task,Context context,boolean onOrOff){
         if(task.getReminder()!=-1){
-            ReminderService.activateServiceAlarm(context,task,onOrOff);
+            activateServiceAlarm(context,task,onOrOff);
+        }
+    }
+
+    /**
+     * Set the alarm by creating a pending Intent that will trigger the service
+     * @param context
+     * @param t
+     * @param activate
+     */
+    public void activateServiceAlarm(Context context,Task t,boolean activate){
+
+        Intent i =new Intent(context,ReminderService.class);
+        i.putExtra(ReminderService.EXTRA_NOTIF,t);
+        PendingIntent pi = PendingIntent.getService(context,(int)t.getId(),i,0);
+        AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+        if(activate){
+            alarmManager.set(AlarmManager.RTC,
+                    t.getReminder(), pi);
+        }else{
+            alarmManager.cancel(pi);
+            pi.cancel();
         }
     }
 }

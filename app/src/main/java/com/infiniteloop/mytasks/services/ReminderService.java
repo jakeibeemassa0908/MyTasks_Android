@@ -81,21 +81,6 @@ public class ReminderService extends IntentService {
         showBackroundNotification(0,notification,task);
     }
 
-    public static void activateServiceAlarm(Context context,Task t,boolean activate){
-
-        Intent i =new Intent(context,ReminderService.class);
-        i.putExtra(EXTRA_NOTIF,t);
-        PendingIntent pi = PendingIntent.getService(context,(int)t.getId(),i,0);
-        AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-                if(activate){
-                    alarmManager.set(AlarmManager.RTC,
-                            t.getReminder(), pi);
-                }else{
-                    alarmManager.cancel(pi);
-                    pi.cancel();
-                }
-    }
-
     void showBackroundNotification(int requestCode,Notification notification,Task t){
         Intent i = new Intent(ACTION_SHOW_NOTIFICATION);
         i.putExtra("REQUEST_CODE",requestCode);
