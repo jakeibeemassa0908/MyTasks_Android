@@ -2,16 +2,18 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.infiniteloop.mytasks" >
 
-  <permission
+  <!--<permission
         android:name="com.infiniteloop.mytasks.PRIVATE"
         android:protectionLevel="signature" />
+
+    <uses-permission android:name="com.infiniteloop.mytasks.PRIVATE" /> -->
 
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
-    <!--  <uses-feature android:name="android.hardware.camera"
+    <uses-feature android:name="android.hardware.camera"
         android:required="true" />
-  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/> -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="com.infiniteloop.mytasks.PRIVATE" />
     <supports-screens
         android:largeScreens="true"
