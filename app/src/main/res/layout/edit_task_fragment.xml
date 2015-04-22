@@ -110,7 +110,6 @@
             </LinearLayout>
 
             <LinearLayout
-                android:visibility="gone"
                 android:layout_marginTop="20dp"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
@@ -139,7 +138,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:visibility="gone"
         android:orientation="horizontal">
         <ImageButton
             android:id="@+id/add_list"

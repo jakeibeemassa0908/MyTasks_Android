@@ -13,7 +13,7 @@ public class CheckList {
     private String mName;
     private Date mCreatedDate;
     private Date mEditedDate;
-    private ArrayList<CheckListItems> mChecklistItems;
+    private ArrayList<CheckListItem> mChecklistItems;
 
 
     public long getId() {
@@ -48,11 +48,11 @@ public class CheckList {
         this.mEditedDate = mEditedDate;
     }
 
-    public ArrayList<CheckListItems> getChecklistItems() {
+    public ArrayList<CheckListItem> getChecklistItems() {
         return mChecklistItems;
     }
 
-    public void setChecklistItems(ArrayList<CheckListItems> mChecklistItems) {
+    public void setChecklistItems(ArrayList<CheckListItem> mChecklistItems) {
         this.mChecklistItems = mChecklistItems;
     }
 

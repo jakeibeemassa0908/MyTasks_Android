@@ -3,7 +3,7 @@ package com.infiniteloop.mytasks.data;
 /**
  * Created by theotherside on 22/04/15.
  */
-public class CheckListItems {
+public class CheckListItem {
     private long mId;
     private long mCheckList;
     private String mItem;

@@ -140,6 +140,12 @@ public class TaskListFragment extends VisibleListFragment implements LoaderCallb
                 return false;
             }
 
+            /**
+             * Action mode bar action trigered when the list item are long pressed
+             * @param mode
+             * @param item
+             * @return
+             */
             @Override
             public boolean onActionItemClicked(final ActionMode mode, MenuItem item) {
 

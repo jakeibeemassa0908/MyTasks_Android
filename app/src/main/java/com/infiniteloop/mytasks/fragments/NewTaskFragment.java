@@ -203,6 +203,10 @@ public class NewTaskFragment extends VisibleFragment implements LoaderManager.Lo
                     Toast.makeText(getActivity(),R.string.empty_task_title,Toast.LENGTH_SHORT).show();
                 }
                 return true;
+            case R.id.home:
+                //TODO Check whether the user has entered something and show dialog "Discard changes"
+                Toast.makeText(getActivity(),"Back",Toast.LENGTH_LONG);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
 
