@@ -42,12 +42,6 @@
                     android:layout_marginBottom="10dp"
                     android:layout_height="wrap_content"/>
 
-                <ImageView
-                    android:visibility="gone"
-                    android:id="@+id/edit_add_category_imageView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_add_circle"/>
             </LinearLayout>
             <Spinner
                 android:id="@+id/edit_task_priority_spinner"
@@ -77,36 +71,23 @@
 
 
             <LinearLayout
-                android:visibility="gone"
                 android:layout_marginTop="20dp"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <Button
-                    android:layout_weight="3"
-                    android:layout_width="0dp"
-                    android:layout_marginRight="5dp"
-                    android:background="@color/red"
-                    android:layout_height="80dp" />
-                <Button
-                    android:layout_weight="3"
-                    android:layout_marginRight="5dp"
-                    android:layout_width="0dp"
-                    android:background="@color/red"
-                    android:layout_height="80dp" />
-                <Button
-                    android:layout_weight="3"
-                    android:layout_width="0dp"
-                    android:layout_marginRight="5dp"
-                    android:background="@color/red"
-                    android:layout_height="80dp" />
 
-                <ImageButton
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:src="@drawable/ic_hardware_keyboard_arrow_right"
-                    android:layout_gravity="bottom"
-                    android:layout_height="48dp" />
+                <GridView xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/gridview_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:columnWidth="90dp"
+                    android:numColumns="4"
+                    android:verticalSpacing="0dp"
+                    android:horizontalSpacing="0dp"
+                    android:stretchMode="columnWidth"
+                    android:gravity="center"
+                    />
+
             </LinearLayout>
 
             <LinearLayout
@@ -115,18 +96,37 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <com.infiniteloop.mytasks.DynamicImageView
-                    android:id="@+id/task_image"
-                    android:layout_width="150dp"
-                    android:scaleType="centerCrop"
-                    android:layout_marginRight="5dp"
-                    android:layout_height="220dp" />
+                <GridView xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/gridview_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:columnWidth="90dp"
+                    android:numColumns="4"
+                    android:verticalSpacing="0dp"
+                    android:horizontalSpacing="0dp"
+                    android:stretchMode="columnWidth"
+                    android:gravity="center"
+                    />
 
-                <ImageButton
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:src="@drawable/ic_hardware_keyboard_arrow_right"
-                    android:layout_gravity="bottom" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <GridView xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/gridview_note"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:columnWidth="90dp"
+                    android:numColumns="4"
+                    android:verticalSpacing="0dp"
+                    android:horizontalSpacing="0dp"
+                    android:stretchMode="columnWidth"
+                    android:gravity="center"
+                    />
+
             </LinearLayout>
 
 

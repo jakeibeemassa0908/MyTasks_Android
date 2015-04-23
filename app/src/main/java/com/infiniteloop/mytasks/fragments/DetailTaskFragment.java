@@ -24,8 +24,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -65,7 +68,6 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
     private ArrayList<String> mCategoryList;
     private ImageButton mNotes, mImage,mCheckList;
     private ArrayList<String> mCurrentPhotoPath = new ArrayList<String>();
-    ImageView mImageView;
 
 
     public static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -135,7 +137,7 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
 
                         Bitmap imageBitmap=getImageBitmap(filename);
                         if(imageBitmap!=null){
-                            mImageView.setImageBitmap(getTailoredBitmap(filename,mImageView));
+
                         }
                     }
                 }
@@ -149,7 +151,7 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
 
                     Bitmap imageBitmap=getImageBitmap(path);
                     if(imageBitmap!=null){
-                        mImageView.setImageBitmap(getTailoredBitmap(path,mImageView));
+
                     }
 
                 }
@@ -177,7 +179,6 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
         mCategorySpinner= (Spinner) rootView.findViewById(R.id.edit_task_category_spinner);
         mCategorySpinner.setAdapter(Helpers.getSpinnerAdapter(getActivity(),mCategoryList));
 
-        mImageView = (ImageView)rootView.findViewById(R.id.task_image);
 
         mEditAlarm=(Button)rootView.findViewById(R.id.edit_Alarm);
         if(mTask.getReminder()==-1){
@@ -289,6 +290,10 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
                 dialog.show();
             }
         });
+
+        /**
+         * CheckList Gridview
+         * **/
         mCheckList=(ImageButton)rootView.findViewById(R.id.add_list);
         mCheckList.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -297,6 +302,28 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
                 startActivity(intent);
             }
         });
+
+        GridView listGridView = (GridView)rootView.findViewById(R.id.gridview_list);
+        listGridView.setAdapter(new GridViewAdapter(getActivity()));
+        listGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getActivity(),""+position,Toast.LENGTH_LONG).show();
+            }
+        });
+
+        /**
+         * Image GridView
+         */
+        GridView imageGridView = (GridView)rootView.findViewById(R.id.gridview_image);
+        imageGridView.setAdapter(new GridViewAdapter(getActivity()));
+        imageGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getActivity(),""+position,Toast.LENGTH_LONG).show();
+            }
+        });
+
 
 //
 //        mCategoryAdd = (ImageView)rootView.findViewById(R.id.edit_add_category_imageView);
@@ -540,6 +567,50 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
         Bitmap bitmap = BitmapFactory.decodeFile(path, bmOptions);
 
         return bitmap;
+    }
+
+    private class GridViewAdapter extends BaseAdapter{
+        private Context mContext;
+
+        public GridViewAdapter(Context c){
+            mContext=c;
+        }
+
+        @Override
+        public int getCount() {
+            return 4;
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ImageView imageView;
+            if(convertView==null){
+                imageView= new ImageView(mContext);
+                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                imageView.setLayoutParams(new GridView.LayoutParams(150, 200));
+                imageView.setPadding(0,0,0,0);
+                imageView.setAdjustViewBounds(true);
+                imageView.setBackgroundColor(getResources().getColor(R.color.dark_red));
+            }else{
+                imageView = (ImageView)convertView;
+            }
+
+            if(mCurrentPhotoPath.size()>0){
+                imageView.setImageBitmap(getTailoredBitmap(mCurrentPhotoPath.get(0),imageView));
+            }
+
+            return imageView;
+        }
     }
 
 }
