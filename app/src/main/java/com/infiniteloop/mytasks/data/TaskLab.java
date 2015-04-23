@@ -235,9 +235,19 @@ public class TaskLab {
 
     //--------NOTES FUNCTIONS------
 
+    /**
+     * Create new note
+     * @param note
+     * @return
+     */
     public long createNote(Note note){
         note.setCreationDate(new Date());
         note.setLastEdit(new Date());
         return mHelper.insertNote(note);
     }
+
+    public TaskDataBaseHelper.NoteCursor queryNotes(){
+        return mHelper.queryNotes();
+    }
+
 }

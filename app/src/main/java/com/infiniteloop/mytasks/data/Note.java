@@ -21,6 +21,10 @@ public class Note {
         mNoteContent=content;
     }
 
+    public Note(){
+
+    }
+
     public long getId() {
         return mId;
     }

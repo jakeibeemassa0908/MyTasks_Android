@@ -345,6 +345,11 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
 
     //========Note=========
 
+    /**
+     * Insert new note in database
+     * @param note
+     * @return
+     */
     public long insertNote(Note note){
         ContentValues cv = new ContentValues();
         cv.put(NoteEntry.COLUMN_TASK_KEY,note.getTaskId());
@@ -353,6 +358,23 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
         cv.put(NoteEntry.COLUMN_EDITED_DATE,note.getLastEdit().getTime());
         cv.put(NoteEntry.COLUMN_TITLE,note.getTitle());
         return getWritableDatabase().insert(NoteEntry.TABLE_NAME,null,cv);
+    }
+
+    /**
+     * Return all Notes in the database
+     * @return
+     */
+    public NoteCursor queryNotes(){
+        //Equivalent of select * from note order by last_edit asc
+        Cursor wrapped = getReadableDatabase().query(
+                NoteEntry.TABLE_NAME,
+                null,
+                null,
+                null,
+                null,
+                null,
+                NoteEntry.COLUMN_EDITED_DATE + " asc");
+        return new NoteCursor(wrapped);
     }
 
 
@@ -398,8 +420,33 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
             category.setId(getLong(getColumnIndex(CategoryEntry._ID)));
             return category;
         }
+    }
+
+    /**
+     * Customed cursor for Note
+     */
+    public static class NoteCursor extends CursorWrapper{
+        public NoteCursor(Cursor c){
+            super(c);
+
+        }
+
+        public Note getNote(){
+            if(isBeforeFirst() || isAfterLast()) return null;
+            Note note = new Note();
+            note.setId(getLong(getColumnIndex(NoteEntry._ID)));
+            note.setTaskId(getLong(getColumnIndex(NoteEntry.COLUMN_TASK_KEY)));
+            note.setCreationDate(new Date(getLong(getColumnIndex(NoteEntry.COLUMN_CREATED_DATE))));
+            note.setLastEdit(new Date(getLong(getColumnIndex(NoteEntry.COLUMN_EDITED_DATE))));
+            note.setNoteContent(getString(getColumnIndex(NoteEntry.COLUMN_CONTENT)));
+            note.setTitle(getString(getColumnIndex(NoteEntry.COLUMN_TITLE)));
+            return note;
+        }
 
     }
+
+
+
 
 
 }

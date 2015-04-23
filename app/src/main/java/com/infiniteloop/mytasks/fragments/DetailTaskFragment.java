@@ -40,6 +40,7 @@ import com.infiniteloop.mytasks.activities.NoteActivity;
 import com.infiniteloop.mytasks.loaders.CursorLoader;
 import com.infiniteloop.mytasks.Helpers;
 import com.infiniteloop.mytasks.R;
+import com.infiniteloop.mytasks.loaders.SQLiteCursorLoader;
 import com.infiniteloop.mytasks.services.ReminderService;
 import com.infiniteloop.mytasks.data.Task;
 import com.infiniteloop.mytasks.data.TaskLab;
@@ -76,6 +77,9 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
     public static final int REQUEST_NOTE=3;
     public static final int REQUEST_CHECKLIST=4;
 
+    private static final int CATEGORY_LOADER=0;
+    private static final int NOTE_LOADER=1;
+
 
     private static final String TAG=DetailTaskFragment.class.getSimpleName();
 
@@ -109,7 +113,9 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
         mCategoryList=new ArrayList<String>();
         mCategoryList.add("No Category");
 
-        getLoaderManager().initLoader(0,null,this);
+        getLoaderManager().initLoader(CATEGORY_LOADER,null,this);
+        getLoaderManager().initLoader(NOTE_LOADER,null,this);
+
 
         setHasOptionsMenu(true);
 
@@ -240,7 +246,7 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(),NoteActivity.class);
                 intent.putExtra(EXTRA_TASK,mTask);
-                startActivityForResult(intent,REQUEST_NOTE);
+                startActivityForResult(intent, REQUEST_NOTE);
             }
         });
 
@@ -319,7 +325,7 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), CheckListActivity.class);
                 intent.putExtra(EXTRA_TASK,mTask);
-                startActivityForResult(intent,REQUEST_CHECKLIST);
+                startActivityForResult(intent, REQUEST_CHECKLIST);
             }
         });
 
@@ -615,6 +621,19 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
             }
 
             return imageView;
+        }
+    }
+
+    public static class NoteCursorLoader extends SQLiteCursorLoader {
+
+        public NoteCursorLoader(Context context){
+            super (context);
+        }
+
+        @Override
+        protected Cursor loadCursor() {
+            //Query the list of runs
+            return TaskLab.get(getContext()).queryNotes();
         }
     }
 

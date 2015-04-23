@@ -60,6 +60,7 @@ public class NoteFragment extends Fragment{
         switch (item.getItemId()){
             case R.id.save_note:
                 if(saveNote()){
+                    //TODO Confirmation dialog
                     getActivity().setResult(Activity.RESULT_OK);
                     getActivity().finish();
                 }
@@ -70,6 +71,10 @@ public class NoteFragment extends Fragment{
 
     }
 
+    /**
+     * Verify whether note is not empy, then save to database
+     * @return
+     */
     private boolean saveNote(){
         String noteTitle = mNoteTitle.getText().toString();
         String noteContent = mNoteContent.getText().toString();
@@ -83,4 +88,6 @@ public class NoteFragment extends Fragment{
         }
         return false;
     }
+
+
 }
