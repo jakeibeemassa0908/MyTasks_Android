@@ -361,16 +361,18 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * Return all Notes in the database
+     * Return all Notes in the database with taskId as given
      * @return
      */
-    public NoteCursor queryNotes(){
+    public NoteCursor queryNotes(long taskId){
+        String selection =NoteEntry.COLUMN_TASK_KEY + " LIKE ?";
+        String [] selectionArgs={String.valueOf(taskId)};
         //Equivalent of select * from note order by last_edit asc
         Cursor wrapped = getReadableDatabase().query(
                 NoteEntry.TABLE_NAME,
                 null,
-                null,
-                null,
+                selection,
+                selectionArgs,
                 null,
                 null,
                 NoteEntry.COLUMN_EDITED_DATE + " asc");

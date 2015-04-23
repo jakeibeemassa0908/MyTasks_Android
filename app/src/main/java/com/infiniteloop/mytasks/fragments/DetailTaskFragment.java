@@ -87,7 +87,7 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
 
     public static String EXTRA_TASK="com.infiniteloop.task";
 
-    private Task mTask;
+    public static Task mTask;
     private HashMap<String,Long> categoyIdName;
 
     public static DetailTaskFragment newInstance(Task task){
@@ -650,7 +650,7 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
         @Override
         protected Cursor loadCursor() {
             //Query the list of runs
-            return TaskLab.get(getContext()).queryNotes();
+            return TaskLab.get(getContext()).queryNotes(mTask.getId());
         }
     }
 

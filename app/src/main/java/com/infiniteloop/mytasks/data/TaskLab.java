@@ -246,8 +246,8 @@ public class TaskLab {
         return mHelper.insertNote(note);
     }
 
-    public TaskDataBaseHelper.NoteCursor queryNotes(){
-        return mHelper.queryNotes();
+    public TaskDataBaseHelper.NoteCursor queryNotes(long taskId){
+        return mHelper.queryNotes(taskId);
     }
 
 }
