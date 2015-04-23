@@ -275,6 +275,9 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
                     }
                 });
 
+
+                //When clicked on select Image
+
                 View open_gallery = dialog.findViewById(R.id.goto_gallery);
                 open_gallery.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -294,6 +297,10 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
         /**
          * CheckList Gridview
          * **/
+
+        View checklistLayout = rootView.findViewById(R.id.checklist_layout);
+        checklistLayout.setVisibility(View.GONE);
+
         mCheckList=(ImageButton)rootView.findViewById(R.id.add_list);
         mCheckList.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -315,6 +322,10 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
         /**
          * Image GridView
          */
+
+        View imageLayout = rootView.findViewById(R.id.image_layout);
+        imageLayout.setVisibility(View.GONE);
+
         GridView imageGridView = (GridView)rootView.findViewById(R.id.gridview_image);
         imageGridView.setAdapter(new GridViewAdapter(getActivity()));
         imageGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -326,6 +337,9 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
         /**
          * Notes GridView
          */
+        View noteLayout  = rootView.findViewById(R.id.notes_layout);
+        noteLayout.setVisibility(View.GONE);
+
         GridView NoteGridView = (GridView)rootView.findViewById(R.id.gridview_note);
         NoteGridView.setAdapter(new GridViewAdapter(getActivity()));
         NoteGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -334,37 +348,6 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
                 Toast.makeText(getActivity(),""+position,Toast.LENGTH_LONG).show();
             }
         });
-
-
-//
-//        mCategoryAdd = (ImageView)rootView.findViewById(R.id.edit_add_category_imageView);
-//        mCategoryAdd.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
-//                dialog.setTitle(getString(R.string.add_category));
-//                final EditText newCategory = new EditText(getActivity());
-//                dialog.setView(newCategory);
-//                dialog.setPositiveButton(getString(R.string.add),new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        String mAddCategory=newCategory.getText().toString();
-//                        if(!mAddCategory.matches("")){
-//
-//                            mCategoryList.add(0,mAddCategory);
-//                        }
-//                        mCategorySpinner.setAdapter(Helpers.getSpinnerAdapter(getActivity(),mCategoryList));
-//                    }
-//                });
-//                dialog.setNegativeButton(getString(R.string.cancel),new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//
-//                    }
-//                });
-//                dialog.show();
-//            }
-//        });
 
         return rootView;
     }
@@ -611,7 +594,7 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
                 imageView.setLayoutParams(new GridView.LayoutParams(150, 200));
                 imageView.setPadding(0,0,0,0);
                 imageView.setAdjustViewBounds(true);
-                imageView.setBackgroundColor(getResources().getColor(R.color.dark_red));
+                imageView.setBackgroundColor(getResources().getColor(R.color.sunshine_light_blue));
             }else{
                 imageView = (ImageView)convertView;
             }

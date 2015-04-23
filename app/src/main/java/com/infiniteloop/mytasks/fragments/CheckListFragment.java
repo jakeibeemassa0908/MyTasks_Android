@@ -14,7 +14,6 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.infiniteloop.mytasks.R;
-import com.infiniteloop.mytasks.data.CheckList;
 import com.infiniteloop.mytasks.data.CheckListItem;
 
 import java.util.ArrayList;
@@ -51,7 +50,7 @@ public class CheckListFragment extends Fragment {
                     CheckListItem checkListItem = new CheckListItem();
                     checkListItem.setItem(item);
                     checkListItem.setCompleted(false);
-                    mChecklist.add(0,checkListItem);
+                    mChecklist.add(checkListItem);
                     newChecklistItem.setText("");
                     adapter.notifyDataSetChanged();
 
@@ -62,9 +61,8 @@ public class CheckListFragment extends Fragment {
         return rootView;
     }
 
+
     private class CheckListAdapter extends ArrayAdapter<CheckListItem> {
-
-
         public CheckListAdapter(Context context, int resource, List<CheckListItem> objects) {
             super(context, resource, objects);
         }

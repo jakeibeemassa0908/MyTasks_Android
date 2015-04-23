@@ -69,102 +69,125 @@
 
             </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:textAppearanceMedium"
-                android:textColor="@color/black"
-                android:layout_gravity="left"
-                android:text="Checklist"/>
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="1dp"
-                android:background="@android:color/darker_gray"/>
-
             <LinearLayout
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="15dp"
-                android:orientation="horizontal"
+                android:id="@+id/checklist_layout"
                 android:layout_width="match_parent"
+                android:orientation="vertical"
                 android:layout_height="wrap_content">
 
-                <GridView xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:id="@+id/gridview_list"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:textAppearanceMedium"
+                    android:textColor="@color/black"
+                    android:layout_gravity="left"
+                    android:text="Checklist"/>
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:background="@android:color/darker_gray"/>
+
+                <LinearLayout
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:columnWidth="90dp"
-                    android:numColumns="4"
-                    android:verticalSpacing="0dp"
-                    android:horizontalSpacing="0dp"
-                    android:stretchMode="columnWidth"
-                    android:gravity="center"
-                    />
+                    android:layout_height="wrap_content">
+
+                    <GridView xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:id="@+id/gridview_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:columnWidth="90dp"
+                        android:numColumns="4"
+                        android:verticalSpacing="0dp"
+                        android:horizontalSpacing="0dp"
+                        android:stretchMode="columnWidth"
+                        android:gravity="center"
+                        />
+
+                </LinearLayout>
+
 
             </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:textAppearanceMedium"
-                android:textColor="@color/black"
-                android:layout_gravity="left"
-                android:text="Images"/>
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="1dp"
-                android:background="@android:color/darker_gray"/>
+        <LinearLayout
+            android:id="@+id/image_layout"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
 
-            <LinearLayout
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="15dp"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:textAppearanceMedium"
+                    android:textColor="@color/black"
+                    android:layout_gravity="left"
+                    android:text="Images"/>
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:background="@android:color/darker_gray"/>
 
-                <GridView xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:id="@+id/gridview_image"
+                <LinearLayout
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:columnWidth="90dp"
-                    android:numColumns="4"
-                    android:verticalSpacing="0dp"
-                    android:horizontalSpacing="0dp"
-                    android:stretchMode="columnWidth"
-                    android:gravity="center"
-                    />
+                    android:layout_height="wrap_content">
 
+                    <GridView xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:id="@+id/gridview_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:columnWidth="90dp"
+                        android:numColumns="4"
+                        android:verticalSpacing="0dp"
+                        android:horizontalSpacing="0dp"
+                        android:stretchMode="columnWidth"
+                        android:gravity="center"
+                        />
+
+                </LinearLayout>
             </LinearLayout>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:textAppearanceMedium"
-                android:textColor="@color/black"
-                android:layout_gravity="left"
-                android:text="Notes"/>
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="1dp"
-                android:background="@android:color/darker_gray"/>
 
-            <LinearLayout
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="15dp"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+        <LinearLayout
+            android:id="@+id/notes_layout"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:textAppearanceMedium"
+                    android:textColor="@color/black"
+                    android:layout_gravity="left"
+                    android:text="Notes"/>
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:background="@android:color/darker_gray"/>
 
-                <GridView xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:id="@+id/gridview_note"
+                <LinearLayout
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:columnWidth="90dp"
-                    android:numColumns="4"
-                    android:verticalSpacing="0dp"
-                    android:horizontalSpacing="0dp"
-                    android:stretchMode="columnWidth"
-                    android:gravity="center"
-                    />
+                    android:layout_height="wrap_content">
 
+                    <GridView xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:id="@+id/gridview_note"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:columnWidth="90dp"
+                        android:numColumns="4"
+                        android:verticalSpacing="0dp"
+                        android:horizontalSpacing="0dp"
+                        android:stretchMode="columnWidth"
+                        android:gravity="center"
+                        />
+
+                </LinearLayout>
             </LinearLayout>
 
 
