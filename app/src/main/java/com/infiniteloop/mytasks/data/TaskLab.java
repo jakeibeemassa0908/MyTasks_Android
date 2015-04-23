@@ -235,4 +235,9 @@ public class TaskLab {
 
     //--------NOTES FUNCTIONS------
 
+    public long createNote(Note note){
+        note.setCreationDate(new Date());
+        note.setLastEdit(new Date());
+        return mHelper.insertNote(note);
+    }
 }

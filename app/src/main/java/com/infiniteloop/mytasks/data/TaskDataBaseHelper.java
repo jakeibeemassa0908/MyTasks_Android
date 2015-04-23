@@ -343,6 +343,18 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
         return count;
     }
 
+    //========Note=========
+
+    public long insertNote(Note note){
+        ContentValues cv = new ContentValues();
+        cv.put(NoteEntry.COLUMN_TASK_KEY,note.getTaskId());
+        cv.put(NoteEntry.COLUMN_CONTENT,note.getNoteContent());
+        cv.put(NoteEntry.COLUMN_CREATED_DATE,note.getCreationDate().getTime());
+        cv.put(NoteEntry.COLUMN_EDITED_DATE,note.getLastEdit().getTime());
+        cv.put(NoteEntry.COLUMN_TITLE,note.getTitle());
+        return getWritableDatabase().insert(NoteEntry.TABLE_NAME,null,cv);
+    }
+
 
     /**
      * Customed cursor for Task
@@ -388,4 +400,6 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
         }
 
     }
+
+
 }

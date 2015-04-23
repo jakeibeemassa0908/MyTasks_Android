@@ -15,6 +15,12 @@ public class Note {
     private Date mLastEdit;
 
 
+    public Note(String title,String content,long taskId){
+        mTaskId = taskId;
+        mTitle=title;
+        mNoteContent=content;
+    }
+
     public long getId() {
         return mId;
     }
