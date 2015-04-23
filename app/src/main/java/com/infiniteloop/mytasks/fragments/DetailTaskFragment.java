@@ -323,6 +323,17 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
                 Toast.makeText(getActivity(),""+position,Toast.LENGTH_LONG).show();
             }
         });
+        /**
+         * Notes GridView
+         */
+        GridView NoteGridView = (GridView)rootView.findViewById(R.id.gridview_note);
+        NoteGridView.setAdapter(new GridViewAdapter(getActivity()));
+        NoteGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getActivity(),""+position,Toast.LENGTH_LONG).show();
+            }
+        });
 
 
 //
