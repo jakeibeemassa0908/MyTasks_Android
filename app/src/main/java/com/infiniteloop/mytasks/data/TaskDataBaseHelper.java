@@ -7,8 +7,8 @@ import android.database.CursorWrapper;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.infiniteloop.mytasks.data.TaskContract.TaskEntry;
-import com.infiniteloop.mytasks.data.TaskContract.CategoryEntry;
+import com.infiniteloop.mytasks.data.TaskContract.*;
+
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -19,8 +19,50 @@ import java.util.Date;
 public class TaskDataBaseHelper extends SQLiteOpenHelper {
 
 
-    private static final int DATABASE_VERSION=1;
+    private static final int DATABASE_VERSION=2;
     static final String DATABASE_NAME="task.db";
+
+    final String SQL_CREATE_TASK_TABLE="CREATE TABLE "+ TaskEntry.TABLE_NAME + " ("+
+            TaskEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"+
+            TaskEntry.COLUMN_CAT_KEY + " INTEGER NOT NULL, "+
+            TaskEntry.COLUMN_DATE + " INTEGER NOT NULL, "+
+            TaskEntry.COLUMN_PRIORITY + " INTEGER NOT NULL, "+
+            TaskEntry.COLUMN_TASK_TITLE + " TEXT NOT NULL, " +
+            TaskEntry.COLUMN_REMINDER +" INTEGER NOT NULL, " +
+            TaskEntry.COLUMN_COMPLETED + " INTEGER NOT NULL);";
+
+
+
+    final String SQL_CREATE_CATEGORY_TABLE="CREATE TABLE "+ CategoryEntry.TABLE_NAME + " ("+
+            CategoryEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "+
+            CategoryEntry.COLUMN_NAME + " TEXT NOT NULL);";
+
+    final String SQL_CREATE_NOTE_TABLE="CREATE TABLE "+ NoteEntry.TABLE_NAME + " ("+
+            NoteEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "+
+            NoteEntry.COLUMN_TASK_KEY + " INTEGER NOT NULL, "+
+            NoteEntry.COLUMN_CREATED_DATE + " INTEGER NOT NULL, "+
+            NoteEntry.COLUMN_EDITED_DATE + " INTEGER NOT NULL, "+
+            NoteEntry.COLUMN_TITLE + " TEXT NOT NULL, "+
+            NoteEntry.COLUMN_CONTENT +" TEXT NOT NULL);";
+
+    final String SQL_CREATE_PHOTO_TABLE="CREATE TABLE "+ PhotoEntry.TABLE_NAME + " ("+
+            PhotoEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "+
+            PhotoEntry.COLUMN_TASK_KEY + " INTEGER NOT NULL, "+
+            PhotoEntry.COLUMN_FILENAME + " TEXT NOT NULL);";
+
+    final String SQL_CREATE_CHECKLIST_TABLE ="CREATE TABLE "+ CheckListEntry.TABLE_NAME + " ("+
+            CheckListEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "+
+            CheckListEntry.COLUMN_CREATED_DATE + " INTEGER NOT NULL, "+
+            CheckListEntry.COLUMN_EDITED_DATE + " INTEGER NOT NULL, "+
+            CheckListEntry.COLUMN_TASK_KEY + " INTEGER NOT NULL, "+
+            CheckListEntry.COLUMN_TITLE + " TEXT NOT NULL);";
+
+    final String SQL_CREATE_CHECKLISTITEM_TABLE = "CREATE TABLE "+ CheckListItemEntry.TABLE_NAME + " ("+
+            CheckListItemEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "+
+            CheckListItemEntry.COLUMN_CHECKLIST_KEY + " INTEGER NOT NULL, "+
+            CheckListItemEntry.COLUMN_ITEM + " TEXT NOT NULL, "+
+            CheckListItemEntry.COLUMN_COMPLETED + "INTEGER NOT NULL);";
+
 
     public static final String TAG= TaskDataBaseHelper.class.getSimpleName();
     public TaskDataBaseHelper(Context context){
@@ -33,29 +75,15 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
      */
     @Override
     public void onCreate(SQLiteDatabase db) {
-        final String SQL_CREATE_TASK_TABLE="CREATE TABLE "+ TaskEntry.TABLE_NAME + " ("+
-                TaskEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"+
-                TaskEntry.COLUMN_CAT_KEY + " INTEGER NOT NULL, "+
-                TaskEntry.COLUMN_DATE + " INTEGER NOT NULL, "+
-                TaskEntry.COLUMN_PRIORITY + " INTEGER NOT NULL, "+
-                TaskEntry.COLUMN_TASK_TITLE + " TEXT NOT NULL, " +
-                TaskEntry.COLUMN_REMINDER +" INTEGER NOT NULL, " +
-                TaskEntry.COLUMN_COMPLETED + " INTEGER NOT NULL);";
-//
-//                //set up the location category column as a foreign key to location table.
-//                "FOREIGN KEY (" + TaskEntry.COLUMN_CAT_KEY + ") REFERENCES "+
-//                CategoryEntry.TABLE_NAME + " ("+ CategoryEntry._ID + ");";
-
-
-
-        final String SQL_CREATE_CATEGORY_TABLE="CREATE TABLE "+ CategoryEntry.TABLE_NAME + " ("+
-                CategoryEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "+
-                CategoryEntry.COLUMN_NAME + " TEXT NOT NULL);";
-
+        //VERSION 1 TABLES
         db.execSQL(SQL_CREATE_TASK_TABLE);
         db.execSQL(SQL_CREATE_CATEGORY_TABLE);
 
-
+        //VERSION 2 TABLES
+        db.execSQL(SQL_CREATE_NOTE_TABLE);
+        db.execSQL(SQL_CREATE_CHECKLIST_TABLE);
+        db.execSQL(SQL_CREATE_CHECKLISTITEM_TABLE);
+        db.execSQL(SQL_CREATE_PHOTO_TABLE);
     }
 
     /**
@@ -66,6 +94,14 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
      */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        switch(oldVersion){
+            case 1:
+                db.execSQL(SQL_CREATE_NOTE_TABLE);
+                db.execSQL(SQL_CREATE_CHECKLIST_TABLE);
+                db.execSQL(SQL_CREATE_CHECKLISTITEM_TABLE);
+                db.execSQL(SQL_CREATE_PHOTO_TABLE);
+                //no break we want all the upgrades
+        }
     }
 
     /**

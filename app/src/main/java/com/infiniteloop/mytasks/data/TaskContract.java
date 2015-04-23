@@ -75,7 +75,7 @@ public class TaskContract {
     }
     //Checklist items Table
 
-    public static final class CheckListItem implements BaseColumns{
+    public static final class CheckListItemEntry implements BaseColumns{
         public static final String TABLE_NAME = "checklist_item";
         public static final String COLUMN_CHECKLIST_KEY ="checklist_id";
         public static final String COLUMN_ITEM = "item";
