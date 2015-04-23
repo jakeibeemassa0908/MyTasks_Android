@@ -21,12 +21,16 @@ public class TaskContract {
         return time.setJulianDay(julianDay);
     }
 
+    //Category Table
+
     public static final class CategoryEntry implements BaseColumns{
 
         public static final String TABLE_NAME="category";
 
         public static final String COLUMN_NAME="name";
     }
+
+    //Task Table
 
     public static final class TaskEntry implements BaseColumns{
         public static final String TABLE_NAME="task";
@@ -38,4 +42,44 @@ public class TaskContract {
         public static final String COLUMN_COMPLETED="completed";
         public static final String COLUMN_REMINDER="reminder";
     }
+
+    //Note Table
+
+    public static final class NoteEntry implements BaseColumns{
+        public static final String TABLE_NAME = "notes";
+
+        public static final String COLUMN_TASK_KEY = "task_id";
+        public static final String COLUMN_TITLE ="title";
+        public static final String COLUMN_CONTENT = "content";
+        public static final String COLUMN_CREATED_DATE="creation_date";
+        public static final String COLUMN_EDITED_DATE ="edit_date";
+
+    }
+
+    //Checklist Table
+
+    public static final class CheckListEntry implements BaseColumns{
+        public static final String TABLE_NAME = "checklist";
+        public static final String COLUMN_TASK_KEY = "task_id";
+        public static final String COLUMN_TITLE = "title";
+        public static final String COLUMN_CREATED_DATE = "creation_date";
+        public static final String COLUMN_EDITED_DATE = "edit_date";
+    }
+
+    //Photo Table
+    public static final class PhotoEntry implements BaseColumns{
+        public static final String TABLE_NAME = "photo";
+        public static final String COLUMN_TASK_KEY="task_id";
+        public static final String COLUMN_FILENAME = "filename";
+
+    }
+    //Checklist items Table
+
+    public static final class CheckListItem implements BaseColumns{
+        public static final String TABLE_NAME = "checklist_item";
+        public static final String COLUMN_CHECKLIST_KEY ="checklist_id";
+        public static final String COLUMN_ITEM = "item";
+        public static final String COLUMN_COMPLETED = "completed";
+    }
+
 }
