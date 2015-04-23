@@ -71,6 +71,8 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
     private ImageButton mNotes, mImage,mCheckList;
     private ArrayList<String> mCurrentPhotoPath = new ArrayList<String>();
 
+    private View mNoteLayout;
+
 
     public static final int REQUEST_IMAGE_CAPTURE = 1;
     public static final int REQUEST_PICK_IMAGE=2;
@@ -356,8 +358,8 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
         /**
          * Notes GridView
          */
-        View noteLayout  = rootView.findViewById(R.id.notes_layout);
-        noteLayout.setVisibility(View.GONE);
+        mNoteLayout  = rootView.findViewById(R.id.notes_layout);
+        mNoteLayout.setVisibility(View.GONE);
 
         GridView NoteGridView = (GridView)rootView.findViewById(R.id.gridview_note);
         NoteGridView.setAdapter(new GridViewAdapter(getActivity()));
@@ -450,29 +452,44 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        return new CursorLoader.CategoryListLoader(getActivity());
+        switch (i){
+            case CATEGORY_LOADER:
+                return new CursorLoader.CategoryListLoader(getActivity());
+            case NOTE_LOADER:
+                return new NoteCursorLoader(getActivity());
+        }
+        return null;
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
-        //If there are categories returned iterate through them
-        if(cursor.getCount()>0){mCategoryList.remove(0);}
-        cursor.moveToFirst();
-        for(int i=0;i<cursor.getCount();i++){
-            String categoryName=((TaskDataBaseHelper.CategoryCursor)cursor).getCategory().getCategoryName();
-            Long categoryId=((TaskDataBaseHelper.CategoryCursor)cursor).getCategory().getId();
-            //create a mapping between category name and Id
-            categoyIdName.put(categoryName,categoryId);
-            //set the current category of task to be the first in the spinner
-            if(categoryId==mTask.getCategory()){
-                mCategoryList.add(0,categoryName);
-            }else{
-                mCategoryList.add(categoryName);
-            }
-            cursor.moveToNext();
+        int id = cursorLoader.getId();
+        switch (id){
+            case CATEGORY_LOADER:
+                //If there are categories returned iterate through them
+                if(cursor.getCount()>0){mCategoryList.remove(0);}
+                cursor.moveToFirst();
+                for(int i=0;i<cursor.getCount();i++){
+                    String categoryName=((TaskDataBaseHelper.CategoryCursor)cursor).getCategory().getCategoryName();
+                    Long categoryId=((TaskDataBaseHelper.CategoryCursor)cursor).getCategory().getId();
+                    //create a mapping between category name and Id
+                    categoyIdName.put(categoryName,categoryId);
+                    //set the current category of task to be the first in the spinner
+                    if(categoryId==mTask.getCategory()){
+                        mCategoryList.add(0,categoryName);
+                    }else{
+                        mCategoryList.add(categoryName);
+                    }
+                    cursor.moveToNext();
+                }
+                //repopulate the spinner
+                mCategorySpinner.setAdapter(Helpers.getSpinnerAdapter(getActivity(),mCategoryList));
+                break;
+            case NOTE_LOADER:
+                if(cursor.getCount()>0){
+                    mNoteLayout.setVisibility(View.VISIBLE);
+                }
         }
-        //repopulate the spinner
-        mCategorySpinner.setAdapter(Helpers.getSpinnerAdapter(getActivity(),mCategoryList));
     }
 
     @Override
