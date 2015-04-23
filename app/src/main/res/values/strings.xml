@@ -89,5 +89,7 @@
     <string name="take_photo">Take photo</string>
     <string name="chose_image">Chose image</string>
     <string name="add_item">Add item</string>
+    <string name="discard_change">Discard</string>
+    <string name="discard_change_dialog_question">Do you want to discard changes</string>
 
 </resources>

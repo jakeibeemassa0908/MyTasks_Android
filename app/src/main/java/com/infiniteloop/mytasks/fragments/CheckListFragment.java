@@ -1,10 +1,12 @@
 package com.infiniteloop.mytasks.fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -26,6 +28,13 @@ public class CheckListFragment extends Fragment {
 
     private static final String TAG = CheckListFragment.class.getSimpleName();
     private ArrayList<CheckListItem> mChecklist;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setHasOptionsMenu(true);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -61,6 +70,17 @@ public class CheckListFragment extends Fragment {
         return rootView;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.save_note:
+                getActivity().setResult(Activity.RESULT_OK);
+                getActivity().finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     private class CheckListAdapter extends ArrayAdapter<CheckListItem> {
         public CheckListAdapter(Context context, int resource, List<CheckListItem> objects) {

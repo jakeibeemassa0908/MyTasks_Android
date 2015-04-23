@@ -16,6 +16,7 @@ import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.LoaderManager;
+import android.support.v4.app.NavUtils;
 import android.support.v4.content.Loader;
 import android.util.Log;
 import android.view.Gravity;
@@ -72,6 +73,8 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
 
     public static final int REQUEST_IMAGE_CAPTURE = 1;
     public static final int REQUEST_PICK_IMAGE=2;
+    public static final int REQUEST_NOTE=3;
+    public static final int REQUEST_CHECKLIST=4;
 
 
     private static final String TAG=DetailTaskFragment.class.getSimpleName();
@@ -156,6 +159,14 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
 
                 }
                 break;
+            case REQUEST_NOTE:
+                if(resultCode==Activity.RESULT_OK)
+                    Toast.makeText(getActivity(),"Note Received ",Toast.LENGTH_SHORT).show();
+                break;
+            case REQUEST_CHECKLIST:
+                if (resultCode == Activity.RESULT_OK)
+                    Toast.makeText(getActivity(),"Checklist Received",Toast.LENGTH_SHORT).show();
+                break;
             default:
                 super.onActivityResult(requestCode, resultCode, data);
 
@@ -228,7 +239,8 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(),NoteActivity.class);
-                startActivity(intent);
+                intent.putExtra(EXTRA_TASK,mTask);
+                startActivityForResult(intent,REQUEST_NOTE);
             }
         });
 
@@ -306,7 +318,8 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), CheckListActivity.class);
-                startActivity(intent);
+                intent.putExtra(EXTRA_TASK,mTask);
+                startActivityForResult(intent,REQUEST_CHECKLIST);
             }
         });
 
@@ -384,9 +397,7 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
                     });
                     deleteDialog.show();
                     return true;
-
                 }
-
             default:
                 return super.onOptionsItemSelected(item);
         }
