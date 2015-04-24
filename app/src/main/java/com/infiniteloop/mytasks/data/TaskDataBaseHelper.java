@@ -375,7 +375,7 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
                 selectionArgs,
                 null,
                 null,
-                NoteEntry.COLUMN_EDITED_DATE + " asc");
+                NoteEntry.COLUMN_EDITED_DATE + " desc");
         return new NoteCursor(wrapped);
     }
 

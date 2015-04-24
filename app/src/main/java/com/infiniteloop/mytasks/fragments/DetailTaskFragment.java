@@ -183,11 +183,11 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
                 break;
             case REQUEST_NOTE:
                 if(resultCode==Activity.RESULT_OK)
-                    Toast.makeText(getActivity(),"Note Received ",Toast.LENGTH_SHORT).show();
+                    getLoaderManager().restartLoader(NOTE_LOADER,null,this);
                 break;
             case REQUEST_CHECKLIST:
                 if (resultCode == Activity.RESULT_OK)
-                    Toast.makeText(getActivity(),"Checklist Received",Toast.LENGTH_SHORT).show();
+                    getLoaderManager().restartLoader(CHECKLIST_LOADER,null,this);
                 break;
             default:
                 super.onActivityResult(requestCode, resultCode, data);
@@ -466,6 +466,7 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+        //Launch all the loader, No break so that the case fall through
         switch (i){
             case CATEGORY_LOADER:
                 return new CursorLoader.CategoryListLoader(getActivity());
@@ -702,6 +703,8 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
         }
     }
 
+
+
     public static class NoteCursorLoader extends SQLiteCursorLoader {
 
         public NoteCursorLoader(Context context){
@@ -714,6 +717,7 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
             return TaskLab.get(getContext()).queryNotes(mTask.getId());
         }
     }
+
 
     public static class ChecklistCursorLoader extends SQLiteCursorLoader{
 
