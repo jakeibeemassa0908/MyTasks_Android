@@ -10,15 +10,12 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.LoaderManager;
-import android.support.v4.app.NavUtils;
 import android.support.v4.content.Loader;
 import android.util.Log;
 import android.view.Gravity;
@@ -61,8 +58,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
 
 /**
  * Created by theotherside on 14/03/15.
@@ -365,7 +360,6 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
         mListGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getActivity(),""+position,Toast.LENGTH_LONG).show();
             }
         });
 
@@ -380,7 +374,7 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
         mImageGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getActivity(),""+position,Toast.LENGTH_LONG).show();
+
             }
         });
         /**
@@ -393,7 +387,7 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
         mNoteGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getActivity(),""+position,Toast.LENGTH_LONG).show();
+
             }
         });
 
@@ -730,7 +724,7 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
                         return myView;
                     }
                 }else{
-                    myView.setBackgroundColor(getResources().getColor(R.color.sunshine_dark_blue));
+                    myView.setBackgroundDrawable(getResources().getDrawable(R.drawable.button_custom_reverse));
                     drawable=getResources().getDrawable(R.drawable.ic_hardware_keyboard_arrow_right);
                     titleText="Show More";
                 }

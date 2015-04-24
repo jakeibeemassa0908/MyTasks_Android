@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center_horizontal"
-    android:background="@color/sunshine_light_blue">
+    android:background="@drawable/button_custom">
 
     <ImageView android:id="@+id/grid_item_image"
         android:layout_width="match_parent"

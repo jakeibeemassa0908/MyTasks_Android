@@ -490,22 +490,22 @@ public class TaskListFragment extends VisibleListFragment implements LoaderCallb
             switch (task.getPriority()){
                 case Task.VERY_HIGH_PRIORITY:
                     titleTextView.setTextColor(getResources().getColor(R.color.red));
-                    toolbar.setBackgroundColor(getResources().getColor(R.color.dark_red));
+                    toolbar.setBackgroundDrawable(getResources().getDrawable(R.drawable.button_custom_red));
                     break;
 
                 case Task.HIGH_PRIORITY:
                     titleTextView.setTextColor(getResources().getColor(R.color.orange));
-                    toolbar.setBackgroundColor(getResources().getColor(R.color.dark_orange));
+                    toolbar.setBackgroundDrawable(getResources().getDrawable(R.drawable.button_custom_orange));
                     break;
 
                 case Task.NORMAL_PRIORITY:
                     titleTextView.setTextColor(getResources().getColor(R.color.sunshine_blue));
-                    toolbar.setBackgroundColor(getResources().getColor(R.color.sunshine_dark_blue));
+                    toolbar.setBackgroundDrawable(getResources().getDrawable(R.drawable.button_custom_reverse));
                     break;
 
                 case Task.LOW_PRIORITY:
                     titleTextView.setTextColor(getResources().getColor(R.color.green));
-                    toolbar.setBackgroundColor(getResources().getColor(R.color.dark_green));
+                    toolbar.setBackgroundDrawable(getResources().getDrawable(R.drawable.button_custom_green));
 
             }
 

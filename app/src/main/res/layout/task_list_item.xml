@@ -63,7 +63,7 @@
         android:layout_width="match_parent"
         android:layout_marginBottom="-60dp"
         android:visibility="gone"
-        android:layout_height="40dp">
+        android:layout_height="48dp">
 
         <ImageButton
             android:id="@+id/delete_task_imageButton"
@@ -75,6 +75,11 @@
             android:background="@null"
             android:src="@drawable/ic_action_navigation_cancel"
             android:layout_gravity="center_vertical"/>
+        <View
+            android:layout_width="1dp"
+            android:layout_height="fill_parent"
+            android:layout_margin="1dp"
+            android:background="@android:color/darker_gray"/>
 
         <ImageButton
             android:id="@+id/edit_task_imageButton"
@@ -86,6 +91,12 @@
             android:layout_marginLeft="10dp"
             android:src="@drawable/ic_action_editor_mode_edit"
             android:layout_gravity="center_vertical"/>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_margin="1dp"
+            android:layout_height="fill_parent"
+            android:background="@android:color/darker_gray"/>
 
         <ImageButton
             android:id="@+id/mark_complete_button"
