@@ -255,12 +255,17 @@ public class TaskLab {
         return mHelper.queryNotes(taskId);
     }
 
-    //--------NOTES FUNCTIONS------
+    //--------CHECKLIST  FUNCTIONS------
+
     public long createCheckList(CheckList checkList){
         long checklistId=mHelper.insertChecklist(checkList);
         if(checklistId !=-1)
             return mHelper.insertChecklistItems(checkList.getChecklistItems(),checklistId);
         return 0;
+    }
+
+    public TaskDataBaseHelper.ChecklistCursor queryChecklist(long taskId){
+        return mHelper.queryChecklist(taskId);
     }
 
 }

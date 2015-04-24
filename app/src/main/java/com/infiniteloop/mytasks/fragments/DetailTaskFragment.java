@@ -80,7 +80,10 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
     private ArrayList<String> mCurrentPhotoPath = new ArrayList<String>();
 
     private View mNoteLayout;
-    GridView mNoteGridView;
+    private GridView mNoteGridView;
+
+    private View mChecklistLayout;
+    private GridView mListGridView;
 
 
     public static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -90,6 +93,7 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
 
     private static final int CATEGORY_LOADER=0;
     private static final int NOTE_LOADER=1;
+    private static final int CHECKLIST_LOADER=2;
 
 
     private static final String TAG=DetailTaskFragment.class.getSimpleName();
@@ -126,6 +130,7 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
 
         getLoaderManager().initLoader(CATEGORY_LOADER,null,this);
         getLoaderManager().initLoader(NOTE_LOADER,null,this);
+        getLoaderManager().initLoader(CHECKLIST_LOADER,null,this);
 
 
         setHasOptionsMenu(true);
@@ -339,12 +344,11 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
          * CheckList Gridview
          * **/
 
-        View checklistLayout = rootView.findViewById(R.id.checklist_layout);
-        checklistLayout.setVisibility(View.GONE);
+        mChecklistLayout = rootView.findViewById(R.id.checklist_layout);
+        mChecklistLayout.setVisibility(View.GONE);
 
-        GridView listGridView = (GridView)rootView.findViewById(R.id.gridview_list);
-        //listGridView.setAdapter(new GridViewAdapter(getActivity()));
-        listGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mListGridView = (GridView)rootView.findViewById(R.id.gridview_list);
+        mListGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(getActivity(),""+position,Toast.LENGTH_LONG).show();
@@ -467,6 +471,8 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
                 return new CursorLoader.CategoryListLoader(getActivity());
             case NOTE_LOADER:
                 return new NoteCursorLoader(getActivity());
+            case CHECKLIST_LOADER:
+                return new ChecklistCursorLoader(getActivity());
         }
         return null;
     }
@@ -506,6 +512,19 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
                     mNoteGridView.setAdapter(new GridViewAdapter(getActivity(),noteList));
                     mNoteLayout.setVisibility(View.VISIBLE);
                 }
+                break;
+            case CHECKLIST_LOADER:
+                if(cursor.getCount()>0){
+                    ArrayList<CheckList> checklists =new ArrayList<CheckList>();
+                    cursor.moveToFirst();
+                    for(int i=0;i<cursor.getCount();i++){
+                        checklists.add(((TaskDataBaseHelper.ChecklistCursor)cursor).getChecklist());
+                        cursor.moveToNext();
+                    }
+                    mListGridView.setAdapter(new GridViewAdapter(getActivity(),checklists));
+                    mChecklistLayout.setVisibility(View.VISIBLE);
+                }
+                break;
         }
     }
 
@@ -693,6 +712,18 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
         protected Cursor loadCursor() {
             //Query the list of runs
             return TaskLab.get(getContext()).queryNotes(mTask.getId());
+        }
+    }
+
+    public static class ChecklistCursorLoader extends SQLiteCursorLoader{
+
+        public ChecklistCursorLoader(Context context){
+            super(context);
+        }
+
+        @Override
+        protected Cursor loadCursor() {
+            return TaskLab.get(getContext()).queryChecklist(mTask.getId());
         }
     }
 

@@ -404,8 +404,25 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
             getWritableDatabase().insert(CheckListItemEntry.TABLE_NAME,null,cv);
         }
         return 1;
+    }
+
+    public ChecklistCursor queryChecklist(long taskId){
+        String selection = CheckListEntry.COLUMN_TASK_KEY + " LIKE ?";
+        String [] selectionArgs={String.valueOf(taskId)};
+
+        //Equivalent to select * where task_key = taskId
+        Cursor wrapped = getReadableDatabase().query(
+                CheckListEntry.TABLE_NAME,
+                null,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                CheckListEntry.COLUMN_EDITED_DATE + " desc");
+        return new ChecklistCursor(wrapped);
 
     }
+    //===========Cursors================
 
 
     /**
@@ -453,7 +470,7 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * Customed cursor for Note
+     * Custom cursor for Note
      */
     public static class NoteCursor extends CursorWrapper{
         public NoteCursor(Cursor c){
@@ -473,6 +490,26 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
             return note;
         }
 
+    }
+
+    /**
+     * Custom cursor for Checklist
+     */
+    public static class ChecklistCursor extends CursorWrapper{
+
+        public ChecklistCursor(Cursor c){
+            super(c);
+        }
+
+        public CheckList getChecklist(){
+            if(isBeforeFirst() || isAfterLast()) return null;
+            CheckList checklist = new CheckList();
+            checklist.setName(getString(getColumnIndex(CheckListEntry.COLUMN_TITLE)));
+            checklist.setTaskId(getLong(getColumnIndex(CheckListEntry.COLUMN_TASK_KEY)));
+            checklist.setEditedDate(new Date(getLong(getColumnIndex(CheckListEntry.COLUMN_EDITED_DATE))));
+            checklist.setCreatedDate(new Date(getLong(getColumnIndex(CheckListEntry.COLUMN_CREATED_DATE))));
+            return checklist;
+        }
     }
 
 
