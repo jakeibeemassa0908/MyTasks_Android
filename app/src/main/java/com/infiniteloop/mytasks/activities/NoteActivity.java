@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.view.Menu;
 
 import com.infiniteloop.mytasks.R;
+import com.infiniteloop.mytasks.data.Note;
 import com.infiniteloop.mytasks.data.Task;
 import com.infiniteloop.mytasks.fragments.DetailTaskFragment;
 import com.infiniteloop.mytasks.fragments.NoteFragment;
@@ -15,7 +16,16 @@ public class NoteActivity extends SingleFragmentActivity {
     @Override
     protected Fragment createFragment() {
         Task task = getIntent().getParcelableExtra(DetailTaskFragment.EXTRA_TASK);
-        return NoteFragment.newInstance(task);
+        Fragment fragment=null;
+
+        if(task!=null)
+            fragment= NoteFragment.newInstance(task);
+
+        Note note = getIntent().getParcelableExtra(NoteFragment.EXTRA_NOTE);
+        if(note!=null)
+            fragment= NoteFragment.newInstance(note);
+
+        return fragment;
     }
 
     @Override

@@ -1,11 +1,14 @@
 package com.infiniteloop.mytasks.data;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.Date;
 
 /**
  * Created by theotherside on 21/04/15.
  */
-public class Note {
+public class Note implements Parcelable {
 
     private long mId;
     private long mTaskId;
@@ -71,5 +74,38 @@ public class Note {
 
     public void setLastEdit(Date mLastEdit) {
         this.mLastEdit = mLastEdit;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(mNoteContent);
+        dest.writeString(mTitle);
+        dest.writeSerializable(mCreationDate);
+        dest.writeSerializable(mLastEdit);
+        dest.writeLong(mTaskId);
+    }
+
+    public static final Parcelable.Creator<Note> CREATOR
+            = new Parcelable.Creator<Note>() {
+        public Note createFromParcel(Parcel in) {
+            return new Note(in);
+        }
+
+        public Note[] newArray(int size) {
+            return new Note[size];
+        }
+    };
+
+    private Note(Parcel in) {
+        mNoteContent = in.readString();
+        mTitle = in.readString();
+        mCreationDate = (Date)in.readSerializable();
+        mLastEdit = (Date)in.readSerializable();
+        mTaskId = in.readLong();
     }
 }

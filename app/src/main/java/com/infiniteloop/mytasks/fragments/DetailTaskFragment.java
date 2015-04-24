@@ -387,7 +387,10 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
         mNoteGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                Note note =((Note)mNoteGridView.getAdapter().getItem(position));
+                Intent intent = new Intent(getActivity(),NoteActivity.class);
+                intent.putExtra(NoteFragment.EXTRA_NOTE,note);
+                startActivityForResult(intent,REQUEST_NOTE);
             }
         });
 
@@ -680,7 +683,7 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
 
         @Override
         public Object getItem(int position) {
-            return null;
+            return mList.get(position);
         }
 
         @Override
@@ -718,7 +721,7 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
                     }else if(mList.get(0) instanceof Photo){
                         //Remove the text bar
                         text.setVisibility(View.GONE);
-                        myView.setBackgroundColor(getResources().getColor(R.color.white));
+                        myView.setBackgroundColor(getResources().getColor(android.R.color.transparent));
                         String photoFilename =((Photo)mList.get(position)).getFilename();
                         image.setImageBitmap(getTailoredBitmap(photoFilename,image));
                         return myView;

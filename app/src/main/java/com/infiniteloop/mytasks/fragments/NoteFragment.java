@@ -25,14 +25,30 @@ public class NoteFragment extends Fragment{
     private static final String TAG = NoteFragment.class.getSimpleName();
 
     private Task mTask;
+    private Note mNote;
     private EditText mNoteTitle;
     private EditText mNoteContent;
     private TaskLab mTaskLab = TaskLab.get(getActivity());
 
+    public static final String EXTRA_NOTE = "com.taskrapp.note";
 
-    public static NoteFragment newInstance(Task task){
+
+    public static NoteFragment newInstance(Object obj){
+        Task task;
+        Note note;
         Bundle args = new Bundle();
-        args.putParcelable(DetailTaskFragment.EXTRA_TASK,task);
+
+        //If object received is task, a new note is being created
+        if(obj instanceof Task) {
+            task = (Task)obj;
+            args.putParcelable(DetailTaskFragment.EXTRA_TASK,task);
+
+            //If object is a note, a note is being updated
+        }else if(obj instanceof Note){
+            note =(Note)obj;
+            args.putParcelable(NoteFragment.EXTRA_NOTE,note);
+        }
+
         NoteFragment fragment = new NoteFragment();
         fragment.setArguments(args);
         return fragment;
@@ -43,6 +59,7 @@ public class NoteFragment extends Fragment{
         super.onCreate(savedInstanceState);
         Bundle args = getArguments();
         mTask = args.getParcelable(DetailTaskFragment.EXTRA_TASK);
+        mNote = args.getParcelable(EXTRA_NOTE);
         setHasOptionsMenu(true);
     }
 
@@ -52,6 +69,12 @@ public class NoteFragment extends Fragment{
 
         mNoteTitle = (EditText)rootView.findViewById(R.id.note_title);
         mNoteContent = (EditText)rootView.findViewById(R.id.note_content);
+
+        //Populate the note if note is being updated
+        if(mNote!=null){
+            mNoteTitle.setText(mNote.getTitle());
+            mNoteContent.setText(mNote.getNoteContent());
+        }
 
         return rootView;
     }
@@ -75,21 +98,26 @@ public class NoteFragment extends Fragment{
     }
 
     /**
-     * Verify whether note is not empy, then save to database
+     * Verify whether note is not empty, then save to database
      * @return
      */
     private boolean saveNote(){
         String noteTitle = mNoteTitle.getText().toString();
         String noteContent = mNoteContent.getText().toString();
+        Note note;
 
         if(!noteTitle.matches("")){
-            Note note = new Note(noteTitle,noteContent,mTask.getId());
-            if(mTaskLab.createNote(note)!=-1)
+            //New note being created
+            if(mTask!=null) {
+                note = new Note(noteTitle, noteContent, mTask.getId());
+                if(mTaskLab.createNote(note)!=-1)
+                    return true;
+            }else if(mNote!=null){
+                mNote = new Note(noteTitle,noteContent,mNote.getTaskId());
+                //update mNote;
                 return true;
-            return false;
+            }
         }
         return false;
     }
-
-
 }
