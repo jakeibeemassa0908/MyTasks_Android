@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -33,10 +35,14 @@ import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.infiniteloop.mytasks.activities.CheckListActivity;
 import com.infiniteloop.mytasks.activities.NoteActivity;
+import com.infiniteloop.mytasks.data.CheckList;
+import com.infiniteloop.mytasks.data.Note;
+import com.infiniteloop.mytasks.data.Photo;
 import com.infiniteloop.mytasks.loaders.CursorLoader;
 import com.infiniteloop.mytasks.Helpers;
 import com.infiniteloop.mytasks.R;
@@ -55,6 +61,8 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by theotherside on 14/03/15.
@@ -72,6 +80,7 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
     private ArrayList<String> mCurrentPhotoPath = new ArrayList<String>();
 
     private View mNoteLayout;
+    GridView mNoteGridView;
 
 
     public static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -332,7 +341,7 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
         });
 
         GridView listGridView = (GridView)rootView.findViewById(R.id.gridview_list);
-        listGridView.setAdapter(new GridViewAdapter(getActivity()));
+        //listGridView.setAdapter(new GridViewAdapter(getActivity()));
         listGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -348,7 +357,7 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
         imageLayout.setVisibility(View.GONE);
 
         GridView imageGridView = (GridView)rootView.findViewById(R.id.gridview_image);
-        imageGridView.setAdapter(new GridViewAdapter(getActivity()));
+        //imageGridView.setAdapter(new GridViewAdapter(getActivity()));
         imageGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -361,9 +370,8 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
         mNoteLayout  = rootView.findViewById(R.id.notes_layout);
         mNoteLayout.setVisibility(View.GONE);
 
-        GridView NoteGridView = (GridView)rootView.findViewById(R.id.gridview_note);
-        NoteGridView.setAdapter(new GridViewAdapter(getActivity()));
-        NoteGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mNoteGridView = (GridView)rootView.findViewById(R.id.gridview_note);
+        mNoteGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(getActivity(),""+position,Toast.LENGTH_LONG).show();
@@ -487,6 +495,13 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
                 break;
             case NOTE_LOADER:
                 if(cursor.getCount()>0){
+                    ArrayList<Note> noteList= new ArrayList<Note>();
+                    cursor.moveToFirst();
+                    for(int i=0;i<cursor.getCount();i++){
+                        noteList.add(((TaskDataBaseHelper.NoteCursor)cursor).getNote());
+                        cursor.moveToNext();
+                    }
+                    mNoteGridView.setAdapter(new GridViewAdapter(getActivity(),noteList));
                     mNoteLayout.setVisibility(View.VISIBLE);
                 }
         }
@@ -599,13 +614,17 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
 
     private class GridViewAdapter extends BaseAdapter{
         private Context mContext;
+        ArrayList<?> mList;
 
-        public GridViewAdapter(Context c){
+        public GridViewAdapter(Context c,ArrayList<?>list){
             mContext=c;
+            mList=list;
         }
 
         @Override
         public int getCount() {
+            if(mList.size()<4)
+                return mList.size();
             return 4;
         }
 
@@ -621,23 +640,44 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            ImageView imageView;
+            View myView =convertView;
             if(convertView==null){
-                imageView= new ImageView(mContext);
-                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                imageView.setLayoutParams(new GridView.LayoutParams(150, 200));
-                imageView.setPadding(0,0,0,0);
-                imageView.setAdjustViewBounds(true);
-                imageView.setBackgroundColor(getResources().getColor(R.color.sunshine_light_blue));
-            }else{
-                imageView = (ImageView)convertView;
+                String titleText="";
+                Drawable drawable=null;
+
+                //Inflate the custom layout
+               LayoutInflater inflater = getActivity().getLayoutInflater();
+                myView = inflater.inflate(R.layout.custom_grid_item,null);
+
+                //Set layout properties
+                myView.setLayoutParams(new GridView.LayoutParams(150, 200));
+                myView.setPadding(0,0,0,0);
+
+                //Check the type of list obtained
+                if(mList.size()>0 && position<3){
+                    if(mList.get(0) instanceof Note){
+                        titleText = ((Note)mList.get(position)).getTitle();
+                        drawable=getResources().getDrawable(R.drawable.ic_action_assignment);
+                    }else if(mList.get(0) instanceof CheckList){
+                        titleText = ((CheckList)mList.get(position)).getName();
+                        drawable=getResources().getDrawable(R.drawable.ic_action_list);
+                    }else if(mList.get(0) instanceof Photo){
+
+                    }
+                }else{
+                    myView.setBackgroundColor(getResources().getColor(R.color.sunshine_dark_blue));
+                    drawable=getResources().getDrawable(R.drawable.ic_hardware_keyboard_arrow_right);
+                    titleText="Show More";
+                }
+
+                TextView text = (TextView)myView.findViewById(R.id.grid_item_text);
+                text.setText(titleText);
+
+                ImageView image = (ImageView)myView.findViewById(R.id.grid_item_image);
+                image.setImageDrawable(drawable);
             }
 
-            if(mCurrentPhotoPath.size()>0){
-                imageView.setImageBitmap(getTailoredBitmap(mCurrentPhotoPath.get(0),imageView));
-            }
-
-            return imageView;
+            return myView;
         }
     }
 
