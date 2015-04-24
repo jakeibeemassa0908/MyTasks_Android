@@ -61,7 +61,7 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
             CheckListItemEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "+
             CheckListItemEntry.COLUMN_CHECKLIST_KEY + " INTEGER NOT NULL, "+
             CheckListItemEntry.COLUMN_ITEM + " TEXT NOT NULL, "+
-            CheckListItemEntry.COLUMN_COMPLETED + "INTEGER NOT NULL);";
+            CheckListItemEntry.COLUMN_COMPLETED + " INTEGER NOT NULL);";
 
 
     public static final String TAG= TaskDataBaseHelper.class.getSimpleName();
@@ -377,6 +377,34 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
                 null,
                 NoteEntry.COLUMN_EDITED_DATE + " asc");
         return new NoteCursor(wrapped);
+    }
+
+    //========Checklist=========
+
+    /**
+     * Insert Checklist to db
+     * @param checkList
+     * @return
+     */
+    public long insertChecklist(CheckList checkList){
+        ContentValues cv = new ContentValues();
+        cv.put(CheckListEntry.COLUMN_TASK_KEY,checkList.getTaskId());
+        cv.put(CheckListEntry.COLUMN_CREATED_DATE,checkList.getCreatedDate().getTime());
+        cv.put(CheckListEntry.COLUMN_EDITED_DATE,checkList.getEditedDate().getTime());
+        cv.put(CheckListEntry.COLUMN_TITLE,checkList.getName());
+        return getWritableDatabase().insert(CheckListEntry.TABLE_NAME,null,cv);
+    }
+
+    public long insertChecklistItems(ArrayList<CheckListItem> items,long checklistId){
+        for(int i=0;i< items.size();i++){
+            ContentValues cv = new ContentValues();
+            cv.put(CheckListItemEntry.COLUMN_CHECKLIST_KEY,checklistId);
+            cv.put(CheckListItemEntry.COLUMN_COMPLETED,0);
+            cv.put(CheckListItemEntry.COLUMN_ITEM,items.get(i).getItem());
+            getWritableDatabase().insert(CheckListItemEntry.TABLE_NAME,null,cv);
+        }
+        return 1;
+
     }
 
 

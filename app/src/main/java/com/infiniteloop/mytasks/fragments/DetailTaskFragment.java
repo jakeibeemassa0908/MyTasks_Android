@@ -249,7 +249,7 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
             }
         });
 
-        //Bottom options
+        //======================Bottom options=======================
 
         mNotes = (ImageButton)rootView.findViewById(R.id.add_note);
         mNotes.setOnClickListener(new View.OnClickListener() {
@@ -258,6 +258,16 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
                 Intent intent = new Intent(getActivity(),NoteActivity.class);
                 intent.putExtra(EXTRA_TASK,mTask);
                 startActivityForResult(intent, REQUEST_NOTE);
+            }
+        });
+
+        mCheckList=(ImageButton)rootView.findViewById(R.id.add_list);
+        mCheckList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), CheckListActivity.class);
+                intent.putExtra(EXTRA_TASK,mTask);
+                startActivityForResult(intent, REQUEST_CHECKLIST);
             }
         });
 
@@ -323,22 +333,14 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
             }
         });
 
+        //======================Bottom options END =======================
+
         /**
          * CheckList Gridview
          * **/
 
         View checklistLayout = rootView.findViewById(R.id.checklist_layout);
         checklistLayout.setVisibility(View.GONE);
-
-        mCheckList=(ImageButton)rootView.findViewById(R.id.add_list);
-        mCheckList.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), CheckListActivity.class);
-                intent.putExtra(EXTRA_TASK,mTask);
-                startActivityForResult(intent, REQUEST_CHECKLIST);
-            }
-        });
 
         GridView listGridView = (GridView)rootView.findViewById(R.id.gridview_list);
         //listGridView.setAdapter(new GridViewAdapter(getActivity()));

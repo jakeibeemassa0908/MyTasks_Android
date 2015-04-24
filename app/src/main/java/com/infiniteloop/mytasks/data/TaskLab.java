@@ -246,8 +246,21 @@ public class TaskLab {
         return mHelper.insertNote(note);
     }
 
+    /**
+     * Query all notes belonging to a certain task
+     * @param taskId the tak id that contains the notes
+     * @return
+     */
     public TaskDataBaseHelper.NoteCursor queryNotes(long taskId){
         return mHelper.queryNotes(taskId);
+    }
+
+    //--------NOTES FUNCTIONS------
+    public long createCheckList(CheckList checkList){
+        long checklistId=mHelper.insertChecklist(checkList);
+        if(checklistId !=-1)
+            return mHelper.insertChecklistItems(checkList.getChecklistItems(),checklistId);
+        return 0;
     }
 
 }

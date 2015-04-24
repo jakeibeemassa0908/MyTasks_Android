@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.infiniteloop.mytasks.R;
 import com.infiniteloop.mytasks.data.Note;
@@ -63,6 +64,8 @@ public class NoteFragment extends Fragment{
                     //TODO Confirmation dialog
                     getActivity().setResult(Activity.RESULT_OK);
                     getActivity().finish();
+                }else{
+                    Toast.makeText(getActivity(),"Empty note", Toast.LENGTH_SHORT).show();
                 }
                 return true;
             default:
@@ -83,7 +86,6 @@ public class NoteFragment extends Fragment{
             Note note = new Note(noteTitle,noteContent,mTask.getId());
             if(mTaskLab.createNote(note)!=-1)
                 return true;
-            Log.d(TAG,"Note not created");
             return false;
         }
         return false;

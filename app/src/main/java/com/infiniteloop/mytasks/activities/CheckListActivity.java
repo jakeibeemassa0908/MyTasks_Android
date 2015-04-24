@@ -4,7 +4,9 @@ import android.support.v4.app.Fragment;
 import android.view.Menu;
 
 import com.infiniteloop.mytasks.R;
+import com.infiniteloop.mytasks.data.Task;
 import com.infiniteloop.mytasks.fragments.CheckListFragment;
+import com.infiniteloop.mytasks.fragments.DetailTaskFragment;
 
 /**
  * Created by theotherside on 17/04/15.
@@ -12,7 +14,8 @@ import com.infiniteloop.mytasks.fragments.CheckListFragment;
 public class CheckListActivity extends SingleFragmentActivity {
     @Override
     protected Fragment createFragment() {
-        return new CheckListFragment();
+        Task task = getIntent().getParcelableExtra(DetailTaskFragment.EXTRA_TASK);
+        return CheckListFragment.newInstance(task);
     }
 
     @Override

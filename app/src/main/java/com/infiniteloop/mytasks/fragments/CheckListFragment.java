@@ -16,9 +16,13 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.infiniteloop.mytasks.R;
+import com.infiniteloop.mytasks.data.CheckList;
 import com.infiniteloop.mytasks.data.CheckListItem;
+import com.infiniteloop.mytasks.data.Task;
+import com.infiniteloop.mytasks.data.TaskLab;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -27,11 +31,25 @@ import java.util.List;
 public class CheckListFragment extends Fragment {
 
     private static final String TAG = CheckListFragment.class.getSimpleName();
-    private ArrayList<CheckListItem> mChecklist;
+
+    private ArrayList<CheckListItem> mChecklistItems;
+    private EditText mChecklistTitle;
+    private Task mTask;
+
+
+    public static CheckListFragment newInstance(Task task){
+        Bundle args = new Bundle();
+        args.putParcelable(DetailTaskFragment.EXTRA_TASK,task);
+        CheckListFragment fragment = new CheckListFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle args = getArguments();
+        mTask = args.getParcelable(DetailTaskFragment.EXTRA_TASK);
 
         setHasOptionsMenu(true);
     }
@@ -40,11 +58,13 @@ public class CheckListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.new_checklist,container,false);
-        mChecklist = new ArrayList<CheckListItem>();
+        mChecklistTitle =(EditText)rootView.findViewById(R.id.checklistTitle);
+        mChecklistItems = new ArrayList<CheckListItem>();
+
 
         //get listView from rootlayout and set the adapter
         ListView checklistItems = (ListView)rootView.findViewById(R.id.checklist_item_list);
-        final CheckListAdapter adapter = new CheckListAdapter(getActivity(),R.layout.checklist_item_view,mChecklist);
+        final CheckListAdapter adapter = new CheckListAdapter(getActivity(),R.layout.checklist_item_view,mChecklistItems);
         checklistItems.setAdapter(adapter);
 
         final EditText newChecklistItem = (EditText)rootView.findViewById(R.id.newChecklistItem);
@@ -59,7 +79,7 @@ public class CheckListFragment extends Fragment {
                     CheckListItem checkListItem = new CheckListItem();
                     checkListItem.setItem(item);
                     checkListItem.setCompleted(false);
-                    mChecklist.add(checkListItem);
+                    mChecklistItems.add(checkListItem);
                     newChecklistItem.setText("");
                     adapter.notifyDataSetChanged();
 
@@ -74,12 +94,34 @@ public class CheckListFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.save_note:
-                getActivity().setResult(Activity.RESULT_OK);
-                getActivity().finish();
+                if(saveChecklist()){
+                    getActivity().setResult(Activity.RESULT_OK);
+                    getActivity().finish();
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private boolean saveChecklist(){
+
+        String title =mChecklistTitle.getText().toString();
+        if(title.matches(""))return false;
+
+        //Create new Checklist object and set values
+        CheckList newChecklist = new CheckList();
+        newChecklist.setChecklistItems(mChecklistItems);
+        newChecklist.setCreatedDate(new Date());
+        newChecklist.setEditedDate(new Date());
+        newChecklist.setName(title);
+        newChecklist.setTaskId(mTask.getId());
+
+
+        long result =TaskLab.get(getActivity()).createCheckList(newChecklist);
+        if(result ==1)
+            return true;
+        return false;
     }
 
     private class CheckListAdapter extends ArrayAdapter<CheckListItem> {
