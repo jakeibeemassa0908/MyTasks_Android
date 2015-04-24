@@ -77,13 +77,15 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
     private Date mDateCaptured;
     private ArrayList<String> mCategoryList;
     private ImageButton mNotes, mImage,mCheckList;
-    private ArrayList<String> mCurrentPhotoPath = new ArrayList<String>();
+    private String mCurrentPhotoPath = "";
 
     private View mNoteLayout;
     private GridView mNoteGridView;
 
     private View mChecklistLayout;
     private GridView mListGridView;
+
+
 
 
     public static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -94,6 +96,7 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
     private static final int CATEGORY_LOADER=0;
     private static final int NOTE_LOADER=1;
     private static final int CHECKLIST_LOADER=2;
+    private static final int PHOTO_LOADER=3;
 
 
     private static final String TAG=DetailTaskFragment.class.getSimpleName();
@@ -156,13 +159,14 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
                 break;
             case REQUEST_IMAGE_CAPTURE:
                 if(resultCode == Activity.RESULT_OK){
-                    for(String filename: mCurrentPhotoPath){
-                        //Share the picture with phone's gallery
-                        galleryPic(filename);
-
-                        Bitmap imageBitmap=getImageBitmap(filename);
-                        if(imageBitmap!=null){
-
+                    Bitmap imageBitmap=getImageBitmap(mCurrentPhotoPath);
+                    if(imageBitmap!=null){
+                        //save pic in database
+                        long result =TaskLab.get(getActivity()).insertPhoto(mCurrentPhotoPath,mTask.getId());
+                        if(result!=-1){
+                            //Share the picture with phone's gallery
+                            galleryPic(mCurrentPhotoPath);
+                            Toast.makeText(getActivity(),"Photo saved is"+mCurrentPhotoPath,Toast.LENGTH_SHORT).show();
                         }
                     }
                 }
@@ -174,11 +178,10 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
                     //get the real path from Uri
                     String path = getRealPathFromURI(getActivity(),selectedImageUri);
 
-                    Bitmap imageBitmap=getImageBitmap(path);
-                    if(imageBitmap!=null){
-
-                    }
-
+//                    Bitmap imageBitmap=getImageBitmap(path);
+//                    if(imageBitmap!=null){
+//
+//                    }
                 }
                 break;
             case REQUEST_NOTE:
@@ -551,7 +554,7 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
         );
 
         //Save a file :path for use whith ACTION_VIEW intents
-        mCurrentPhotoPath.add(image.getAbsolutePath());
+        mCurrentPhotoPath=image.getAbsolutePath();
         return image;
     }
 

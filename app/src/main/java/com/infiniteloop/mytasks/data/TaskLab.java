@@ -268,4 +268,10 @@ public class TaskLab {
         return mHelper.queryChecklist(taskId);
     }
 
+    //--------CHECKLIST  FUNCTIONS------
+
+    public long insertPhoto(String filename,long taskId){
+        return mHelper.insertPhoto(filename,taskId);
+    }
+
 }

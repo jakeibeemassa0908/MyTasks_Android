@@ -422,6 +422,15 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
         return new ChecklistCursor(wrapped);
 
     }
+
+    //========Photo=================
+
+    public long insertPhoto(String filename,long taskId){
+        ContentValues cv = new ContentValues();
+        cv.put(PhotoEntry.COLUMN_TASK_KEY,taskId);
+        cv.put(PhotoEntry.COLUMN_FILENAME,filename);
+        return getWritableDatabase().insert(PhotoEntry.TABLE_NAME,null,cv);
+    }
     //===========Cursors================
 
 
