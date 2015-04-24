@@ -184,11 +184,15 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
                     Uri selectedImageUri = data.getData();
                     //get the real path from Uri
                     String path = getRealPathFromURI(getActivity(),selectedImageUri);
-
-//                    Bitmap imageBitmap=getImageBitmap(path);
-//                    if(imageBitmap!=null){
-//
-//                    }
+                    Photo photo = new Photo();
+                    photo.setTaskId(mTask.getId());
+                    photo.setFilename(path);
+                    //if photo saved reload
+                    long result =TaskLab.get(getActivity()).insertPhoto(photo);
+                    if(result!=-1){
+                        //refresh
+                        getLoaderManager().restartLoader(PHOTO_LOADER,null,this);
+                    }
                 }
                 break;
             case REQUEST_NOTE:
@@ -720,7 +724,7 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
                     }else if(mList.get(0) instanceof Photo){
                         //Remove the text bar
                         text.setVisibility(View.GONE);
-
+                        myView.setBackgroundColor(getResources().getColor(R.color.white));
                         String photoFilename =((Photo)mList.get(position)).getFilename();
                         image.setImageBitmap(getTailoredBitmap(photoFilename,image));
                         return myView;
