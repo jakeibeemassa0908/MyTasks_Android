@@ -425,12 +425,30 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
 
     //========Photo=================
 
-    public long insertPhoto(String filename,long taskId){
+    public long insertPhoto(Photo photo){
         ContentValues cv = new ContentValues();
-        cv.put(PhotoEntry.COLUMN_TASK_KEY,taskId);
-        cv.put(PhotoEntry.COLUMN_FILENAME,filename);
+        cv.put(PhotoEntry.COLUMN_TASK_KEY,photo.getTaskId());
+        cv.put(PhotoEntry.COLUMN_FILENAME,photo.getFilename());
         return getWritableDatabase().insert(PhotoEntry.TABLE_NAME,null,cv);
     }
+
+    public PhotoCursor getPhotos(long taskId){
+        String selection = PhotoEntry.COLUMN_TASK_KEY + " LIKE ?";
+        String [] selectionArgs = {String.valueOf(taskId)};
+
+        //
+        Cursor wrapped = getReadableDatabase().query(
+                PhotoEntry.TABLE_NAME,
+                null,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                PhotoEntry._ID + " desc");
+
+        return new PhotoCursor(wrapped);
+    }
+
     //===========Cursors================
 
 
@@ -513,6 +531,7 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
         public CheckList getChecklist(){
             if(isBeforeFirst() || isAfterLast()) return null;
             CheckList checklist = new CheckList();
+            checklist.setId(getLong(getColumnIndex(CheckListEntry._ID)));
             checklist.setName(getString(getColumnIndex(CheckListEntry.COLUMN_TITLE)));
             checklist.setTaskId(getLong(getColumnIndex(CheckListEntry.COLUMN_TASK_KEY)));
             checklist.setEditedDate(new Date(getLong(getColumnIndex(CheckListEntry.COLUMN_EDITED_DATE))));
@@ -521,8 +540,23 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    /**
+     * Custom cursor for pictures
+     */
+    public static class PhotoCursor extends CursorWrapper{
 
+        public PhotoCursor(Cursor c){
+            super(c);
+        }
 
-
+        public Photo getPhoto(){
+            if(isBeforeFirst() || isAfterLast()) return null;
+            Photo photo = new Photo();
+            photo.setId(getLong(getColumnIndex(PhotoEntry._ID)));
+            photo.setFilename(getString(getColumnIndex(PhotoEntry.COLUMN_FILENAME)));
+            photo.setTaskId(getLong(getColumnIndex(PhotoEntry.COLUMN_TASK_KEY)));
+            return photo;
+        }
+    }
 
 }

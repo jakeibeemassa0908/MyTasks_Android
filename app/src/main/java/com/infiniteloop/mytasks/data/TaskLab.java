@@ -270,8 +270,11 @@ public class TaskLab {
 
     //--------CHECKLIST  FUNCTIONS------
 
-    public long insertPhoto(String filename,long taskId){
-        return mHelper.insertPhoto(filename,taskId);
+    public long insertPhoto(Photo photo){
+        return mHelper.insertPhoto(photo);
     }
 
+    public TaskDataBaseHelper.PhotoCursor getPhotos(long taskId){
+        return mHelper.getPhotos(taskId);
+    }
 }

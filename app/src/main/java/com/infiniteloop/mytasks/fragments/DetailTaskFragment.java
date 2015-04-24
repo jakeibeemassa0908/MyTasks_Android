@@ -85,6 +85,9 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
     private View mChecklistLayout;
     private GridView mListGridView;
 
+    private View mImageLayout;
+    private GridView mImageGridView;
+
 
 
 
@@ -134,6 +137,7 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
         getLoaderManager().initLoader(CATEGORY_LOADER,null,this);
         getLoaderManager().initLoader(NOTE_LOADER,null,this);
         getLoaderManager().initLoader(CHECKLIST_LOADER,null,this);
+        getLoaderManager().initLoader(PHOTO_LOADER,null,this);
 
 
         setHasOptionsMenu(true);
@@ -159,14 +163,17 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
                 break;
             case REQUEST_IMAGE_CAPTURE:
                 if(resultCode == Activity.RESULT_OK){
-                    Bitmap imageBitmap=getImageBitmap(mCurrentPhotoPath);
-                    if(imageBitmap!=null){
+                    if(imageExists(mCurrentPhotoPath)){
                         //save pic in database
-                        long result =TaskLab.get(getActivity()).insertPhoto(mCurrentPhotoPath,mTask.getId());
+                        Photo photo = new Photo();
+                        photo.setTaskId(mTask.getId());
+                        photo.setFilename(mCurrentPhotoPath);
+                        long result =TaskLab.get(getActivity()).insertPhoto(photo);
                         if(result!=-1){
                             //Share the picture with phone's gallery
                             galleryPic(mCurrentPhotoPath);
-                            Toast.makeText(getActivity(),"Photo saved is"+mCurrentPhotoPath,Toast.LENGTH_SHORT).show();
+                            //refresh
+                            getLoaderManager().restartLoader(PHOTO_LOADER,null,this);
                         }
                     }
                 }
@@ -362,12 +369,11 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
          * Image GridView
          */
 
-        View imageLayout = rootView.findViewById(R.id.image_layout);
-        imageLayout.setVisibility(View.GONE);
+        mImageLayout = rootView.findViewById(R.id.image_layout);
+        mImageLayout.setVisibility(View.GONE);
 
-        GridView imageGridView = (GridView)rootView.findViewById(R.id.gridview_image);
-        //imageGridView.setAdapter(new GridViewAdapter(getActivity()));
-        imageGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mImageGridView = (GridView)rootView.findViewById(R.id.gridview_image);
+        mImageGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(getActivity(),""+position,Toast.LENGTH_LONG).show();
@@ -477,6 +483,8 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
                 return new NoteCursorLoader(getActivity());
             case CHECKLIST_LOADER:
                 return new ChecklistCursorLoader(getActivity());
+            case PHOTO_LOADER:
+                return new PhotoCursorLoader(getActivity());
         }
         return null;
     }
@@ -529,6 +537,23 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
                     mChecklistLayout.setVisibility(View.VISIBLE);
                 }
                 break;
+            case PHOTO_LOADER:
+                if(cursor.getCount()>0){
+                    ArrayList<Photo> photolist = new ArrayList<Photo>();
+
+                    cursor.moveToFirst();
+                    for(int i =0;i<cursor.getCount();i++){
+                        Photo photo = ((TaskDataBaseHelper.PhotoCursor)cursor).getPhoto();
+                        if(!imageExists(photo.getFilename()))
+                            continue;
+                        photolist.add(photo);
+                        cursor.moveToNext();
+                    }
+
+                    mImageGridView.setAdapter(new GridViewAdapter(getActivity(),photolist));
+                    mImageLayout.setVisibility(View.VISIBLE);
+
+                }
         }
     }
 
@@ -593,17 +618,17 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
     }
 
     /**
-     * Get the bitmap from the path
+     * Verify if image exists
      * @param path
      * @return
      */
-    public Bitmap getImageBitmap(String path){
+    public boolean imageExists(String path){
         File imgFile = new  File(path);
 
         if(imgFile.exists()){
-            return BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+            return true;
         }
-        return null;
+        return false;
     }
 
     /**
@@ -614,8 +639,8 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
      */
     private Bitmap getTailoredBitmap(String path,ImageView imageView) {
         // Get the dimensions of the View
-        int targetW = imageView.getWidth();
-        int targetH = imageView.getHeight();
+        int targetW = 150;
+        int targetH = 200;
 
         // Get the dimensions of the bitmap
         BitmapFactory.Options bmOptions = new BitmapFactory.Options();
@@ -636,6 +661,8 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
 
         return bitmap;
     }
+
+
 
     private class GridViewAdapter extends BaseAdapter{
         private Context mContext;
@@ -674,6 +701,10 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
                LayoutInflater inflater = getActivity().getLayoutInflater();
                 myView = inflater.inflate(R.layout.custom_grid_item,null);
 
+                TextView text = (TextView)myView.findViewById(R.id.grid_item_text);
+                text.setVisibility(View.VISIBLE);
+                ImageView image = (ImageView)myView.findViewById(R.id.grid_item_image);
+
                 //Set layout properties
                 myView.setLayoutParams(new GridView.LayoutParams(150, 200));
                 myView.setPadding(0,0,0,0);
@@ -687,7 +718,12 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
                         titleText = ((CheckList)mList.get(position)).getName();
                         drawable=getResources().getDrawable(R.drawable.ic_action_list);
                     }else if(mList.get(0) instanceof Photo){
+                        //Remove the text bar
+                        text.setVisibility(View.GONE);
 
+                        String photoFilename =((Photo)mList.get(position)).getFilename();
+                        image.setImageBitmap(getTailoredBitmap(photoFilename,image));
+                        return myView;
                     }
                 }else{
                     myView.setBackgroundColor(getResources().getColor(R.color.sunshine_dark_blue));
@@ -695,10 +731,7 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
                     titleText="Show More";
                 }
 
-                TextView text = (TextView)myView.findViewById(R.id.grid_item_text);
                 text.setText(titleText);
-
-                ImageView image = (ImageView)myView.findViewById(R.id.grid_item_image);
                 image.setImageDrawable(drawable);
             }
 
@@ -731,6 +764,18 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
         @Override
         protected Cursor loadCursor() {
             return TaskLab.get(getContext()).queryChecklist(mTask.getId());
+        }
+    }
+
+    public static class PhotoCursorLoader extends SQLiteCursorLoader{
+
+        public PhotoCursorLoader(Context context){
+            super(context);
+        }
+
+        @Override
+        protected Cursor loadCursor() {
+            return TaskLab.get(getContext()).getPhotos(mTask.getId());
         }
     }
 
