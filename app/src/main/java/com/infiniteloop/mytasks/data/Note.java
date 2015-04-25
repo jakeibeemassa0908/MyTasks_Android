@@ -88,6 +88,7 @@ public class Note implements Parcelable {
         dest.writeSerializable(mCreationDate);
         dest.writeSerializable(mLastEdit);
         dest.writeLong(mTaskId);
+        dest.writeLong(mId);
     }
 
     public static final Parcelable.Creator<Note> CREATOR
@@ -107,5 +108,6 @@ public class Note implements Parcelable {
         mCreationDate = (Date)in.readSerializable();
         mLastEdit = (Date)in.readSerializable();
         mTaskId = in.readLong();
+        mId = in.readLong();
     }
 }

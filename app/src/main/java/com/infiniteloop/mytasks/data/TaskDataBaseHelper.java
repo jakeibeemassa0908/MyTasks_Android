@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.CursorWrapper;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.infiniteloop.mytasks.data.TaskContract.*;
 
@@ -208,7 +209,7 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
         String selection = TaskEntry._ID + " LIKE ?";
         String[] selectionArgs={String.valueOf(task.getId())};
 
-        int count = getReadableDatabase().update(
+        int count = getWritableDatabase().update(
                 TaskEntry.TABLE_NAME,
                 cv,
                 selection,
@@ -334,7 +335,7 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
 
         String selection = CategoryEntry._ID + " LIKE ?";
         String[] selectionArgs={String.valueOf(id)};
-        int count = getReadableDatabase().update(
+        int count = getWritableDatabase().update(
                 CategoryEntry.TABLE_NAME,
                 cv,
                 selection,
@@ -378,6 +379,26 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
                 NoteEntry.COLUMN_EDITED_DATE + " desc");
         return new NoteCursor(wrapped);
     }
+
+    public long updateNote(Note note){
+        ContentValues cv = new ContentValues();
+        cv.put(NoteEntry.COLUMN_TITLE,note.getTitle());
+        cv.put(NoteEntry.COLUMN_CONTENT,note.getNoteContent());
+        cv.put(NoteEntry.COLUMN_TASK_KEY,note.getTaskId());
+        cv.put(NoteEntry.COLUMN_EDITED_DATE,new Date().getTime());
+
+        String selection = NoteEntry._ID + " LIKE ? ";
+        String [] selectionArgs = {String.valueOf(note.getId())};
+
+        long count = getReadableDatabase().update(
+                NoteEntry.TABLE_NAME,
+                cv,
+                selection,
+                selectionArgs);
+
+        return count;
+    }
+
 
     //========Checklist=========
 
@@ -499,6 +520,7 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
     /**
      * Custom cursor for Note
      */
+
     public static class NoteCursor extends CursorWrapper{
         public NoteCursor(Cursor c){
             super(c);

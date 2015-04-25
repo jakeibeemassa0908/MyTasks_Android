@@ -328,7 +328,6 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
                     }
                 });
 
-
                 //When clicked on select Image
 
                 View open_gallery = dialog.findViewById(R.id.goto_gallery);

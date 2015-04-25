@@ -255,6 +255,10 @@ public class TaskLab {
         return mHelper.queryNotes(taskId);
     }
 
+    public long updateNote(Note note){
+        return mHelper.updateNote(note);
+    }
+
     //--------CHECKLIST  FUNCTIONS------
 
     public long createCheckList(CheckList checkList){

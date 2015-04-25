@@ -1,6 +1,8 @@
 package com.infiniteloop.mytasks.fragments;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -83,13 +85,70 @@ public class NoteFragment extends Fragment{
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.save_note:
-                if(saveNote()){
-                    //TODO Confirmation dialog
-                    getActivity().setResult(Activity.RESULT_OK);
-                    getActivity().finish();
+                final String noteTitle = mNoteTitle.getText().toString().trim();
+                final String noteContent = mNoteContent.getText().toString().trim();
+
+                //Note title is empty
+                if(!noteTitle.matches("")){
+                    //New Note being saved
+                    if(mTask!=null){
+                        AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+                        dialog.setTitle(getString(R.string.save_note));
+                        dialog.setMessage(getString(R.string.save_note_dialog_q));
+                        dialog.setPositiveButton(R.string.save_note,new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Note note = new Note(noteTitle,noteContent,mTask.getId());
+                                long result =TaskLab.get(getActivity()).createNote(note);
+                                if(result!=-1)
+                                    getActivity().setResult(Activity.RESULT_OK);
+                                    getActivity().finish();
+
+                            }
+                        });
+                        dialog.setNegativeButton(R.string.cancel,new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        });
+                        dialog.show();
+
+                        //Note being updated
+                    }else if(mNote!=null && dataHasChanged(noteTitle,noteContent)){
+                        final Note newNote = new Note(noteTitle,noteContent,mNote.getTaskId());
+                        newNote.setId(mNote.getId());
+
+                        AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+                        dialog.setTitle(getString(R.string.save_note));
+                        dialog.setMessage(getString(R.string.save_note_dialog_q));
+                        dialog.setPositiveButton(R.string.save_note,new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                long result =TaskLab.get(getActivity()).updateNote(newNote);
+                                if(result!=-1){
+                                    getActivity().setResult(Activity.RESULT_OK);
+                                    getActivity().finish();
+                                }
+                            }
+                        });
+                        dialog.setNegativeButton(R.string.cancel,new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+                        dialog.show();
+
+                        //Nothing has changed
+                    }else{
+                        getActivity().setResult(Activity.RESULT_CANCELED);
+                        getActivity().finish();
+                    }
                 }else{
-                    Toast.makeText(getActivity(),"Empty note", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(),getString(R.string.empty_note_title),Toast.LENGTH_SHORT).show();
                 }
+
+
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -97,27 +156,7 @@ public class NoteFragment extends Fragment{
 
     }
 
-    /**
-     * Verify whether note is not empty, then save to database
-     * @return
-     */
-    private boolean saveNote(){
-        String noteTitle = mNoteTitle.getText().toString();
-        String noteContent = mNoteContent.getText().toString();
-        Note note;
-
-        if(!noteTitle.matches("")){
-            //New note being created
-            if(mTask!=null) {
-                note = new Note(noteTitle, noteContent, mTask.getId());
-                if(mTaskLab.createNote(note)!=-1)
-                    return true;
-            }else if(mNote!=null){
-                mNote = new Note(noteTitle,noteContent,mNote.getTaskId());
-                //update mNote;
-                return true;
-            }
-        }
-        return false;
+    public boolean dataHasChanged(String title, String content){
+        return !(mNote.getTitle().equals(title) && mNote.getNoteContent().equals(content));
     }
 }
