@@ -262,7 +262,9 @@ public class TaskLab {
     //--------CHECKLIST  FUNCTIONS------
 
     public long createCheckList(CheckList checkList){
+        //insert checklist
         long checklistId=mHelper.insertChecklist(checkList);
+        //retrieve the id and insert the checklist item
         if(checklistId !=-1)
             return mHelper.insertChecklistItems(checkList.getChecklistItems(),checklistId);
         return 0;
@@ -272,7 +274,11 @@ public class TaskLab {
         return mHelper.queryChecklist(taskId);
     }
 
-    //--------CHECKLIST  FUNCTIONS------
+    public ArrayList<CheckListItem> getChecklistItems(long checklistId){
+        return mHelper.getChecklistItems(checklistId);
+    }
+
+    //--------PHOTO  FUNCTIONS------
 
     public long insertPhoto(Photo photo){
         return mHelper.insertPhoto(photo);

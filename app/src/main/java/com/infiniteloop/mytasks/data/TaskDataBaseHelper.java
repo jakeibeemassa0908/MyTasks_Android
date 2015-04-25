@@ -420,7 +420,7 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
         for(int i=0;i< items.size();i++){
             ContentValues cv = new ContentValues();
             cv.put(CheckListItemEntry.COLUMN_CHECKLIST_KEY,checklistId);
-            cv.put(CheckListItemEntry.COLUMN_COMPLETED,0);
+            cv.put(CheckListItemEntry.COLUMN_COMPLETED,items.get(i).isCompleted()?1:0);
             cv.put(CheckListItemEntry.COLUMN_ITEM,items.get(i).getItem());
             getWritableDatabase().insert(CheckListItemEntry.TABLE_NAME,null,cv);
         }
@@ -443,6 +443,24 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
         return new ChecklistCursor(wrapped);
 
     }
+
+    public CheckListItemCursor queryChecklistItem(long checklistId){
+        String selection = CheckListItemEntry.COLUMN_CHECKLIST_KEY + " LIKE ? ";
+        String [] selectionArgs = {String.valueOf(checklistId)};
+
+        Cursor wrapped = getReadableDatabase().query(
+                CheckListItemEntry.TABLE_NAME,
+                null,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                CheckListItemEntry._ID + " asc "
+        );
+
+        return new CheckListItemCursor(wrapped);
+    }
+
 
 
 
@@ -603,6 +621,23 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
             photo.setTaskId(getLong(getColumnIndex(PhotoEntry.COLUMN_TASK_KEY)));
             return photo;
         }
+    }
+
+    /**
+     * Get checklistitem array list
+     * @param checklistId
+     * @return
+     */
+    public  ArrayList<CheckListItem> getChecklistItems(long checklistId){
+        ArrayList<CheckListItem> items = new ArrayList<CheckListItem>();
+
+        CheckListItemCursor cursor = queryChecklistItem(checklistId);
+        cursor.moveToFirst();
+        for(int i=0;i<cursor.getCount();i++){
+            items.add(cursor.getChecklistItem());
+            cursor.moveToNext();
+        }
+        return items;
     }
 
 }
