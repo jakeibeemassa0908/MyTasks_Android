@@ -444,6 +444,8 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
 
     }
 
+
+
     //========Photo=================
 
     public long insertPhoto(Photo photo){
@@ -559,6 +561,28 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
             checklist.setEditedDate(new Date(getLong(getColumnIndex(CheckListEntry.COLUMN_EDITED_DATE))));
             checklist.setCreatedDate(new Date(getLong(getColumnIndex(CheckListEntry.COLUMN_CREATED_DATE))));
             return checklist;
+        }
+    }
+
+
+    /**
+     * custom cursor for checklistitems
+     */
+
+    public static class CheckListItemCursor extends CursorWrapper{
+
+        public CheckListItemCursor(Cursor c){
+            super(c);
+        }
+
+        public CheckListItem getChecklistItem(){
+
+            if(isBeforeFirst() || isAfterLast())return null;
+                CheckListItem checkListItem = new CheckListItem();
+                checkListItem.setId(getLong(getColumnIndex(CheckListItemEntry._ID)));
+                checkListItem.setCompleted(getLong(getColumnIndex(CheckListItemEntry.COLUMN_COMPLETED))==1);
+                checkListItem.setItem(getString(getColumnIndex(CheckListItemEntry.COLUMN_ITEM)));
+                return checkListItem;
         }
     }
 

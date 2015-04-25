@@ -462,7 +462,7 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
      * @return true if any data has changed
      */
     private boolean hasDataChanged() {
-        if(!mTask.getTitle().equals(mTitleEditText.getText().toString())) return true;
+        if(!mTask.getTitle().equals(mTitleEditText.getText().toString().trim())) return true;
         if(mTask.getPriority()!= Helpers.getPriority(getActivity(),mPrioritySpinner.getSelectedItem().toString()))return true;
         if(mTask.getCategory()!=getCatId(mCategorySpinner.getSelectedItem().toString())) return true;
         if(mTask.getReminder()==-1){

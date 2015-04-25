@@ -6,15 +6,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.infiniteloop.mytasks.R;
 import com.infiniteloop.mytasks.data.CheckList;
@@ -96,6 +99,10 @@ public class CheckListFragment extends Fragment {
         switch (item.getItemId()){
             case R.id.save_note:
                 if(saveChecklist()){
+                    //save the checklistITem
+                    if(dataHasChanged()){
+                        //show confirm dialog
+                    }
                     getActivity().setResult(Activity.RESULT_OK);
                     getActivity().finish();
                 }
@@ -131,7 +138,7 @@ public class CheckListFragment extends Fragment {
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             //If we were not given a view, inflate one
             if(convertView==null){
                 convertView=getActivity().getLayoutInflater()
@@ -139,12 +146,17 @@ public class CheckListFragment extends Fragment {
             }
 
             //Configure the  view for the Checklist
-            CheckListItem item = getItem(position);
+            final CheckListItem item = getItem(position);
 
             CheckBox checklistItem = (CheckBox)convertView.findViewById(R.id.checklist_item);
             checklistItem.setText(item.getItem());
             checklistItem.setChecked(item.isCompleted());
-
+            checklistItem.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    item.setCompleted(isChecked);
+                }
+            });
             return convertView;
 
         }
