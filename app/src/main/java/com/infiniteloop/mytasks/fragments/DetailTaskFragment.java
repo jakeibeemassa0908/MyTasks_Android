@@ -83,6 +83,8 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
     private View mImageLayout;
     private GridView mImageGridView;
 
+    private View mShowMoreView;
+
 
 
 
@@ -730,7 +732,16 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
                         return myView;
                     }
                 }else{
-                    myView.setBackgroundDrawable(getResources().getDrawable(R.drawable.button_custom_reverse));
+                    mShowMoreView=myView;
+                    mShowMoreView.setBackgroundDrawable(getResources().getDrawable(R.drawable.button_custom_reverse));
+                    mShowMoreView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            //show all the elements from the view in a new GridView
+                            Intent intent = new Intent();
+                            startActivity(intent);
+                        }
+                    });
                     drawable=getResources().getDrawable(R.drawable.ic_hardware_keyboard_arrow_right);
                     titleText="Show More";
                 }
