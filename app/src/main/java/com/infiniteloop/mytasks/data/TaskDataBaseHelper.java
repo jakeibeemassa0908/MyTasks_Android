@@ -380,6 +380,11 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
         return new NoteCursor(wrapped);
     }
 
+    /**
+     * Update note
+     * @param note
+     * @return
+     */
     public long updateNote(Note note){
         ContentValues cv = new ContentValues();
         cv.put(NoteEntry.COLUMN_TITLE,note.getTitle());
@@ -416,6 +421,12 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
         return getWritableDatabase().insert(CheckListEntry.TABLE_NAME,null,cv);
     }
 
+    /**
+     * Insert new checklist items
+     * @param items
+     * @param checklistId
+     * @return
+     */
     public long insertChecklistItems(ArrayList<CheckListItem> items,long checklistId){
         for(int i=0;i< items.size();i++){
             ContentValues cv = new ContentValues();
@@ -427,6 +438,11 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
         return 1;
     }
 
+    /**
+     * get all checklist belonging to a given task
+     * @param taskId
+     * @return
+     */
     public ChecklistCursor queryChecklist(long taskId){
         String selection = CheckListEntry.COLUMN_TASK_KEY + " LIKE ?";
         String [] selectionArgs={String.valueOf(taskId)};
@@ -444,6 +460,11 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
 
     }
 
+    /**
+     * get a checklist items belonging to a checklist
+     * @param checklistId
+     * @return
+     */
     public CheckListItemCursor queryChecklistItem(long checklistId){
         String selection = CheckListItemEntry.COLUMN_CHECKLIST_KEY + " LIKE ? ";
         String [] selectionArgs = {String.valueOf(checklistId)};
@@ -461,6 +482,12 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
         return new CheckListItemCursor(wrapped);
     }
 
+
+    /**
+     * Update checklist data except checklist items
+     * @param checkList
+     * @return
+     */
     public int updateCheckList(CheckList checkList){
         String selection = CheckListEntry._ID + " LIKE ? ";
         String []selectionArgs = {String.valueOf(checkList.getId())};
@@ -473,6 +500,11 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
         return count;
     }
 
+    /**
+     * Update checklist item data
+     * @param checkList
+     * @return
+     */
     public int updateCheckListItem(CheckList checkList){
         ArrayList<CheckListItem> items = checkList.getChecklistItems();
         ArrayList<CheckListItem> newItems = new ArrayList<CheckListItem>();
