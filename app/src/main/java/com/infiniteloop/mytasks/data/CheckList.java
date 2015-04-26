@@ -18,6 +18,10 @@ public class CheckList implements Parcelable {
     private Date mEditedDate;
     private ArrayList<CheckListItem> mChecklistItems;
 
+    public CheckList(){
+
+    }
+
 
 
     public long getId() {

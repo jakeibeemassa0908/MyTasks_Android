@@ -359,6 +359,10 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
         mListGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                CheckList checkList = ((CheckList)mListGridView.getAdapter().getItem(position));
+                Intent intent = new Intent(getActivity(),CheckListActivity.class);
+                intent.putExtra(CheckListFragment.EXTRA_CHECKLIST,checkList);
+                startActivityForResult(intent,REQUEST_CHECKLIST);
             }
         });
 

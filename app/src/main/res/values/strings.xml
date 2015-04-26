@@ -93,5 +93,8 @@
     <string name="discard_change_dialog_question">Do you want to discard changes</string>
     <string name="save_note_dialog_q">Do you want to save this note ?</string>
     <string name="empty_note_title">Empty note title</string>
+    <string name="empty_checklist_title">Empty checklist title</string>
+    <string name="save_checklist">Do you want to save this list ?</string>
+    <string name="save">Save</string>
 
 </resources>

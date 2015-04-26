@@ -461,6 +461,47 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
         return new CheckListItemCursor(wrapped);
     }
 
+    public int updateCheckList(CheckList checkList){
+        String selection = CheckListEntry._ID + " LIKE ? ";
+        String []selectionArgs = {String.valueOf(checkList.getId())};
+
+        ContentValues cv = new ContentValues();
+        cv.put(CheckListEntry.COLUMN_EDITED_DATE,new Date().getTime());
+        cv.put(CheckListEntry.COLUMN_TITLE,checkList.getName());
+
+        int count = getWritableDatabase().update(CheckListEntry.TABLE_NAME,cv,selection,selectionArgs);
+        return count;
+    }
+
+    public int updateCheckListItem(CheckList checkList){
+        ArrayList<CheckListItem> items = checkList.getChecklistItems();
+        ArrayList<CheckListItem> newItems = new ArrayList<CheckListItem>();
+
+        int count=0;
+        for(int i=0;i<items.size();i++) {
+            //If Item has no ID means it's a new item, skip it and add it to the list of new items
+            if (items.get(i).getId() ==-1) {
+                newItems.add(items.get(i));
+                continue;
+            }
+
+            String selection = CheckListItemEntry._ID + " LIKE ?";
+            String [] selectionArgs = {String.valueOf(items.get(i).getId())};
+
+            ContentValues cv = new ContentValues();
+            cv.put(CheckListItemEntry.COLUMN_ITEM,items.get(i).getItem());
+            cv.put(CheckListItemEntry.COLUMN_COMPLETED,items.get(i).isCompleted()?1:0);
+            count=getWritableDatabase().update(CheckListItemEntry.TABLE_NAME,cv,selection,selectionArgs);
+        }
+
+
+        //Add the new Items that were found without an id
+        if(items.size()>0)
+            count+= insertChecklistItems(newItems,checkList.getId());
+
+        return count;
+    }
+
 
 
 

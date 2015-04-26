@@ -9,6 +9,11 @@ public class CheckListItem {
     private String mItem;
     private boolean mCompleted;
 
+    public CheckListItem(){
+        mId=-1;
+        mCompleted=false;
+    }
+
     public long getId() {
         return mId;
     }

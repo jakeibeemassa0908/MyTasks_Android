@@ -278,6 +278,14 @@ public class TaskLab {
         return mHelper.getChecklistItems(checklistId);
     }
 
+    public int updateCheckList(CheckList checkList){
+         int count=0;
+         count +=mHelper.updateCheckList(checkList);
+         count +=mHelper.updateCheckListItem(checkList);
+         return count;
+
+    }
+
     //--------PHOTO  FUNCTIONS------
 
     public long insertPhoto(Photo photo){
