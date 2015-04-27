@@ -487,11 +487,11 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
             case CATEGORY_LOADER:
                 return new CursorLoader.CategoryListLoader(getActivity());
             case NOTE_LOADER:
-                return new NoteCursorLoader(getActivity());
+                return new CursorLoader.NoteCursorLoader(getActivity(),mTask.getId());
             case CHECKLIST_LOADER:
-                return new ChecklistCursorLoader(getActivity());
+                return new CursorLoader.ChecklistCursorLoader(getActivity(),mTask.getId());
             case PHOTO_LOADER:
-                return new PhotoCursorLoader(getActivity());
+                return new CursorLoader.PhotoCursorLoader(getActivity(),mTask.getId());
         }
         return null;
     }
@@ -763,46 +763,6 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
             }
 
             return myView;
-        }
-    }
-
-
-
-    public static class NoteCursorLoader extends SQLiteCursorLoader {
-
-        public NoteCursorLoader(Context context){
-            super (context);
-        }
-
-        @Override
-        protected Cursor loadCursor() {
-            //Query the list of runs
-            return TaskLab.get(getContext()).queryNotes(mTask.getId());
-        }
-    }
-
-
-    public static class ChecklistCursorLoader extends SQLiteCursorLoader{
-
-        public ChecklistCursorLoader(Context context){
-            super(context);
-        }
-
-        @Override
-        protected Cursor loadCursor() {
-            return TaskLab.get(getContext()).queryChecklist(mTask.getId());
-        }
-    }
-
-    public static class PhotoCursorLoader extends SQLiteCursorLoader{
-
-        public PhotoCursorLoader(Context context){
-            super(context);
-        }
-
-        @Override
-        protected Cursor loadCursor() {
-            return TaskLab.get(getContext()).getPhotos(mTask.getId());
         }
     }
 
