@@ -1,5 +1,6 @@
 package com.infiniteloop.mytasks.fragments;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -14,7 +16,10 @@ import android.widget.TextView;
 
 import com.infiniteloop.mytasks.Helpers;
 import com.infiniteloop.mytasks.R;
+import com.infiniteloop.mytasks.activities.CheckListActivity;
+import com.infiniteloop.mytasks.activities.NoteActivity;
 import com.infiniteloop.mytasks.data.CheckList;
+import com.infiniteloop.mytasks.data.CheckListItem;
 import com.infiniteloop.mytasks.data.Note;
 import com.infiniteloop.mytasks.data.Task;
 import com.infiniteloop.mytasks.data.TaskDataBaseHelper;
@@ -29,7 +34,9 @@ public class DefaultGridFragment extends Fragment {
     private static final String TAG = DefaultGridFragment.class.getSimpleName();
 
     private ArrayList<Object> mList = new ArrayList<Object>();
+
     private long mTaskId;
+    private GridView mGridView;
     public static final String EXTRA_TYPE="typeOfReceivedList";
 
     public static DefaultGridFragment newInstance(long taskId,String type){
@@ -51,9 +58,12 @@ public class DefaultGridFragment extends Fragment {
         mTaskId= args.getLong(DetailTaskFragment.EXTRA_TASK);
         String type = args.getString(EXTRA_TYPE);
 
+        //If the task id and the type of the list data is defined
         if(mTaskId!=-1 && type!=null){
+            //if we are given a list of notes
             if (type.equals(Note.class.getName())){
                 TaskDataBaseHelper.NoteCursor cursor =  TaskLab.get(getActivity()).queryNotes(mTaskId);
+                getActivity().setTitle(getString(R.string.all_note));
                 if (cursor!=null){
                     cursor.moveToFirst();
                     for (int i=0;i<cursor.getCount();i++){
@@ -61,8 +71,10 @@ public class DefaultGridFragment extends Fragment {
                         cursor.moveToNext();
                     }
                 }
+                //If we are given a list of cheklist
             }else if(type.equals(CheckList.class.getName())){
                 TaskDataBaseHelper.ChecklistCursor cursor = TaskLab.get(getActivity()).queryChecklist(mTaskId);
+                getActivity().setTitle(getString(R.string.all_checklist));
                 if (cursor!=null){
                     cursor.moveToFirst();
                     for (int i=0;i<cursor.getCount();i++){
@@ -78,8 +90,9 @@ public class DefaultGridFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.note_and_list_view,container,false);
 
-        GridView gridView = (GridView)rootView.findViewById(R.id.gridview);
-        gridView.setAdapter(new GridViewAdapter(mList));
+        mGridView = (GridView)rootView.findViewById(R.id.gridview);
+        mGridView.setAdapter(new GridViewAdapter(mList));
+        mGridView.setOnItemClickListener(new ClickListener(mList));
 
         return rootView;
     }
@@ -130,6 +143,34 @@ public class DefaultGridFragment extends Fragment {
 
             }
             return view;
+        }
+    }
+
+    private class ClickListener implements AdapterView.OnItemClickListener {
+        Intent mIntent;
+        ArrayList<Object> mList;
+        public ClickListener(ArrayList<Object> list){
+            mList = list;
+        }
+
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            Object obj = mList.get(position);
+
+            if (obj instanceof Note){
+
+                Note note = (Note)obj;
+                mIntent = new Intent(getActivity(),NoteActivity.class);
+                mIntent.putExtra(NoteFragment.EXTRA_NOTE,note);
+
+            }else if (obj instanceof CheckList){
+
+                CheckList checkList =(CheckList)obj;
+                mIntent = new Intent(getActivity(), CheckListActivity.class);
+                mIntent.putExtra(CheckListFragment.EXTRA_CHECKLIST,checkList);
+            }
+
+            startActivity(mIntent);
         }
     }
 

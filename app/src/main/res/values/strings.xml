@@ -96,5 +96,7 @@
     <string name="empty_checklist_title">Empty checklist title</string>
     <string name="save_checklist">Do you want to save this list ?</string>
     <string name="save">Save</string>
+    <string name="all_note">All Notes</string>
+    <string name="all_checklist">All Checklists</string>
 
 </resources>

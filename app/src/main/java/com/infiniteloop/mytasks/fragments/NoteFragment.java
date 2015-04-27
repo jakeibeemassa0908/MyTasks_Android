@@ -62,6 +62,7 @@ public class NoteFragment extends Fragment{
         Bundle args = getArguments();
         mTask = args.getParcelable(DetailTaskFragment.EXTRA_TASK);
         mNote = args.getParcelable(EXTRA_NOTE);
+
         setHasOptionsMenu(true);
     }
 
