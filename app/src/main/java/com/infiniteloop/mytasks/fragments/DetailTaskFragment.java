@@ -36,6 +36,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.infiniteloop.mytasks.activities.CheckListActivity;
+import com.infiniteloop.mytasks.activities.DefaultGridActivity;
 import com.infiniteloop.mytasks.activities.NoteActivity;
 import com.infiniteloop.mytasks.data.CheckList;
 import com.infiniteloop.mytasks.data.Note;
@@ -738,7 +739,7 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
                         @Override
                         public void onClick(View v) {
                             //show all the elements from the view in a new GridView
-                            Intent intent = new Intent();
+                            Intent intent = new Intent(getActivity(), DefaultGridActivity.class);
                             startActivity(intent);
                         }
                     });

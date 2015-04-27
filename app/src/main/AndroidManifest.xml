@@ -112,6 +112,14 @@
                 android:value="com.infiniteloop.mytasks.DetailTaskActivity" />
         </activity>
 
+        <activity android:name=".activities.DefaultGridActivity"
+            android:label="@string/app_name"
+            android:parentActivityName=".activities.DetailTaskActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.infiniteloop.mytasks.DetailTaskActivity" />
+        </activity>
+
         <receiver
             android:name=".receivers.NotificationReceiver"
             android:exported="false" >
