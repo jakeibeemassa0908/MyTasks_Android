@@ -3,6 +3,7 @@ package com.infiniteloop.mytasks.activities;
 import android.support.v4.app.Fragment;
 
 import com.infiniteloop.mytasks.fragments.DefaultGridFragment;
+import com.infiniteloop.mytasks.fragments.DetailTaskFragment;
 
 /**
  * Created by theotherside on 26/04/15.
@@ -10,6 +11,10 @@ import com.infiniteloop.mytasks.fragments.DefaultGridFragment;
 public class DefaultGridActivity extends SingleFragmentActivity {
     @Override
     protected Fragment createFragment() {
-        return new DefaultGridFragment();
+
+        long taskId = getIntent().getLongExtra(DetailTaskFragment.EXTRA_TASK,-1);
+        String listType = getIntent().getStringExtra(DefaultGridFragment.EXTRA_TYPE);
+
+        return DefaultGridFragment.newInstance(taskId,listType);
     }
 }

@@ -5,7 +5,9 @@ import android.widget.ArrayAdapter;
 
 import com.infiniteloop.mytasks.data.Task;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by theotherside on 14/03/15.
@@ -32,5 +34,9 @@ public class Helpers {
         }else{
             return -1;
         }
+    }
+
+    public static String dateToString(long dateToTime) {
+        return DateFormat.getDateInstance().format(new Date(dateToTime));
     }
 }

@@ -735,11 +735,22 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
                 }else{
                     mShowMoreView=myView;
                     mShowMoreView.setBackgroundDrawable(getResources().getDrawable(R.drawable.button_custom_reverse));
+
+                    String typeOfList="";
+                    if(mList.get(0) instanceof CheckList)
+                        typeOfList=CheckList.class.getName();
+                    else if (mList.get(0) instanceof Note)
+                        typeOfList =Note.class.getName();
+
+                    final String toExtra = typeOfList;
+
                     mShowMoreView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             //show all the elements from the view in a new GridView
                             Intent intent = new Intent(getActivity(), DefaultGridActivity.class);
+                            intent.putExtra(EXTRA_TASK,mTask.getId());
+                            intent.putExtra(DefaultGridFragment.EXTRA_TYPE,toExtra);
                             startActivity(intent);
                         }
                     });
