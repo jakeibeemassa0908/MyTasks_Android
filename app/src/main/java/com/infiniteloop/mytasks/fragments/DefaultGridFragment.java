@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.Loader;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,13 +61,14 @@ public class DefaultGridFragment extends Fragment  implements LoaderCallbacks<Cu
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode){
-            case DetailTaskFragment.REQUEST_CHECKLIST:
-                if(resultCode== Activity.RESULT_OK){
-                    //refreshAdapter();
-                }
+        switch (resultCode){
+            case Activity.RESULT_OK:
+                mList.clear();
+                getLoaderManager().restartLoader(0,null,this);
+                break;
+            default:
+                super.onActivityResult(requestCode, resultCode, data);
         }
-        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
@@ -173,10 +175,11 @@ public class DefaultGridFragment extends Fragment  implements LoaderCallbacks<Cu
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             View view = convertView;
-            if(convertView==null){
-                LayoutInflater inflater= getActivity().getLayoutInflater();
-                view = inflater.inflate(R.layout.custom_grid_texts,null);
-
+            if(convertView==null) {
+                LayoutInflater inflater = getActivity().getLayoutInflater();
+                view = inflater.inflate(R.layout.custom_grid_texts, null);
+            }
+            else{
                 TextView titleText = (TextView)view.findViewById(R.id.grid_item_list_text);
                 TextView dateText = (TextView)view.findViewById(R.id.grid_item_list_date);
 

@@ -1,5 +1,6 @@
 package com.infiniteloop.mytasks.activities;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 
 import com.infiniteloop.mytasks.fragments.DefaultGridFragment;
@@ -16,5 +17,10 @@ public class DefaultGridActivity extends SingleFragmentActivity {
         String listType = getIntent().getStringExtra(DefaultGridFragment.EXTRA_TYPE);
 
         return DefaultGridFragment.newInstance(taskId,listType);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }
