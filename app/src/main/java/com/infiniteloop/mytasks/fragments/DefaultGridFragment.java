@@ -179,7 +179,6 @@ public class DefaultGridFragment extends Fragment  implements LoaderCallbacks<Cu
                 LayoutInflater inflater = getActivity().getLayoutInflater();
                 view = inflater.inflate(R.layout.custom_grid_texts, null);
             }
-            else{
                 TextView titleText = (TextView)view.findViewById(R.id.grid_item_list_text);
                 TextView dateText = (TextView)view.findViewById(R.id.grid_item_list_date);
 
@@ -193,8 +192,6 @@ public class DefaultGridFragment extends Fragment  implements LoaderCallbacks<Cu
                     long time =((CheckList)mList.get(position)).getEditedDate().getTime();
                     dateText.setText(Helpers.dateToString(time));
                 }
-
-            }
             return view;
         }
     }
