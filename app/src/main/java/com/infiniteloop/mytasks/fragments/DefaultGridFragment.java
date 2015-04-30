@@ -8,13 +8,11 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.Loader;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.TextView;
 
@@ -23,11 +21,8 @@ import com.infiniteloop.mytasks.R;
 import com.infiniteloop.mytasks.activities.CheckListActivity;
 import com.infiniteloop.mytasks.activities.NoteActivity;
 import com.infiniteloop.mytasks.data.CheckList;
-import com.infiniteloop.mytasks.data.CheckListItem;
 import com.infiniteloop.mytasks.data.Note;
-import com.infiniteloop.mytasks.data.Task;
 import com.infiniteloop.mytasks.data.TaskDataBaseHelper;
-import com.infiniteloop.mytasks.data.TaskLab;
 import com.infiniteloop.mytasks.loaders.CursorLoader;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 

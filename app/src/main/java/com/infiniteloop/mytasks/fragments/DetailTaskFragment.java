@@ -33,7 +33,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.infiniteloop.mytasks.activities.CheckListActivity;
 import com.infiniteloop.mytasks.activities.DefaultGridActivity;
@@ -44,8 +43,6 @@ import com.infiniteloop.mytasks.data.Photo;
 import com.infiniteloop.mytasks.loaders.CursorLoader;
 import com.infiniteloop.mytasks.Helpers;
 import com.infiniteloop.mytasks.R;
-import com.infiniteloop.mytasks.loaders.SQLiteCursorLoader;
-import com.infiniteloop.mytasks.services.ReminderService;
 import com.infiniteloop.mytasks.data.Task;
 import com.infiniteloop.mytasks.data.TaskLab;
 import com.infiniteloop.mytasks.data.TaskDataBaseHelper;
@@ -93,6 +90,7 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
     public static final int REQUEST_PICK_IMAGE=2;
     public static final int REQUEST_NOTE=3;
     public static final int REQUEST_CHECKLIST=4;
+    public static final int REQUEST_MORE=5;
 
     private static final int CATEGORY_LOADER=0;
     private static final int NOTE_LOADER=1;
@@ -103,6 +101,7 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
     private static final String TAG=DetailTaskFragment.class.getSimpleName();
 
     public static String EXTRA_TASK="com.infiniteloop.task";
+    public static String toReload = ""; //what to reload when the result return.
 
     public static Task mTask;
     private HashMap<String,Long> categoyIdName;
@@ -201,6 +200,13 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
                 if (resultCode == Activity.RESULT_OK)
                     getLoaderManager().restartLoader(CHECKLIST_LOADER,null,this);
                 break;
+            case REQUEST_MORE:
+                if(toReload.equals(Note.class.getName()))
+                    getLoaderManager().restartLoader(NOTE_LOADER,null,this);
+                else if(toReload.equals(CheckList.class.getName()))
+                    getLoaderManager().restartLoader(CHECKLIST_LOADER,null,this);
+                else if (toReload.equals(Photo.class.getName()))
+                    getLoaderManager().restartLoader(PHOTO_LOADER,null,this);
             default:
                 super.onActivityResult(requestCode, resultCode, data);
 
@@ -751,7 +757,9 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
                             Intent intent = new Intent(getActivity(), DefaultGridActivity.class);
                             intent.putExtra(EXTRA_TASK,mTask.getId());
                             intent.putExtra(DefaultGridFragment.EXTRA_TYPE,toExtra);
-                            startActivity(intent);
+                            toReload = toExtra;
+                            startActivityForResult(intent,REQUEST_MORE);
+
                         }
                     });
                     drawable=getResources().getDrawable(R.drawable.ic_hardware_keyboard_arrow_right);
