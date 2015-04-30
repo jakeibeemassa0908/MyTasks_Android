@@ -552,19 +552,25 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
                 break;
             case PHOTO_LOADER:
                 if(cursor.getCount()>0){
-                    ArrayList<Photo> photolist = new ArrayList<Photo>();
+                    //in case the photo has been deleted
+                    boolean photoExists=false;
 
+                    ArrayList<Photo> photolist = new ArrayList<Photo>();
                     cursor.moveToFirst();
                     for(int i =0;i<cursor.getCount();i++){
                         Photo photo = ((TaskDataBaseHelper.PhotoCursor)cursor).getPhoto();
-                        if(!imageExists(photo.getFilename()))
+                        if(!imageExists(photo.getFilename())){
                             continue;
+                        }
+                        photoExists=true;
                         photolist.add(photo);
                         cursor.moveToNext();
                     }
-
-                    mImageGridView.setAdapter(new GridViewAdapter(getActivity(),photolist));
-                    mImageLayout.setVisibility(View.VISIBLE);
+                    
+                    if(photoExists){
+                        mImageGridView.setAdapter(new GridViewAdapter(getActivity(),photolist));
+                        mImageLayout.setVisibility(View.VISIBLE);
+                    }
 
                 }
         }
