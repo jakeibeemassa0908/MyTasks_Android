@@ -37,6 +37,7 @@ import android.widget.TextView;
 import com.infiniteloop.mytasks.activities.CheckListActivity;
 import com.infiniteloop.mytasks.activities.DefaultGridActivity;
 import com.infiniteloop.mytasks.activities.NoteActivity;
+import com.infiniteloop.mytasks.activities.PhotoActivity;
 import com.infiniteloop.mytasks.data.CheckList;
 import com.infiniteloop.mytasks.data.Note;
 import com.infiniteloop.mytasks.data.Photo;
@@ -386,7 +387,10 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
         mImageGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                Photo photo = ((Photo)mImageGridView.getAdapter().getItem(position));
+                Intent intent = new Intent(getActivity(), PhotoActivity.class);
+                intent.putExtra(PhotoFragment.EXTRA_PICTURE,photo.getFilename());
+                startActivity(intent);
             }
         });
         /**
@@ -566,7 +570,7 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
                         photolist.add(photo);
                         cursor.moveToNext();
                     }
-                    
+
                     if(photoExists){
                         mImageGridView.setAdapter(new GridViewAdapter(getActivity(),photolist));
                         mImageLayout.setVisibility(View.VISIBLE);
@@ -650,39 +654,6 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
         return false;
     }
 
-    /**
-     * Get bitmap tailored to the size of the imageview container for better memory management
-     * @param path
-     * @param imageView
-     * @return
-     */
-    private Bitmap getTailoredBitmap(String path,ImageView imageView) {
-        // Get the dimensions of the View
-        int targetW = 150;
-        int targetH = 200;
-
-        // Get the dimensions of the bitmap
-        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-        bmOptions.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(path, bmOptions);
-        int photoW = bmOptions.outWidth;
-        int photoH = bmOptions.outHeight;
-
-        // Determine how much to scale down the image
-        int scaleFactor = Math.min(photoW/targetW, photoH/targetH);
-
-        // Decode the image file into a Bitmap sized to fill the View
-        bmOptions.inJustDecodeBounds = false;
-        bmOptions.inSampleSize = scaleFactor;
-        bmOptions.inPurgeable = true;
-
-        Bitmap bitmap = BitmapFactory.decodeFile(path, bmOptions);
-
-        return bitmap;
-    }
-
-
-
     private class GridViewAdapter extends BaseAdapter{
         private Context mContext;
         ArrayList<?> mList;
@@ -741,7 +712,7 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
                         text.setVisibility(View.GONE);
                         myView.setBackgroundColor(getResources().getColor(android.R.color.transparent));
                         String photoFilename =((Photo)mList.get(position)).getFilename();
-                        image.setImageBitmap(getTailoredBitmap(photoFilename,image));
+                        image.setImageBitmap(Helpers.getTailoredBitmap(photoFilename,image));
                         return myView;
                     }
                 }else{
