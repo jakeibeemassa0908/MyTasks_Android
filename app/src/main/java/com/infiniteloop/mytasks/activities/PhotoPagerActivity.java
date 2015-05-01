@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBarActivity;
 
 import com.infiniteloop.mytasks.Helpers;
 import com.infiniteloop.mytasks.R;
@@ -20,7 +21,7 @@ import java.util.ArrayList;
 /**
  * Created by theotherside on 01/05/15.
  */
-public class PhotoPagerActivity extends FragmentActivity     {
+public class PhotoPagerActivity extends ActionBarActivity {
 
     private ViewPager mViewPager;
     private ArrayList<Photo> mPhotosPath;
