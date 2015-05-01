@@ -35,8 +35,8 @@ public class PhotoFragment extends Fragment {
 
         Bundle bundle = getArguments();
         String path  = bundle.getString(EXTRA_PICTURE);
-        ImageView image = (ImageView)rootView.findViewById(R.id.picture);
-        image.setImageBitmap(Helpers.getTailoredBitmap(path,image));
+        mPicture = (ImageView)rootView.findViewById(R.id.picture);
+        mPicture.setImageBitmap(Helpers.getTailoredBitmap(path,mPicture));
         return rootView;
     }
 }

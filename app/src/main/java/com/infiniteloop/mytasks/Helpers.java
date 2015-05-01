@@ -8,6 +8,7 @@ import android.widget.ImageView;
 
 import com.infiniteloop.mytasks.data.Task;
 
+import java.io.File;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -72,5 +73,19 @@ public class Helpers {
         Bitmap bitmap = BitmapFactory.decodeFile(path, bmOptions);
 
         return bitmap;
+    }
+
+    /**
+     * Verify if image exists
+     * @param path
+     * @return
+     */
+    public static boolean imageExists(String path){
+        File imgFile = new  File(path);
+
+        if(imgFile.exists()){
+            return true;
+        }
+        return false;
     }
 }

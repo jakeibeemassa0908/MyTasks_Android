@@ -7,8 +7,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -38,6 +36,7 @@ import com.infiniteloop.mytasks.activities.CheckListActivity;
 import com.infiniteloop.mytasks.activities.DefaultGridActivity;
 import com.infiniteloop.mytasks.activities.NoteActivity;
 import com.infiniteloop.mytasks.activities.PhotoActivity;
+import com.infiniteloop.mytasks.activities.PhotoPagerActivity;
 import com.infiniteloop.mytasks.data.CheckList;
 import com.infiniteloop.mytasks.data.Note;
 import com.infiniteloop.mytasks.data.Photo;
@@ -161,7 +160,7 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
                 break;
             case REQUEST_IMAGE_CAPTURE:
                 if(resultCode == Activity.RESULT_OK){
-                    if(imageExists(mCurrentPhotoPath)){
+                    if(Helpers.imageExists(mCurrentPhotoPath)){
                         //save pic in database
                         Photo photo = new Photo();
                         photo.setTaskId(mTask.getId());
@@ -388,7 +387,8 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Photo photo = ((Photo)mImageGridView.getAdapter().getItem(position));
-                Intent intent = new Intent(getActivity(), PhotoActivity.class);
+                Intent intent = new Intent(getActivity(), PhotoPagerActivity.class);
+                intent.putExtra(EXTRA_TASK,mTask.getId());
                 intent.putExtra(PhotoFragment.EXTRA_PICTURE,photo.getFilename());
                 startActivity(intent);
             }
@@ -563,7 +563,7 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
                     cursor.moveToFirst();
                     for(int i =0;i<cursor.getCount();i++){
                         Photo photo = ((TaskDataBaseHelper.PhotoCursor)cursor).getPhoto();
-                        if(!imageExists(photo.getFilename())){
+                        if(!Helpers.imageExists(photo.getFilename())){
                             continue;
                         }
                         photoExists=true;
@@ -640,20 +640,6 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
         return path;
     }
 
-    /**
-     * Verify if image exists
-     * @param path
-     * @return
-     */
-    public boolean imageExists(String path){
-        File imgFile = new  File(path);
-
-        if(imgFile.exists()){
-            return true;
-        }
-        return false;
-    }
-
     private class GridViewAdapter extends BaseAdapter{
         private Context mContext;
         ArrayList<?> mList;
@@ -712,7 +698,7 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
                         text.setVisibility(View.GONE);
                         myView.setBackgroundColor(getResources().getColor(android.R.color.transparent));
                         String photoFilename =((Photo)mList.get(position)).getFilename();
-                        image.setImageBitmap(Helpers.getTailoredBitmap(photoFilename,image));
+                        image.setImageBitmap(Helpers.getTailoredBitmap(photoFilename, image));
                         return myView;
                     }
                 }else{
