@@ -21,11 +21,11 @@ import com.infiniteloop.mytasks.Helpers;
 import com.infiniteloop.mytasks.R;
 import com.infiniteloop.mytasks.activities.CheckListActivity;
 import com.infiniteloop.mytasks.activities.NoteActivity;
+import com.infiniteloop.mytasks.activities.PhotoPagerActivity;
 import com.infiniteloop.mytasks.data.CheckList;
 import com.infiniteloop.mytasks.data.Note;
 import com.infiniteloop.mytasks.data.Photo;
 import com.infiniteloop.mytasks.data.TaskDataBaseHelper;
-import com.infiniteloop.mytasks.data.TaskLab;
 import com.infiniteloop.mytasks.loaders.CursorLoader;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 
@@ -238,6 +238,14 @@ public class DefaultGridFragment extends Fragment  implements LoaderCallbacks<Cu
                 mIntent = new Intent(getActivity(), CheckListActivity.class);
                 mIntent.putExtra(CheckListFragment.EXTRA_CHECKLIST,checkList);
                 startActivityForResult(mIntent, DetailTaskFragment.REQUEST_CHECKLIST);
+            }
+
+            else if(obj instanceof Photo){
+                Photo photo = (Photo)obj;
+                Intent intent = new Intent(getActivity(), PhotoPagerActivity.class);
+                intent.putExtra(DetailTaskFragment.EXTRA_TASK,mTaskId);
+                intent.putExtra(PhotoFragment.EXTRA_PICTURE,photo.getId());
+                startActivity(intent);
             }
 
         }
