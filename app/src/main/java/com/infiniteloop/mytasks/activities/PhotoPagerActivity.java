@@ -2,7 +2,6 @@ package com.infiniteloop.mytasks.activities;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -33,6 +32,7 @@ public class PhotoPagerActivity extends ActionBarActivity {
         mViewPager.setId(R.id.viewPager);
         setContentView(mViewPager);
         mTaskId = getIntent().getLongExtra(DetailTaskFragment.EXTRA_TASK,-1);
+
 
         mPhotosPath = new ArrayList<Photo>();
 
@@ -68,5 +68,15 @@ public class PhotoPagerActivity extends ActionBarActivity {
                 return  mPhotosPath.size();
             }
         });
+
+        long photoId = getIntent().getLongExtra(PhotoFragment.EXTRA_PICTURE,-1);
+        if(photoId!=-1){
+            for(int i=0;i< mPhotosPath.size();i++){
+                if(mPhotosPath.get(i).getId()==photoId){
+                    mViewPager.setCurrentItem(i);
+                    break;
+                }
+            }
+        }
     }
 }

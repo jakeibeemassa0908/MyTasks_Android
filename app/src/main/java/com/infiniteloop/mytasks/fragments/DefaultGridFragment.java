@@ -1,9 +1,9 @@
 package com.infiniteloop.mytasks.fragments;
 
 import android.app.Activity;
-import android.app.LoaderManager;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.infiniteloop.mytasks.Helpers;
@@ -22,7 +23,9 @@ import com.infiniteloop.mytasks.activities.CheckListActivity;
 import com.infiniteloop.mytasks.activities.NoteActivity;
 import com.infiniteloop.mytasks.data.CheckList;
 import com.infiniteloop.mytasks.data.Note;
+import com.infiniteloop.mytasks.data.Photo;
 import com.infiniteloop.mytasks.data.TaskDataBaseHelper;
+import com.infiniteloop.mytasks.data.TaskLab;
 import com.infiniteloop.mytasks.loaders.CursorLoader;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 
@@ -76,14 +79,7 @@ public class DefaultGridFragment extends Fragment  implements LoaderCallbacks<Cu
 
         //If the task id and the type of the list data is defined
         if(mTaskId!=-1 && type!=null){
-            //if we are given a list of notes
-            if (type.equals(Note.class.getName())){
-                mType = Note.class.getName();
-
-                //If we are given a list of cheklist
-            }else if(type.equals(CheckList.class.getName())){
-                mType = CheckList.class.getName();
-            }
+            mType=type;
         }
 
         getLoaderManager().initLoader(0,null,this);
@@ -105,6 +101,8 @@ public class DefaultGridFragment extends Fragment  implements LoaderCallbacks<Cu
             return new CursorLoader.NoteCursorLoader(getActivity(),mTaskId);
         }else if(mType.equals(CheckList.class.getName())){
             return new CursorLoader.ChecklistCursorLoader(getActivity(),mTaskId);
+        }else if (mType.equals(Photo.class.getName())){
+            return new CursorLoader.PhotoCursorLoader(getActivity(),mTaskId);
         }
         return null;
     }
@@ -135,6 +133,21 @@ public class DefaultGridFragment extends Fragment  implements LoaderCallbacks<Cu
                 cursor.moveToFirst();
                 for (int i=0;i<cursor.getCount();i++){
                     mList.add(cursor.getChecklist());
+                    cursor.moveToNext();
+                }
+            }
+        }
+        else if (mType.equals(Photo.class.getName())){
+            TaskDataBaseHelper.PhotoCursor cursor = (TaskDataBaseHelper.PhotoCursor)data;
+            getActivity().setTitle(getString(R.string.all_pictures));
+            if(cursor!=null){
+                cursor.moveToFirst();
+                for(int i =0;i<cursor.getCount();i++){
+                    Photo photo = cursor.getPhoto();
+                    if(!Helpers.imageExists(photo.getFilename())){
+                        continue;
+                    }
+                    mList.add(photo);
                     cursor.moveToNext();
                 }
             }
@@ -176,6 +189,8 @@ public class DefaultGridFragment extends Fragment  implements LoaderCallbacks<Cu
             }
                 TextView titleText = (TextView)view.findViewById(R.id.grid_item_list_text);
                 TextView dateText = (TextView)view.findViewById(R.id.grid_item_list_date);
+                ImageView image = (ImageView)view.findViewById(R.id.grid_item_cover);
+
 
                 if(mList.get(0) instanceof Note){
                     titleText.setText(((Note)mList.get(position)).getTitle());
@@ -186,6 +201,14 @@ public class DefaultGridFragment extends Fragment  implements LoaderCallbacks<Cu
                     titleText.setText(((CheckList)mList.get(position)).getName());
                     long time =((CheckList)mList.get(position)).getEditedDate().getTime();
                     dateText.setText(Helpers.dateToString(time));
+                } else if(mList.get(0) instanceof Photo){
+
+                    titleText.setVisibility(View.GONE);
+                    dateText.setVisibility(View.GONE);
+                    image.setBackgroundColor(Color.TRANSPARENT);
+
+                    String path = ((Photo)mList.get(position)).getFilename();
+                    image.setImageBitmap(Helpers.getTailoredBitmap(path,image));
                 }
             return view;
         }

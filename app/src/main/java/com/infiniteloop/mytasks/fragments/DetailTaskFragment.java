@@ -389,7 +389,7 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
                 Photo photo = ((Photo)mImageGridView.getAdapter().getItem(position));
                 Intent intent = new Intent(getActivity(), PhotoPagerActivity.class);
                 intent.putExtra(EXTRA_TASK,mTask.getId());
-                intent.putExtra(PhotoFragment.EXTRA_PICTURE,photo.getFilename());
+                intent.putExtra(PhotoFragment.EXTRA_PICTURE,photo.getId());
                 startActivity(intent);
             }
         });
@@ -710,6 +710,9 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
                         typeOfList=CheckList.class.getName();
                     else if (mList.get(0) instanceof Note)
                         typeOfList =Note.class.getName();
+                    else if(mList.get(0) instanceof Photo)
+                        typeOfList=Photo.class.getName();
+
 
                     final String toExtra = typeOfList;
 

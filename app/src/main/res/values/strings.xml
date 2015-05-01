@@ -98,5 +98,6 @@
     <string name="save">Save</string>
     <string name="all_note">All Notes</string>
     <string name="all_checklist">All Checklists</string>
+    <string name="all_pictures">All pictures</string>
 
 </resources>
