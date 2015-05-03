@@ -17,7 +17,6 @@ public class DrawerItem {
         mPriority=-1;
     }
 
-
     public String getTitle() {
         return mTitle;
     }
