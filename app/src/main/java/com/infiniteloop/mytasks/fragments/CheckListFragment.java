@@ -10,6 +10,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -127,6 +129,16 @@ public class CheckListFragment extends Fragment {
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        MenuItem item = menu.findItem(R.id.delete_default_view);
+        if(mTask != null){
+            item.setVisible(false);
+        }
+    }
+
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.save_note:
@@ -189,6 +201,8 @@ public class CheckListFragment extends Fragment {
                     }else{
                         Toast.makeText(getActivity(),getString(R.string.empty_checklist_title),Toast.LENGTH_SHORT).show();
                     }
+                return true;
+            case R.id.delete_default_view:
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

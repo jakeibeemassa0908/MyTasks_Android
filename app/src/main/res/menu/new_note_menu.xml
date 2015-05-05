@@ -4,6 +4,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/delete_default_view"
+        android:icon="@android:drawable/ic_menu_delete"
+        app:showAsAction="always"
+        android:title="@string/delete"/>
+
+    <item
         android:id="@+id/save_note"
         android:icon="@drawable/ic_action_navigation_check"
         android:title="@string/save_note"
