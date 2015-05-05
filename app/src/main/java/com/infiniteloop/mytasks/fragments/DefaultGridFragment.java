@@ -112,7 +112,7 @@ public class DefaultGridFragment extends Fragment  implements LoaderCallbacks<Cu
             @Override
             public boolean onCreateActionMode(ActionMode mode, Menu menu) {
                 MenuInflater inflater = mode.getMenuInflater();
-                inflater.inflate(R.menu.task_list_context,menu);
+                inflater.inflate(R.menu.default_view_context,menu);
                 return true;
             }
 
@@ -123,6 +123,11 @@ public class DefaultGridFragment extends Fragment  implements LoaderCallbacks<Cu
 
             @Override
             public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.delete_default_view:
+                        mode.finish();
+                        return true;
+                }
                 return false;
             }
 
