@@ -544,6 +544,8 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
                     }
                     mNoteGridView.setAdapter(new GridViewAdapter(getActivity(),noteList));
                     mNoteLayout.setVisibility(View.VISIBLE);
+                }else{
+                    mNoteLayout.setVisibility(View.GONE);
                 }
                 break;
             case CHECKLIST_LOADER:
@@ -556,6 +558,8 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
                     }
                     mListGridView.setAdapter(new GridViewAdapter(getActivity(),checklists));
                     mChecklistLayout.setVisibility(View.VISIBLE);
+                } else{
+                    mChecklistLayout.setVisibility(View.GONE);
                 }
                 break;
             case PHOTO_LOADER:
@@ -580,6 +584,8 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
                         mImageLayout.setVisibility(View.VISIBLE);
                     }
 
+                }else{
+                    mImageLayout.setVisibility(View.GONE);
                 }
         }
     }

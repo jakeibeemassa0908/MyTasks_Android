@@ -159,6 +159,7 @@ public class NoteFragment extends Fragment{
                 }else{
                     Toast.makeText(getActivity(),getString(R.string.empty_note_title),Toast.LENGTH_SHORT).show();
                 }
+                return true;
 
             case R.id.delete_default_view:
                 AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
