@@ -404,6 +404,11 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
         return count;
     }
 
+    public boolean deleteNote(long noteId){
+        String selection = NoteEntry._ID + " LIKE ? ";
+        String [] selectionArgs ={String.valueOf(noteId)};
+        return getWritableDatabase().delete(NoteEntry.TABLE_NAME,selection,selectionArgs)!=-1;
+    }
 
     //========Checklist=========
 
@@ -534,6 +539,12 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
         return count;
     }
 
+    public boolean deleteCheckList(long id){
+        String selection = CheckListEntry._ID + " LIKE ? ";
+        String [] selectionArgs = {String.valueOf(id)};
+        return getWritableDatabase().delete(CheckListEntry.TABLE_NAME,selection,selectionArgs)!=-1;
+
+    }
 
 
 
@@ -563,6 +574,12 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
         return new PhotoCursor(wrapped);
     }
 
+    public boolean deletePhoto(long id){
+        String selection = PhotoEntry._ID + " LIKE ? ";
+        String [] selectionArgs = {String.valueOf(id)};
+        return getWritableDatabase().delete(PhotoEntry.TABLE_NAME,selection,selectionArgs)!=-1;
+
+    }
     //===========Cursors================
 
 

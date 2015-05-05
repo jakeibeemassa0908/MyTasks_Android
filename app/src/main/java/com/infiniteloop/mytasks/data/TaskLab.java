@@ -259,6 +259,10 @@ public class TaskLab {
         return mHelper.updateNote(note);
     }
 
+    public boolean deleteNote(long noteId){
+        return mHelper.deleteNote(noteId);
+    }
+
     //--------CHECKLIST  FUNCTIONS------
 
     public long createCheckList(CheckList checkList){
@@ -286,6 +290,10 @@ public class TaskLab {
 
     }
 
+    public boolean deleteCheckList(long id){
+        return mHelper.deleteCheckList(id);
+    }
+
     //--------PHOTO  FUNCTIONS------
 
     public long insertPhoto(Photo photo){
@@ -294,5 +302,9 @@ public class TaskLab {
 
     public TaskDataBaseHelper.PhotoCursor getPhotos(long taskId){
         return mHelper.getPhotos(taskId);
+    }
+
+    public boolean  deletePhoto(long id){
+        return mHelper.deletePhoto(id);
     }
 }

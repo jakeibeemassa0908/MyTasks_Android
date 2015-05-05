@@ -1,6 +1,8 @@
 package com.infiniteloop.mytasks.fragments;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -31,6 +33,7 @@ import com.infiniteloop.mytasks.data.CheckList;
 import com.infiniteloop.mytasks.data.Note;
 import com.infiniteloop.mytasks.data.Photo;
 import com.infiniteloop.mytasks.data.TaskDataBaseHelper;
+import com.infiniteloop.mytasks.data.TaskLab;
 import com.infiniteloop.mytasks.loaders.CursorLoader;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 
@@ -122,9 +125,55 @@ public class DefaultGridFragment extends Fragment  implements LoaderCallbacks<Cu
             }
 
             @Override
-            public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            public boolean onActionItemClicked(final ActionMode mode, MenuItem item) {
+                final GridViewAdapter adapter = (GridViewAdapter) mGridView.getAdapter();
+
+                final ArrayList<Object> checkedItems = new ArrayList<Object>();
+
+                //save all selected items from the gridview in a separate arraylist
+                for(int i=0;i< adapter.getCount();i++){
+                        if(mGridView.isItemChecked(i)){
+                            checkedItems.add(mGridView.getAdapter().getItem(i));
+                        }
+                }
+
                 switch (item.getItemId()){
                     case R.id.delete_default_view:
+                        AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+                        dialog.setMessage(getString(R.string.delete_question));
+                        dialog.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if (mType.equals(Note.class.getName())) {
+                                    //Delete selected notes
+                                    for (Object obj : checkedItems) {
+                                            Note toDelete = (Note) obj;
+                                            TaskLab.get(getActivity()).deleteNote(toDelete.getId());
+                                    }
+                                } else if (mType.equals(CheckList.class.getName())) {
+                                    //Delete selected checklist
+                                    for (Object obj : checkedItems) {
+                                        CheckList toDelete = (CheckList) obj;
+                                        TaskLab.get(getActivity()).deleteCheckList(toDelete.getId());
+                                    }
+                                } else if (mType.equals(Photo.class.getName())) {
+                                    //Delete selected photos
+                                    for (Object obj : checkedItems) {
+                                        Photo toDelete = (Photo) obj;
+                                        TaskLab.get(getActivity()).deletePhoto(toDelete.getId());
+                                    }
+                                }
+                                mList.clear();
+                                getLoaderManager().restartLoader(0, null, DefaultGridFragment.this);
+                            }
+                        });
+                        dialog.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+                        dialog.show();
                         mode.finish();
                         return true;
                 }

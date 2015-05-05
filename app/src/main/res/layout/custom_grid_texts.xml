@@ -10,7 +10,7 @@
     <ImageView android:id="@+id/grid_item_cover"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:background="@color/white"
+        android:background="@drawable/background_activated"
         android:layout_weight="5"/>
 
     <TextView android:id="@+id/grid_item_list_text"
