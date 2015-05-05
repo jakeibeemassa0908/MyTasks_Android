@@ -1,11 +1,16 @@
 package com.infiniteloop.mytasks.activities;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.infiniteloop.mytasks.Helpers;
 import com.infiniteloop.mytasks.R;
@@ -28,6 +33,7 @@ public class PhotoPagerActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         mViewPager = new ViewPager(this);
         mViewPager.setId(R.id.viewPager);
         setContentView(mViewPager);
@@ -78,5 +84,40 @@ public class PhotoPagerActivity extends ActionBarActivity {
                 }
             }
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.delete_default_view:
+                AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+                dialog.setMessage(getString(R.string.delete_question));
+                dialog.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Photo photo = mPhotosPath.get(mViewPager.getCurrentItem());
+                        TaskLab.get(PhotoPagerActivity.this).deletePhoto(photo.getId());
+                        PhotoPagerActivity.this.setResult(Activity.RESULT_OK);
+                        PhotoPagerActivity.this.finish();
+                    }
+                });
+                dialog.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                dialog.show();
+                return true;
+            default:
+                PhotoPagerActivity.this.finish();
+                return true;
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.default_view_context,menu);
+        return true;
     }
 }

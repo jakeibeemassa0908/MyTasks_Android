@@ -1,7 +1,9 @@
 package com.infiniteloop.mytasks.activities;
 
 import android.support.v4.app.Fragment;
+import android.view.Menu;
 
+import com.infiniteloop.mytasks.R;
 import com.infiniteloop.mytasks.fragments.PhotoFragment;
 
 /**
@@ -16,4 +18,5 @@ public class PhotoActivity extends SingleFragmentActivity {
         String path = getIntent().getStringExtra(PhotoFragment.EXTRA_PICTURE);
         return  PhotoFragment.newInstance(path);
     }
+
 }

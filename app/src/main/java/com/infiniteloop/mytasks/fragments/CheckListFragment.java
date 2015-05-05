@@ -203,6 +203,23 @@ public class CheckListFragment extends Fragment {
                     }
                 return true;
             case R.id.delete_default_view:
+                AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+                dialog.setMessage(getString(R.string.delete_question));
+                dialog.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        TaskLab.get(getActivity()).deleteCheckList(mChecklist.getId());
+                        getActivity().setResult(Activity.RESULT_OK);
+                        getActivity().finish();
+                    }
+                });
+                dialog.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                dialog.show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

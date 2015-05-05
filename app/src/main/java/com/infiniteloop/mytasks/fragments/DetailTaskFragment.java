@@ -91,6 +91,7 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
     public static final int REQUEST_NOTE=3;
     public static final int REQUEST_CHECKLIST=4;
     public static final int REQUEST_MORE=5;
+    public static final int REQUEST_PHOTO=6;
 
     private static final int CATEGORY_LOADER=0;
     private static final int NOTE_LOADER=1;
@@ -199,6 +200,9 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
             case REQUEST_CHECKLIST:
                 if (resultCode == Activity.RESULT_OK)
                     getLoaderManager().restartLoader(CHECKLIST_LOADER,null,this);
+                break;
+            case REQUEST_PHOTO:
+                getLoaderManager().restartLoader(PHOTO_LOADER,null,this);
                 break;
             case REQUEST_MORE:
                 if(toReload.equals(Note.class.getName()))
@@ -390,7 +394,7 @@ public class DetailTaskFragment extends VisibleFragment implements LoaderManager
                 Intent intent = new Intent(getActivity(), PhotoPagerActivity.class);
                 intent.putExtra(EXTRA_TASK,mTask.getId());
                 intent.putExtra(PhotoFragment.EXTRA_PICTURE,photo.getId());
-                startActivity(intent);
+                startActivityForResult(intent,REQUEST_PHOTO);
             }
         });
         /**
