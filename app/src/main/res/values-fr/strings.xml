@@ -88,5 +88,18 @@
     <string name="add_picture">Ajouter image</string>
     <string name="take_photo">Capturer photo</string>
     <string name="chose_image">Choisir image</string>
+    <string name="add_item">Ajouter iteme</string>
+    <string name="discard_change">Annuler</string>
+    <string name="discard_change_dialog_question">Voulez-vous annuler les changements ?</string>
+    <string name="save_note_dialog_q">Voulez-vous enregistrer cette note?</string>
+    <string name="empty_note_title">Pas de titre</string>
+    <string name="empty_checklist_title">Pas de titre</string>
+    <string name="save_checklist">Voulez-vous enregistrer cette liste ?</string>
+    <string name="save">enregistrer</string>
+    <string name="all_note">Toute notes</string>
+    <string name="all_checklist">Toute listes</string>
+    <string name="all_pictures">Toute images</string>
+    <string name="delete_question">Voulez-vous effacer ?</string>
+
 
 </resources>

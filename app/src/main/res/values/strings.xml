@@ -3,7 +3,7 @@
 
     <string name="add_task">Add Task</string>
     <string name="added">added</string>
-    <string name="app_name">Taskr</string>
+    <string name="app_name">TaskrApp</string>
     <string name="new_task">New Task</string>
     <string name="edit_task">Edit Task</string>
     <string name="action_settings">Settings</string>
@@ -43,7 +43,7 @@
     <string name="minutes">Minutes</string>
     <string name="select_duration">Select Duration</string>
     <string name="imageViewDrawerItem">Image drawer</string>
-    <string name="all_task">All Tasks</string>
+    <string name="all_task">All</string>
     <string name="timed_task">All Reminders</string>
     <string name="very_high_priority">Very High Priority</string>
     <string name="high_priority">High Priority</string>

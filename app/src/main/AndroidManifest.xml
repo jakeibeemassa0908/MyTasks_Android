@@ -2,11 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.infiniteloop.mytasks" >
 
-  <!--<permission
+  <permission
         android:name="com.infiniteloop.mytasks.PRIVATE"
         android:protectionLevel="signature" />
 
-    <uses-permission android:name="com.infiniteloop.mytasks.PRIVATE" /> -->
+    <uses-permission android:name="com.infiniteloop.mytasks.PRIVATE" />
 
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
@@ -25,6 +25,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
+            android:screenOrientation="portrait"
             android:name=".activities.TaskListActivity"
             android:label="@string/app_name" >
             <intent-filter>
@@ -34,6 +35,7 @@
         </activity>
 
         <activity
+            android:screenOrientation="portrait"
             android:name=".activities.NewTaskActivity"
             android:label="@string/new_task"
             android:parentActivityName=".activities.TaskListActivity" >
@@ -48,6 +50,7 @@
         </activity>
 
         <activity
+            android:screenOrientation="portrait"
             android:name=".activities.DetailTaskActivity"
             android:label="@string/task_details"
             android:launchMode="singleTop"
@@ -58,6 +61,7 @@
         </activity>
 
         <activity
+            android:screenOrientation="portrait"
             android:name=".activities.SettingsActivity"
             android:label="@string/title_activity_settings"
             android:parentActivityName=".activities.TaskListActivity"
@@ -68,26 +72,15 @@
         </activity>
 
         <activity
+            android:screenOrientation="portrait"
             android:name=".activities.AlarmActivity"
             android:label="@string/app_name">
 
         </activity>
 
-        <activity android:name=".activities.EditCategoryActivity"
-            android:parentActivityName=".activities.TaskListActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.infiniteloop.mytasks.TaskListActivity" />
-        </activity>
-
-        <activity android:name=".activities.AboutActivity"
-            android:parentActivityName=".activities.TaskListActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.infiniteloop.mytasks.TaskListActivity" />
-        </activity>
-
-        <activity android:name=".activities.FeedbackActivity"
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".activities.EditCategoryActivity"
             android:parentActivityName=".activities.TaskListActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -95,6 +88,25 @@
         </activity>
 
         <activity
+            android:screenOrientation="portrait"
+            android:name=".activities.AboutActivity"
+            android:parentActivityName=".activities.TaskListActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.infiniteloop.mytasks.TaskListActivity" />
+        </activity>
+
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".activities.FeedbackActivity"
+            android:parentActivityName=".activities.TaskListActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.infiniteloop.mytasks.TaskListActivity" />
+        </activity>
+
+        <activity
+            android:screenOrientation="portrait"
             android:name=".activities.NoteActivity"
             android:label="@string/task_note"
             android:parentActivityName=".activities.DetailTaskActivity">
@@ -104,6 +116,7 @@
         </activity>
 
         <activity
+            android:screenOrientation="portrait"
             android:name=".activities.CheckListActivity"
             android:label="@string/task_checklist"
             android:parentActivityName=".activities.DetailTaskActivity">
@@ -112,7 +125,9 @@
                 android:value="com.infiniteloop.mytasks.DetailTaskActivity" />
         </activity>
 
-        <activity android:name=".activities.DefaultGridActivity"
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".activities.DefaultGridActivity"
             android:label="@string/app_name"
             android:parentActivityName=".activities.DetailTaskActivity">
             <meta-data
@@ -120,7 +135,9 @@
                 android:value="com.infiniteloop.mytasks.DetailTaskActivity" />
         </activity>
 
-        <activity android:name=".activities.PhotoActivity"
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".activities.PhotoActivity"
             android:label="@string/app_name"
             android:parentActivityName=".activities.DetailTaskActivity">
             <meta-data
@@ -128,7 +145,9 @@
                 android:value="com.infiniteloop.mytasks.DetailTaskActivity" />
         </activity>
 
-        <activity android:name=".activities.PhotoPagerActivity"
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".activities.PhotoPagerActivity"
             android:label="@string/app_name"
             android:parentActivityName=".activities.DetailTaskActivity">
             <meta-data
