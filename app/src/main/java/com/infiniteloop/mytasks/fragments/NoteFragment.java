@@ -3,6 +3,7 @@ package com.infiniteloop.mytasks.fragments;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ShareActionProvider;
 import android.widget.Toast;
 
 import com.infiniteloop.mytasks.R;
@@ -33,6 +35,7 @@ public class NoteFragment extends Fragment{
     private EditText mNoteTitle;
     private EditText mNoteContent;
     private TaskLab mTaskLab = TaskLab.get(getActivity());
+    private ShareActionProvider mShareActionProvider;
 
     public static final String EXTRA_NOTE = "com.taskrapp.note";
 
@@ -87,9 +90,24 @@ public class NoteFragment extends Fragment{
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
+
+        // // Locate MenuItem with delete action
         MenuItem item = menu.findItem(R.id.delete_default_view);
+
+        // Locate MenuItem with ShareActionProvider
+        MenuItem item_share = menu.findItem(R.id.menu_item_share);
         if(mTask != null){
             item.setVisible(false);
+            item_share.setVisible(false);
+
+            mShareActionProvider = (ShareActionProvider) item_share.getActionProvider();
+        }
+    }
+
+    // Call to update the share intent
+    private void setShareIntent(Intent shareIntent) {
+        if (mShareActionProvider != null) {
+            mShareActionProvider.setShareIntent(shareIntent);
         }
     }
 
