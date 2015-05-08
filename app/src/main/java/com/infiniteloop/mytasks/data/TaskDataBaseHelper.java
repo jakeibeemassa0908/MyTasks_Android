@@ -546,6 +546,12 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
 
     }
 
+    public boolean deleteCheckListItem(long id){
+        String selection = CheckListItemEntry._ID + " LIKE ?";
+        String [] selectionArgs = {String.valueOf(id)};
+        return getWritableDatabase().delete(CheckListItemEntry.TABLE_NAME, selection, selectionArgs)!=-1;
+    }
+
 
 
     //========Photo=================

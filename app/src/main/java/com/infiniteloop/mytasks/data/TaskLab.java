@@ -290,6 +290,12 @@ public class TaskLab {
 
     }
 
+    public void deleteCheckListItem(ArrayList<Long> ids){
+        for(Long id : ids){
+            mHelper.deleteCheckListItem(id);
+        }
+    }
+
     public boolean deleteCheckList(long id){
         return mHelper.deleteCheckList(id);
     }

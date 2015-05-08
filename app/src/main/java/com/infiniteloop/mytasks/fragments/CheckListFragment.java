@@ -48,6 +48,7 @@ public class CheckListFragment extends Fragment {
     private CheckList mChecklist;
     private boolean hasDataChanged=false;
     private CheckListAdapter mAdapter;
+    private ArrayList<Long> mToDelete= new ArrayList<Long>();
 
 
     public static CheckListFragment newInstance(Object obj){
@@ -185,6 +186,11 @@ public class CheckListFragment extends Fragment {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         int result =TaskLab.get(getActivity()).updateCheckList(mChecklist);
+                                        //if there are items to be deleted
+                                        if(mToDelete.size()>0){
+                                            TaskLab.get(getActivity()).deleteCheckListItem(mToDelete);
+                                        }
+
                                         if(result !=0){
                                             getActivity().setResult(Activity.RESULT_OK);
                                             getActivity().finish();
@@ -249,7 +255,12 @@ public class CheckListFragment extends Fragment {
     }
 
     private void deleteCheckListItem(int position ){
+        mToDelete.add(mChecklistItems.get(position).getId());
         mChecklistItems.remove(position);
+        refreshView();
+    }
+
+    private void refreshView(){
         mAdapter.notifyDataSetChanged();
     }
 
@@ -273,6 +284,7 @@ public class CheckListFragment extends Fragment {
             final EditText checklistText = (EditText)convertView.findViewById(R.id.checklist_editText);
 
             final ImageButton checklistDelete = (ImageButton)convertView.findViewById(R.id.checklist_delete);
+            checklistDelete.setVisibility(View.GONE);
 
             checklistText.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -285,6 +297,7 @@ public class CheckListFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     deleteCheckListItem(position);
+                    hasDataChanged = true;
                 }
             });
 
