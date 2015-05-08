@@ -9,24 +9,21 @@
 
     <CheckBox
         android:id="@+id/checklist_item"
-        android:layout_width="0dp"
-        android:layout_weight="8"
-        android:text="CheckBox"
+        android:layout_width="wrap_content"
         android:focusable="false"
         android:focusableInTouchMode="true"
         android:textAppearance="?android:textAppearanceMedium"
         android:layout_height="wrap_content" />
 
 
-        <!--<EditText-->
-            <!--android:id="@+id/checklist_editText"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:editable="false"-->
-            <!--android:focusable="false"-->
-            <!--android:background="@drawable/background_activated"-->
-            <!--android:layout_weight="8"-->
-            <!--android:layout_height="35dp"-->
-            <!--android:text="Checkbox"/>-->
+        <EditText
+            android:id="@+id/checklist_editText"
+            android:layout_width="0dp"
+            android:editable="false"
+            android:focusable="false"
+            android:background="@drawable/background_activated"
+            android:layout_weight="8"
+            android:layout_height="35dp"/>
 
 
     <ImageButton

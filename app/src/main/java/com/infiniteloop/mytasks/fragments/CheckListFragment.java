@@ -281,18 +281,18 @@ public class CheckListFragment extends Fragment {
             final CheckListItem item = getItem(position);
 
             final CheckBox checklistItem = (CheckBox)convertView.findViewById(R.id.checklist_item);
-            //final EditText checklistText = (EditText)convertView.findViewById(R.id.checklist_editText);
+            final EditText checklistText = (EditText)convertView.findViewById(R.id.checklist_editText);
 
             final ImageButton checklistDelete = (ImageButton)convertView.findViewById(R.id.checklist_delete);
             checklistDelete.setVisibility(View.GONE);
 
 
-//            checklistText.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    checklistDelete.setVisibility(View.VISIBLE);
-//                }
-//            });
+            checklistText.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    checklistDelete.setVisibility(View.VISIBLE);
+                }
+            });
 
             checklistDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
