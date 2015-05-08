@@ -3,10 +3,19 @@
 <menu
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <item
+        android:id="@+id/menu_item_share"
+        app:showAsAction="always"
+        android:title="Share"
+        app:actionProviderClass="android.support.v7.widget.ShareActionProvider" />
+
+
     <item
         android:id="@+id/delete_default_view"
         android:icon="@android:drawable/ic_menu_delete"
-        app:showAsAction="always"
+        app:showAsAction="ifRoom"
         android:title="@string/delete"/>
 
     <item
@@ -14,11 +23,4 @@
         android:icon="@drawable/ic_action_navigation_check"
         android:title="@string/save_note"
         app:showAsAction="always"/>
-
-    <item
-        android:id="@+id/menu_item_share"
-        app:showAsAction="ifRoom"
-        android:title="Share"
-        android:actionProviderClass=
-        "android.widget.ShareActionProvider" />
 </menu>

@@ -131,9 +131,14 @@ public class CheckListFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        MenuItem item = menu.findItem(R.id.delete_default_view);
+        MenuItem item_delete = menu.findItem(R.id.delete_default_view);
+
+        //Don't show share menu here
+        menu.findItem(R.id.menu_item_share).setVisible(false);
+
+        //If the Checklist is new don't show delete menu item
         if(mTask != null){
-            item.setVisible(false);
+            item_delete.setVisible(false);
         }
     }
 

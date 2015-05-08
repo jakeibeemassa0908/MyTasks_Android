@@ -1,13 +1,16 @@
 package com.infiniteloop.mytasks.fragments;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.ShareActionProvider;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,7 +18,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ShareActionProvider;
 import android.widget.Toast;
 
 import com.infiniteloop.mytasks.R;
@@ -34,8 +36,8 @@ public class NoteFragment extends Fragment{
     private Note mNote;
     private EditText mNoteTitle;
     private EditText mNoteContent;
-    private TaskLab mTaskLab = TaskLab.get(getActivity());
     private ShareActionProvider mShareActionProvider;
+    private Intent mShareIntent;
 
     public static final String EXTRA_NOTE = "com.taskrapp.note";
 
@@ -68,6 +70,15 @@ public class NoteFragment extends Fragment{
         mTask = args.getParcelable(DetailTaskFragment.EXTRA_TASK);
         mNote = args.getParcelable(EXTRA_NOTE);
 
+        //If note is not new, set the share button intent
+        if(mNote!=null){
+            mShareIntent = new Intent(Intent.ACTION_SEND);
+            mShareIntent.setType("text/plain");
+            mShareIntent.putExtra(Intent.EXTRA_TEXT,mNote.getNoteContent());
+            mShareIntent.putExtra(Intent.EXTRA_TITLE,mNote.getTitle());
+            mShareIntent.putExtra(Intent.EXTRA_SUBJECT,mNote.getTitle());
+        }
+
         setHasOptionsMenu(true);
     }
 
@@ -87,24 +98,29 @@ public class NoteFragment extends Fragment{
         return rootView;
     }
 
+    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
 
         // // Locate MenuItem with delete action
-        MenuItem item = menu.findItem(R.id.delete_default_view);
+        MenuItem item_delete = menu.findItem(R.id.delete_default_view);
 
         // Locate MenuItem with ShareActionProvider
         MenuItem item_share = menu.findItem(R.id.menu_item_share);
-        if(mTask != null){
-            item.setVisible(false);
-            item_share.setVisible(false);
 
-            mShareActionProvider = (ShareActionProvider) item_share.getActionProvider();
+        //If note is a new one, don't show the delete and the share menu button
+        if(mTask != null){
+            item_delete.setVisible(false);
+            item_share.setVisible(false);
         }
+
+        mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item_share);
+        setShareIntent(mShareIntent);
     }
 
     // Call to update the share intent
+    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     private void setShareIntent(Intent shareIntent) {
         if (mShareActionProvider != null) {
             mShareActionProvider.setShareIntent(shareIntent);
