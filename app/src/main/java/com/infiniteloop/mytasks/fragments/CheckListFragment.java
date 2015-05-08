@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -46,6 +47,7 @@ public class CheckListFragment extends Fragment {
     private Task mTask;
     private CheckList mChecklist;
     private boolean hasDataChanged=false;
+    private CheckListAdapter mAdapter;
 
 
     public static CheckListFragment newInstance(Object obj){
@@ -100,8 +102,8 @@ public class CheckListFragment extends Fragment {
 
         //get listView from rootlayout and set the adapter
         ListView checklistItems = (ListView)rootView.findViewById(R.id.checklist_item_list);
-        final CheckListAdapter adapter = new CheckListAdapter(getActivity(),R.layout.checklist_item_view,mChecklistItems);
-        checklistItems.setAdapter(adapter);
+        mAdapter = new CheckListAdapter(getActivity(),R.layout.checklist_item_view,mChecklistItems);
+        checklistItems.setAdapter(mAdapter);
 
         final EditText newChecklistItem = (EditText)rootView.findViewById(R.id.newChecklistItem);
 
@@ -118,7 +120,7 @@ public class CheckListFragment extends Fragment {
                     checkListItem.setCompleted(false);
                     mChecklistItems.add(checkListItem);
                     newChecklistItem.setText("");
-                    adapter.notifyDataSetChanged();
+                    mAdapter.notifyDataSetChanged();
                     hasDataChanged=true;
 
                 }
@@ -246,6 +248,11 @@ public class CheckListFragment extends Fragment {
         return false;
     }
 
+    private void deleteCheckListItem(int position ){
+        mChecklistItems.remove(position);
+        mAdapter.notifyDataSetChanged();
+    }
+
     private class CheckListAdapter extends ArrayAdapter<CheckListItem> {
         public CheckListAdapter(Context context, int resource, List<CheckListItem> objects) {
             super(context, resource, objects);
@@ -262,8 +269,27 @@ public class CheckListFragment extends Fragment {
             //Configure the  view for the Checklist
             final CheckListItem item = getItem(position);
 
-            CheckBox checklistItem = (CheckBox)convertView.findViewById(R.id.checklist_item);
-            checklistItem.setText(item.getItem());
+            final CheckBox checklistItem = (CheckBox)convertView.findViewById(R.id.checklist_item);
+            final EditText checklistText = (EditText)convertView.findViewById(R.id.checklist_editText);
+
+            final ImageButton checklistDelete = (ImageButton)convertView.findViewById(R.id.checklist_delete);
+
+            checklistText.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    checklistDelete.setVisibility(View.VISIBLE);
+                }
+            });
+
+            checklistDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    deleteCheckListItem(position);
+                }
+            });
+
+
+            checklistText.setText(item.getItem());
             checklistItem.setChecked(item.isCompleted());
             checklistItem.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override

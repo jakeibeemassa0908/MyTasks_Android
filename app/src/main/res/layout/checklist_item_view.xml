@@ -1,17 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout
+<LinearLayout
+    android:orientation="horizontal"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:background="@color/white"
     android:layout_height="match_parent">
 
     <CheckBox
         android:id="@+id/checklist_item"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="1"
         android:focusable="false"
         android:focusableInTouchMode="true"
-        android:text="CheckBox"
         android:textAppearance="?android:textAppearanceMedium"
         android:layout_height="wrap_content" />
 
-</RelativeLayout>
+
+        <EditText
+            android:id="@+id/checklist_editText"
+            android:layout_width="0dp"
+            android:editable="false"
+            android:focusable="false"
+            android:background="@drawable/background_activated"
+            android:layout_weight="8"
+            android:layout_height="35dp"
+            android:text="Checkbox"/>
+
+
+    <ImageButton
+        android:id="@+id/checklist_delete"
+        android:layout_width="wrap_content"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="0dp"
+        android:background="@null"
+        android:visibility="gone"
+        android:src="@drawable/ic_action_navigation_cancel"
+        android:layout_height="wrap_content"/>
+
+
+</LinearLayout>
