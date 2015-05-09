@@ -404,6 +404,11 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
         return count;
     }
 
+    /**
+     * Delete single Note
+     * @param noteId
+     * @return
+     */
     public boolean deleteNote(long noteId){
         String selection = NoteEntry._ID + " LIKE ? ";
         String [] selectionArgs ={String.valueOf(noteId)};
@@ -539,6 +544,11 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
         return count;
     }
 
+    /**
+     * Delete Single Checklist
+     * @param id
+     * @return
+     */
     public boolean deleteCheckList(long id){
         String selection = CheckListEntry._ID + " LIKE ? ";
         String [] selectionArgs = {String.valueOf(id)};
@@ -546,6 +556,11 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
 
     }
 
+    /**
+     * Delete single ChecklistItem
+     * @param id
+     * @return
+     */
     public boolean deleteCheckListItem(long id){
         String selection = CheckListItemEntry._ID + " LIKE ?";
         String [] selectionArgs = {String.valueOf(id)};
@@ -556,6 +571,11 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
 
     //========Photo=================
 
+    /**
+     * Insert Photo into database
+     * @param photo
+     * @return ID of photo information newli added
+     */
     public long insertPhoto(Photo photo){
         ContentValues cv = new ContentValues();
         cv.put(PhotoEntry.COLUMN_TASK_KEY,photo.getTaskId());
@@ -563,6 +583,11 @@ public class TaskDataBaseHelper extends SQLiteOpenHelper {
         return getWritableDatabase().insert(PhotoEntry.TABLE_NAME,null,cv);
     }
 
+    /**
+     * Get single photo cursor
+     * @param taskId
+     * @return
+     */
     public PhotoCursor getPhotos(long taskId){
         String selection = PhotoEntry.COLUMN_TASK_KEY + " LIKE ?";
         String [] selectionArgs = {String.valueOf(taskId)};

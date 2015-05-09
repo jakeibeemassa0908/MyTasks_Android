@@ -18,6 +18,8 @@ import java.util.Date;
  */
 public class Helpers {
     public static final int REQUEST_TIME=0;
+
+
     public  static ArrayAdapter getSpinnerAdapter(Context context,ArrayList<String> items){
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,android.R.layout.simple_spinner_item,items);
@@ -26,6 +28,12 @@ public class Helpers {
         return adapter;
     }
 
+    /**
+     * Return priority integer value from the String.
+     * @param c
+     * @param priority
+     * @return
+     */
     public static int getPriority(Context c, String priority){
         if(priority.equals(c.getString(R.string.normal))){
             return Task.NORMAL_PRIORITY;
