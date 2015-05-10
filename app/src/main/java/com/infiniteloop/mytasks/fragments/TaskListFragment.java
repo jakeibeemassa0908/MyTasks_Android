@@ -77,11 +77,7 @@ public class TaskListFragment extends VisibleListFragment implements LoaderCallb
         getLoaderManager().initLoader(0,null,this);
 
         //If it is a category, show option menu to delete the category
-        if(mPosition>=100){
-            setHasOptionsMenu(true);
-        }else{
-            setHasOptionsMenu(false);
-        }
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -100,7 +96,12 @@ public class TaskListFragment extends VisibleListFragment implements LoaderCallb
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.category_menu,menu);
+        //show category menu or show search menu
+        if(mPosition>=100){
+            inflater.inflate(R.menu.category_menu,menu);
+        }else{
+            inflater.inflate(R.menu.task_list,menu);
+        }
     }
 
     @Override

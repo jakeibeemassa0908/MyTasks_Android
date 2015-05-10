@@ -100,5 +100,6 @@
     <string name="all_checklist">All Checklists</string>
     <string name="all_pictures">All pictures</string>
     <string name="delete_question">Do you really want to delete ?</string>
+    <string name="search_title">Search</string>
 
 </resources>
