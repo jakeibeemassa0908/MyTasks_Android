@@ -296,20 +296,38 @@ public class TaskLab {
         }
     }
 
+    
     public boolean deleteCheckList(long id){
         return mHelper.deleteCheckList(id);
     }
 
     //--------PHOTO  FUNCTIONS------
 
+
+    /**
+     * Insert photo datas into database
+     * @param photo
+     * @return
+     */
     public long insertPhoto(Photo photo){
         return mHelper.insertPhoto(photo);
     }
 
+    /**
+     * Get photo cursor
+     * @param taskId
+     * @return
+     */
     public TaskDataBaseHelper.PhotoCursor getPhotos(long taskId){
         return mHelper.getPhotos(taskId);
     }
 
+
+    /**
+     * Delete single photo
+     * @param id
+     * @return
+     */
     public boolean  deletePhoto(long id){
         return mHelper.deletePhoto(id);
     }
