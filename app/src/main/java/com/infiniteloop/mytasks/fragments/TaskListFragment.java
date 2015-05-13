@@ -383,6 +383,11 @@ public class TaskListFragment extends VisibleListFragment implements LoaderCallb
         }
     }
 
+    /**
+     * Adapter to display every single task
+     * 
+     */
+
     private  class TaskCursorAdapter extends CursorAdapter{
         private TaskDataBaseHelper.TaskCursor mTaskCursor;
         public TaskCursorAdapter(Context context,TaskDataBaseHelper.TaskCursor cursor){

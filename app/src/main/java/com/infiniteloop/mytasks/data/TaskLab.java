@@ -296,7 +296,7 @@ public class TaskLab {
         }
     }
 
-    
+
     public boolean deleteCheckList(long id){
         return mHelper.deleteCheckList(id);
     }
