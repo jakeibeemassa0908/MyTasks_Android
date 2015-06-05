@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
@@ -29,8 +30,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.infiniteloop.mytasks.R;
+import com.infiniteloop.mytasks.activities.CheckListActivity;
 import com.infiniteloop.mytasks.activities.DetailTaskActivity;
 import com.infiniteloop.mytasks.activities.EditCategoryActivity;
+import com.infiniteloop.mytasks.activities.NoteActivity;
 import com.infiniteloop.mytasks.data.Category;
 import com.infiniteloop.mytasks.data.Task;
 import com.infiniteloop.mytasks.data.TaskLab;
@@ -55,7 +58,7 @@ public class TaskListFragment extends VisibleListFragment implements LoaderCallb
     private static final int CREATE_NEW_TASK=1;
     private static final int EDIT_TASK=2;
     private ArrayList<Task> mTasks;
-    private ImageView mAddTaskImageView;
+    private ImageView mAddTaskImageView,mTrigger,mAddNote,mAddCheckList;
     private  View rootView;
     private View expandedToolbar;
     private ImageButton mDelete,mEdit,mComplete;
@@ -83,11 +86,36 @@ public class TaskListFragment extends VisibleListFragment implements LoaderCallb
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.task_list_fragment,container,false);
+
         mAddTaskImageView = (ImageView)rootView.findViewById(R.id.add_task_imageView);
         mAddTaskImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 createNewTask();
+            }
+        });
+
+        mAddNote = (ImageView)rootView.findViewById(R.id.add_note);
+        mAddNote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), NoteActivity.class);
+                Task mTask = new Task();
+                mTask.setId(-1);
+                intent.putExtra(DetailTaskFragment.EXTRA_TASK,mTask);
+                startActivityForResult(intent, DetailTaskFragment.REQUEST_CHECKLIST);
+            }
+        });
+
+        mAddCheckList = (ImageView)rootView.findViewById(R.id.add_checklist);
+        mAddCheckList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), CheckListActivity.class);
+                Task mTask = new Task();
+                mTask.setId(-1);
+                intent.putExtra(DetailTaskFragment.EXTRA_TASK,mTask);
+                startActivityForResult(intent, DetailTaskFragment.REQUEST_CHECKLIST);
             }
         });
 
@@ -385,7 +413,7 @@ public class TaskListFragment extends VisibleListFragment implements LoaderCallb
 
     /**
      * Adapter to display every single task
-     * 
+     *
      */
 
     private  class TaskCursorAdapter extends CursorAdapter{

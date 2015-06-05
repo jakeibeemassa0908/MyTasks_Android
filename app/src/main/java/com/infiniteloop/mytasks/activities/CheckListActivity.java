@@ -2,6 +2,7 @@ package com.infiniteloop.mytasks.activities;
 
 import android.content.Intent;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.Menu;
 
 import com.infiniteloop.mytasks.R;
@@ -14,9 +15,14 @@ import com.infiniteloop.mytasks.fragments.DetailTaskFragment;
  * Created by theotherside on 17/04/15.
  */
 public class CheckListActivity extends SingleFragmentActivity {
+
+    private static final String TAG = CheckListActivity.class.getName();
+    private Task mTask;
+
     @Override
     protected Fragment createFragment() {
         Task task = getIntent().getParcelableExtra(DetailTaskFragment.EXTRA_TASK);
+        mTask = task;
         CheckList checkList = getIntent().getParcelableExtra(CheckListFragment.EXTRA_CHECKLIST);
 
         Fragment fragment =null;
@@ -37,5 +43,18 @@ public class CheckListActivity extends SingleFragmentActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.new_note_menu,menu);
         return true;
+    }
+
+    @Override
+    public Intent getSupportParentActivityIntent() {
+       // Log.d(TAG,"out here");
+        Intent resultIntent;
+        if(mTask.getId() != -1){
+            resultIntent = new Intent(this,DetailTaskActivity.class);
+        }else{
+            resultIntent = new Intent(this,TaskListActivity.class);
+        }
+        return resultIntent;
+
     }
 }
