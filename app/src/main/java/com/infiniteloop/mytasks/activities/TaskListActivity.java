@@ -8,9 +8,12 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -33,6 +36,8 @@ import com.infiniteloop.mytasks.data.TaskLab;
 import com.infiniteloop.mytasks.fragments.TaskListFragment;
 import com.infiniteloop.mytasks.data.Category;
 import com.infiniteloop.mytasks.data.TaskDataBaseHelper;
+import com.infiniteloop.mytasks.tab.SlidingTabLayout;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -51,6 +56,10 @@ public class TaskListActivity extends ActionBarActivity {
     private ActionBarDrawerToggle mDrawerToggle;
     private ListView mDrawerList;
     private ArrayList<DrawerItem> mDrawerItems;
+    private Toolbar mToolbar;
+    private ViewPager mPager;
+    private SlidingTabLayout mTabs;
+
 
     private int mPosition;
 
@@ -72,12 +81,24 @@ public class TaskListActivity extends ActionBarActivity {
         mDrawerList.setAdapter(new DrawerAdapter(mDrawerItems));
         setUpDrawerToggle();
 
+        mToolbar = (Toolbar)findViewById(R.id.app_bar);
+
+
+
         //set list's click listener
         mDrawerList.setOnItemClickListener(new DrawerItemClickListenner());
 
         getSupportActionBar().setElevation(0);
 
         selectItem(0);
+
+        mTabs = (SlidingTabLayout)findViewById(R.id.tabs);
+        mTabs.setDistributeEvenly(true);
+
+        mPager=(ViewPager)findViewById(R.id.pager);
+        mPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
+
+        mTabs.setViewPager(mPager);
 
     }
 
@@ -138,65 +159,65 @@ public class TaskListActivity extends ActionBarActivity {
      * Function called when item in the Navigation Drawer are called
      * @param position
      */
-    private void selectItem(int position){
-        Fragment fragment = new TaskListFragment();;
-        switch (position){
-            case POSITION_ABOUT:
-                startActivity(new Intent(this,AboutActivity.class));
-                return;
-            case POSITION_FEEDBACK:
-                startActivity(new Intent(this,FeedbackActivity.class));
-                return;
-            case POSITION_SETTINGS:
-                startActivity(new Intent(this,SettingsActivity.class));
-                return;
-            default:
-                Bundle args = new Bundle();
-                args.putInt(TaskListFragment.DRAWER_ITEM_CHOICE,position);
-                fragment.setArguments(args);
-        }
-
-        //Insert fragment by replacing any existing fragment
-        FragmentManager fm = getSupportFragmentManager();
-        fm.beginTransaction()
-                .replace(R.id.container,fragment)
-                .commit();
-
-        //highlight the selected title
-        mDrawerList.setItemChecked(position,true);
-        //set the actionbat title to the drawer item title
-        setTitle(getKeyByValue(mDrawerMapping,position));
-        if (mDrawerLayout!=null)
-            mDrawerLayout.closeDrawer(mDrawerList);
-
-        //Create new category from drawer -- No new Fragment needed
-        if(position==POSITION_CREATE_CATEGORY){
-            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-            dialog.setTitle(getString(R.string.add_category));
-            final EditText newCategory = new EditText(this);
-            dialog.setView(newCategory);
-            dialog.setPositiveButton(getString(R.string.add),new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    String mAddCategory=newCategory.getText().toString();
-                    if(!mAddCategory.matches("")){
-                        mAddCategory=mAddCategory.trim();
-                        long id= TaskLab.get(TaskListActivity.this).insertCategory(mAddCategory);
-                        refreshDrawerList((int)(id +CAT_INDICATOR));
-                    }
-
-                }
-            });
-            dialog.setNegativeButton(getString(R.string.cancel),new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-
-                }
-            });
-            dialog.show();
-        }
-
-        mPosition=position;
+        private void selectItem(int position){
+//        Fragment fragment = new TaskListFragment();
+//        switch (position){
+//            case POSITION_ABOUT:
+//                startActivity(new Intent(this,AboutActivity.class));
+//                return;
+//            case POSITION_FEEDBACK:
+//                startActivity(new Intent(this,FeedbackActivity.class));
+//                return;
+//            case POSITION_SETTINGS:
+//                startActivity(new Intent(this,SettingsActivity.class));
+//                return;
+//            default:
+//                Bundle args = new Bundle();
+//                args.putInt(TaskListFragment.DRAWER_ITEM_CHOICE,position);
+//                fragment.setArguments(args);
+//        }
+//
+//        //Insert fragment by replacing any existing fragment
+//        FragmentManager fm = getSupportFragmentManager();
+//        fm.beginTransaction()
+//                .replace(R.id.container,fragment)
+//                .commit();
+//
+//        //highlight the selected title
+//        mDrawerList.setItemChecked(position,true);
+//        //set the actionbat title to the drawer item title
+//        setTitle(getKeyByValue(mDrawerMapping,position));
+//        if (mDrawerLayout!=null)
+//            mDrawerLayout.closeDrawer(mDrawerList);
+//
+//        //Create new category from drawer -- No new Fragment needed
+//        if(position==POSITION_CREATE_CATEGORY){
+//            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+//            dialog.setTitle(getString(R.string.add_category));
+//            final EditText newCategory = new EditText(this);
+//            dialog.setView(newCategory);
+//            dialog.setPositiveButton(getString(R.string.add),new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int which) {
+//                    String mAddCategory=newCategory.getText().toString();
+//                    if(!mAddCategory.matches("")){
+//                        mAddCategory=mAddCategory.trim();
+//                        long id= TaskLab.get(TaskListActivity.this).insertCategory(mAddCategory);
+//                        refreshDrawerList((int)(id +CAT_INDICATOR));
+//                    }
+//
+//                }
+//            });
+//            dialog.setNegativeButton(getString(R.string.cancel),new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int which) {
+//
+//                }
+//            });
+//            dialog.show();
+//        }
+//
+//        mPosition=position;
     }
 
     @Override
@@ -405,6 +426,36 @@ public class TaskListActivity extends ActionBarActivity {
             }
         }
         return null;
+    }
+
+    class MyPagerAdapter extends FragmentPagerAdapter{
+
+        String [] tabs;
+
+        public MyPagerAdapter(FragmentManager fm) {
+            super(fm);
+            tabs = getResources().getStringArray(R.array.tabs);
+        }
+
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return tabs[position];
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            Fragment fragment = new TaskListFragment();
+            Bundle args = new Bundle();
+            args.putInt(TaskListFragment.DRAWER_ITEM_CHOICE,0);
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        @Override
+        public int getCount() {
+            return 3;
+        }
     }
 
 }
