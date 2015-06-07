@@ -3,6 +3,7 @@ package com.infiniteloop.mytasks.fragments;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.infiniteloop.mytasks.R;
+import com.infiniteloop.mytasks.activities.TaskListActivity;
 import com.infiniteloop.mytasks.data.TaskLab;
 
 /**
@@ -99,8 +101,11 @@ public class EditCategoryFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         mTaskLab.deleteCategory(mCatId);
-                        getActivity().setResult(Activity.RESULT_CANCELED);
                         getActivity().finish();
+                        
+                        Intent intent = new Intent(getActivity(), TaskListActivity.class);
+                        startActivity(intent);
+
                     }
                 });
                 dialog.setNegativeButton(R.string.cancel,new DialogInterface.OnClickListener() {

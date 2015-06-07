@@ -30,10 +30,13 @@ import android.widget.TextView;
 
 import com.infiniteloop.mytasks.fragments.AboutFragment;
 import com.infiniteloop.mytasks.DrawerItem;
+import com.infiniteloop.mytasks.fragments.CheckListFragment;
+import com.infiniteloop.mytasks.fragments.Check_ListFragment;
 import com.infiniteloop.mytasks.fragments.FeedbackFragment;
 import com.infiniteloop.mytasks.R;
 import com.infiniteloop.mytasks.data.Task;
 import com.infiniteloop.mytasks.data.TaskLab;
+import com.infiniteloop.mytasks.fragments.NoteListFragment;
 import com.infiniteloop.mytasks.fragments.TaskListFragment;
 import com.infiniteloop.mytasks.data.Category;
 import com.infiniteloop.mytasks.data.TaskDataBaseHelper;
@@ -464,10 +467,20 @@ public class TaskListActivity extends ActionBarActivity {
 
         @Override
         public Fragment getItem(int position) {
-            Fragment fragment = new TaskListFragment();
-            Bundle args = new Bundle();
-            args.putInt(TaskListFragment.DRAWER_ITEM_CHOICE,0);
-            fragment.setArguments(args);
+            Fragment fragment=null;
+            switch (position){
+                case 0:
+                    fragment = new TaskListFragment();
+                    Bundle args = new Bundle();
+                    args.putInt(TaskListFragment.DRAWER_ITEM_CHOICE, 0);
+                    fragment.setArguments(args);
+                    break;
+                case 1:
+                    fragment = new NoteListFragment();
+                    break;
+                case 2:
+                    fragment = new Check_ListFragment();
+            }
             return fragment;
         }
 
