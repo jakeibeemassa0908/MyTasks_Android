@@ -124,6 +124,7 @@ public class TaskListFragment extends VisibleListFragment implements LoaderCallb
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.clear();
         //show category menu or show search menu
         if(mPosition>=100){
             inflater.inflate(R.menu.category_menu,menu);

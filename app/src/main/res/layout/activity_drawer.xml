@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/sunshine_blue"
-            android:paddingTop="0dp"
+            android:paddingBottom="0dp"
             app:theme="@style/Base.ThemeOverlay.AppCompat.Dark.ActionBar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
@@ -34,14 +34,15 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"/>
 
-        <!--<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-            <!--xmlns:tools="http://schemas.android.com/tools"-->
-            <!--android:id="@+id/container"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="0dp"-->
-            <!--android:layout_weight="1"-->
-            <!--tools:context=".MainActivity"-->
-            <!--tools:ignore="MergeRootFrame" />-->
+        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/container"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            tools:context=".MainActivity"
+            tools:ignore="MergeRootFrame" />
 
     </LinearLayout>
 

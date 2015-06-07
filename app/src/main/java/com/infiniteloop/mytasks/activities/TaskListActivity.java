@@ -23,6 +23,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -59,6 +60,7 @@ public class TaskListActivity extends ActionBarActivity {
     private Toolbar mToolbar;
     private ViewPager mPager;
     private SlidingTabLayout mTabs;
+    FrameLayout mFrameLayout;
 
 
     private int mPosition;
@@ -81,9 +83,15 @@ public class TaskListActivity extends ActionBarActivity {
         mDrawerList.setAdapter(new DrawerAdapter(mDrawerItems));
         setUpDrawerToggle();
 
+        //get frameLayout
+        mFrameLayout = (FrameLayout)findViewById(R.id.container);
+
         mToolbar = (Toolbar)findViewById(R.id.app_bar);
-
-
+        mTabs = (SlidingTabLayout)findViewById(R.id.tabs);
+        mTabs.setDistributeEvenly(true);
+        mPager=(ViewPager)findViewById(R.id.pager);
+        mPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
+        mTabs.setViewPager(mPager);
 
         //set list's click listener
         mDrawerList.setOnItemClickListener(new DrawerItemClickListenner());
@@ -92,13 +100,6 @@ public class TaskListActivity extends ActionBarActivity {
 
         selectItem(0);
 
-        mTabs = (SlidingTabLayout)findViewById(R.id.tabs);
-        mTabs.setDistributeEvenly(true);
-
-        mPager=(ViewPager)findViewById(R.id.pager);
-        mPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
-
-        mTabs.setViewPager(mPager);
 
     }
 
@@ -160,64 +161,82 @@ public class TaskListActivity extends ActionBarActivity {
      * @param position
      */
         private void selectItem(int position){
-//        Fragment fragment = new TaskListFragment();
-//        switch (position){
-//            case POSITION_ABOUT:
-//                startActivity(new Intent(this,AboutActivity.class));
-//                return;
-//            case POSITION_FEEDBACK:
-//                startActivity(new Intent(this,FeedbackActivity.class));
-//                return;
-//            case POSITION_SETTINGS:
-//                startActivity(new Intent(this,SettingsActivity.class));
-//                return;
-//            default:
-//                Bundle args = new Bundle();
-//                args.putInt(TaskListFragment.DRAWER_ITEM_CHOICE,position);
-//                fragment.setArguments(args);
-//        }
-//
-//        //Insert fragment by replacing any existing fragment
-//        FragmentManager fm = getSupportFragmentManager();
-//        fm.beginTransaction()
-//                .replace(R.id.container,fragment)
-//                .commit();
-//
-//        //highlight the selected title
-//        mDrawerList.setItemChecked(position,true);
-//        //set the actionbat title to the drawer item title
-//        setTitle(getKeyByValue(mDrawerMapping,position));
-//        if (mDrawerLayout!=null)
-//            mDrawerLayout.closeDrawer(mDrawerList);
-//
-//        //Create new category from drawer -- No new Fragment needed
-//        if(position==POSITION_CREATE_CATEGORY){
-//            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-//            dialog.setTitle(getString(R.string.add_category));
-//            final EditText newCategory = new EditText(this);
-//            dialog.setView(newCategory);
-//            dialog.setPositiveButton(getString(R.string.add),new DialogInterface.OnClickListener() {
-//                @Override
-//                public void onClick(DialogInterface dialog, int which) {
-//                    String mAddCategory=newCategory.getText().toString();
-//                    if(!mAddCategory.matches("")){
-//                        mAddCategory=mAddCategory.trim();
-//                        long id= TaskLab.get(TaskListActivity.this).insertCategory(mAddCategory);
-//                        refreshDrawerList((int)(id +CAT_INDICATOR));
-//                    }
-//
-//                }
-//            });
-//            dialog.setNegativeButton(getString(R.string.cancel),new DialogInterface.OnClickListener() {
-//                @Override
-//                public void onClick(DialogInterface dialog, int which) {
-//
-//                }
-//            });
-//            dialog.show();
-//        }
-//
-//        mPosition=position;
+        Fragment fragment = new TaskListFragment();
+        switch (position){
+            case POSITION_ABOUT:
+                startActivity(new Intent(this,AboutActivity.class));
+                return;
+            case POSITION_FEEDBACK:
+                startActivity(new Intent(this,FeedbackActivity.class));
+                return;
+            case POSITION_SETTINGS:
+                startActivity(new Intent(this,SettingsActivity.class));
+                return;
+            case 0:
+
+                mToolbar.setVisibility(View.VISIBLE);
+                mPager.setVisibility(View.VISIBLE);
+                mFrameLayout.setVisibility(View.GONE);
+
+                setTitle(getString(R.string.app_name));
+
+
+                mDrawerList.setItemChecked(position, true);
+                if (mDrawerLayout!=null)
+                    mDrawerLayout.closeDrawer(mDrawerList);
+                mPosition=position;
+                return;
+            default:
+                mToolbar.setVisibility(View.GONE);
+                mPager.setVisibility(View.GONE);
+                mFrameLayout.setVisibility(View.VISIBLE);
+
+                Bundle args = new Bundle();
+                args.putInt(TaskListFragment.DRAWER_ITEM_CHOICE,position);
+                fragment.setArguments(args);
+        }
+
+        //Insert fragment by replacing any existing fragment
+        FragmentManager fm = getSupportFragmentManager();
+        fm.beginTransaction()
+                .replace(R.id.container,fragment)
+                .commit();
+
+        //highlight the selected title
+        mDrawerList.setItemChecked(position,true);
+        //set the actionbat title to the drawer item title
+        setTitle(getKeyByValue(mDrawerMapping,position));
+        if (mDrawerLayout!=null)
+            mDrawerLayout.closeDrawer(mDrawerList);
+
+        //Create new category from drawer -- No new Fragment needed
+        if(position==POSITION_CREATE_CATEGORY){
+            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+            dialog.setTitle(getString(R.string.add_category));
+            final EditText newCategory = new EditText(this);
+            dialog.setView(newCategory);
+            dialog.setPositiveButton(getString(R.string.add),new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    String mAddCategory=newCategory.getText().toString();
+                    if(!mAddCategory.matches("")){
+                        mAddCategory=mAddCategory.trim();
+                        long id= TaskLab.get(TaskListActivity.this).insertCategory(mAddCategory);
+                        refreshDrawerList((int)(id +CAT_INDICATOR));
+                    }
+
+                }
+            });
+            dialog.setNegativeButton(getString(R.string.cancel),new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            });
+            dialog.show();
+        }
+
+        mPosition=position;
     }
 
     @Override
@@ -455,6 +474,11 @@ public class TaskListActivity extends ActionBarActivity {
         @Override
         public int getCount() {
             return 3;
+        }
+
+        @Override
+        public int getItemPosition(Object object) {
+            return POSITION_NONE;
         }
     }
 
