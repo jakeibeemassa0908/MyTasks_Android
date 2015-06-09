@@ -4,6 +4,7 @@
     android:descendantFocusability="blocksDescendants"
     android:orientation="vertical"
     android:layout_width="match_parent"
+    android:background="@drawable/background_activated"
     android:layout_height="?android:attr/listPreferredItemHeight"
     android:minHeight="?android:attr/listPreferredItemHeight">
 

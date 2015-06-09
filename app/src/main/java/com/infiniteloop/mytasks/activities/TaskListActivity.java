@@ -90,6 +90,7 @@ public class TaskListActivity extends ActionBarActivity {
         mFrameLayout = (FrameLayout)findViewById(R.id.container);
 
         mToolbar = (Toolbar)findViewById(R.id.app_bar);
+        //mToolbar.setElevation(5);
         mTabs = (SlidingTabLayout)findViewById(R.id.tabs);
         mTabs.setDistributeEvenly(true);
         mPager=(ViewPager)findViewById(R.id.pager);

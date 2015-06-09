@@ -1,17 +1,22 @@
 package com.infiniteloop.mytasks.fragments;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -24,6 +29,7 @@ import com.infiniteloop.mytasks.activities.NoteActivity;
 import com.infiniteloop.mytasks.data.Note;
 import com.infiniteloop.mytasks.data.Task;
 import com.infiniteloop.mytasks.data.TaskDataBaseHelper;
+import com.infiniteloop.mytasks.data.TaskLab;
 import com.infiniteloop.mytasks.loaders.CursorLoader;
 
 /**
@@ -54,12 +60,84 @@ public class NoteListFragment extends VisibleListFragment implements LoaderManag
                 Intent intent = new Intent(getActivity(), NoteActivity.class);
                 Task mTask = new Task();
                 mTask.setId(-1);
-                intent.putExtra(DetailTaskFragment.EXTRA_TASK,mTask);
+                intent.putExtra(DetailTaskFragment.EXTRA_TASK, mTask);
                 startActivityForResult(intent, DetailTaskFragment.REQUEST_CHECKLIST);
             }
         });
 
         return rootView;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        ListView listView = getListView();
+        listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+        listView.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
+            @Override
+            public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
+
+            }
+
+            @Override
+            public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+                MenuInflater inflater = mode.getMenuInflater();
+                inflater.inflate(R.menu.delete_only, menu);
+
+                return true;
+            }
+
+            @Override
+            public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+                return false;
+            }
+
+            @Override
+            public boolean onActionItemClicked(final ActionMode mode, MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.delete_items:
+                        AlertDialog.Builder deleteDialog = new AlertDialog.Builder(getActivity());
+                        deleteDialog.setTitle(getString(R.string.delete));
+                        deleteDialog.setMessage(getString(R.string.delete_question));
+                        deleteDialog.setPositiveButton(getString(R.string.delete), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                NoteCursorAdapter adapter = (NoteCursorAdapter) getListAdapter();
+                                TaskLab taskLab = TaskLab.get(getActivity());
+                                for (int i = adapter.getCount() - 1; i >= 0; i--) {
+                                    if (getListView().isItemChecked(i)) {
+                                        TaskDataBaseHelper.NoteCursor cursor = (TaskDataBaseHelper.NoteCursor) adapter.getItem(i);
+                                        Note n = cursor.getNote();
+                                        taskLab.deleteNote(n.getId());
+                                    }
+                                }
+                                mode.finish();
+
+                                //update listview
+                                restartLoader();
+                            }
+                        });
+
+                        deleteDialog.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+                        deleteDialog.show();
+                        return true;
+                }
+                return false;
+            }
+
+            @Override
+            public void onDestroyActionMode(ActionMode mode) {
+
+            }
+        });
+    }
+
+    private void restartLoader() {
+        getLoaderManager().restartLoader(LOADER_ID,null,this);
     }
 
     @Override
@@ -80,7 +158,7 @@ public class NoteListFragment extends VisibleListFragment implements LoaderManag
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        getLoaderManager().restartLoader(LOADER_ID,null,this);
+        restartLoader();
     }
 
     @Override
