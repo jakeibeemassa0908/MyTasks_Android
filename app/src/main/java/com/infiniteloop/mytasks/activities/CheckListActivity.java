@@ -2,6 +2,7 @@ package com.infiniteloop.mytasks.activities;
 
 import android.content.Intent;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.Menu;
 
@@ -49,12 +50,13 @@ public class CheckListActivity extends SingleFragmentActivity {
     public Intent getSupportParentActivityIntent() {
        // Log.d(TAG,"out here");
         Intent resultIntent;
-        if(mTask.getId() != -1){
+        if(mTask != null && mTask.getId() != -1){
             resultIntent = new Intent(this,DetailTaskActivity.class);
+            return resultIntent;
         }else{
-            resultIntent = new Intent(this,TaskListActivity.class);
+            NavUtils.navigateUpFromSameTask(this);
+            return null;
         }
-        return resultIntent;
 
     }
 }

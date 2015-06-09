@@ -53,7 +53,7 @@ public class TaskListFragment extends VisibleListFragment implements LoaderCallb
     public static final String EXTRA_POSITION="cat_position";
 
     private static final String TAG= TaskListFragment.class.getSimpleName();
-    private static final int CREATE_NEW_TASK=1;
+    public static final int CREATE_NEW_TASK=1;
     private static final int EDIT_TASK=2;
     private ArrayList<Task> mTasks;
     private ImageView mAddTaskImageView,mTrigger,mAddNote,mAddCheckList;
@@ -93,29 +93,6 @@ public class TaskListFragment extends VisibleListFragment implements LoaderCallb
             }
         });
 
-        mAddNote = (ImageView)rootView.findViewById(R.id.add_note);
-        mAddNote.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), NoteActivity.class);
-                Task mTask = new Task();
-                mTask.setId(-1);
-                intent.putExtra(DetailTaskFragment.EXTRA_TASK,mTask);
-                startActivityForResult(intent, DetailTaskFragment.REQUEST_CHECKLIST);
-            }
-        });
-
-        mAddCheckList = (ImageView)rootView.findViewById(R.id.add_checklist);
-        mAddCheckList.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), CheckListActivity.class);
-                Task mTask = new Task();
-                mTask.setId(-1);
-                intent.putExtra(DetailTaskFragment.EXTRA_TASK,mTask);
-                startActivityForResult(intent, DetailTaskFragment.REQUEST_CHECKLIST);
-            }
-        });
 
         return rootView;
     }

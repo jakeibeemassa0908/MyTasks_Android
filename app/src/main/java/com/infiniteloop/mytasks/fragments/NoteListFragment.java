@@ -13,12 +13,16 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.infiniteloop.mytasks.R;
+import com.infiniteloop.mytasks.activities.CheckListActivity;
+import com.infiniteloop.mytasks.activities.NewTaskActivity;
 import com.infiniteloop.mytasks.activities.NoteActivity;
 import com.infiniteloop.mytasks.data.Note;
+import com.infiniteloop.mytasks.data.Task;
 import com.infiniteloop.mytasks.data.TaskDataBaseHelper;
 import com.infiniteloop.mytasks.loaders.CursorLoader;
 
@@ -30,6 +34,7 @@ public class NoteListFragment extends VisibleListFragment implements LoaderManag
     public static final int INDEPENDENT_NOTES = -1;
     public static final int LOADER_ID =1;
     public static final int REQUEST_NOTE=3;
+    private ImageView mAddTaskImageView,mAddNote,mAddCheckList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,6 +45,20 @@ public class NoteListFragment extends VisibleListFragment implements LoaderManag
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.note_list_fragment,container,false);
+
+
+        mAddNote = (ImageView)rootView.findViewById(R.id.add_note);
+        mAddNote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), NoteActivity.class);
+                Task mTask = new Task();
+                mTask.setId(-1);
+                intent.putExtra(DetailTaskFragment.EXTRA_TASK,mTask);
+                startActivityForResult(intent, DetailTaskFragment.REQUEST_CHECKLIST);
+            }
+        });
+
         return rootView;
     }
 
