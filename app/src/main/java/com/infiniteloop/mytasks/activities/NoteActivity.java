@@ -42,7 +42,8 @@ public class NoteActivity extends SingleFragmentActivity {
     public Intent getSupportParentActivityIntent() {
         // Log.d(TAG,"out here");
         Intent resultIntent;
-        if(mTask.getId() != -1){
+
+        if(mTask != null && mTask.getId() != -1){
             resultIntent = new Intent(this,DetailTaskActivity.class);
         }else{
             resultIntent = new Intent(this,TaskListActivity.class);

@@ -102,7 +102,7 @@ public class EditCategoryFragment extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
                         mTaskLab.deleteCategory(mCatId);
                         getActivity().finish();
-                        
+
                         Intent intent = new Intent(getActivity(), TaskListActivity.class);
                         startActivity(intent);
 
