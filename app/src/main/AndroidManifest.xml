@@ -3,11 +3,11 @@
     package="com.infiniteloop.mytasks"
     xmlns:tools="http://schemas.android.com/tools">
 
-  <!--<permission
+    <permission
         android:name="com.infiniteloop.mytasks.PRIVATE"
         android:protectionLevel="signature" />
 
-    <uses-permission android:name="com.infiniteloop.mytasks.PRIVATE" /> -->
+    <uses-permission android:name="com.infiniteloop.mytasks.PRIVATE" />
 
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>

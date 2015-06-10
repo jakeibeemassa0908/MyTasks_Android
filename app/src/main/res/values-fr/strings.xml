@@ -8,7 +8,9 @@
     <string name="edit_task">Modifier Tâche</string>
     <string name="action_settings">Paramatres</string>
     <string name="empty_list_view">Pas encore de Tâche</string>
-    <string name="click_add_button">Commencer une nouvelle tâche avec le signe plus ci dessous!</string>
+    <string name="click_add_button">Commencer une nouvelle tâche !</string>
+    <string name="click_add_button_note">Commencer une nouvelle note!</string>
+    <string name="click_add_button_checklist">Commencer une nouvelle liste!</string>
     <string name="delete_task">Effacer Tâche</string>
     <string name="delete_task_question">Voulez-vous effacer cette tâche?</string>
     <string name="delete">Effacer</string>
@@ -100,6 +102,14 @@
     <string name="all_checklist">Toute listes</string>
     <string name="all_pictures">Toute images</string>
     <string name="delete_question">Voulez-vous effacer ?</string>
+    <string name="empty_list_view_note">Pas encore de notes</string>
+    <string name="empty_list_view_checklist">Pas encore de liste</string>
+    <string name="search_title">Recherche</string>
+    <string-array name="tabs">
+        <item>Tâches</item>
+        <item>Notes</item>
+        <item>listes</item>
+    </string-array>
 
 
 </resources>
