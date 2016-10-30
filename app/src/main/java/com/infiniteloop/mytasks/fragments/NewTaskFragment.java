@@ -19,12 +19,11 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.infiniteloop.mytasks.data.Task;
-import com.infiniteloop.mytasks.loaders.CursorLoader;
 import com.infiniteloop.mytasks.Helpers;
 import com.infiniteloop.mytasks.R;
-import com.infiniteloop.mytasks.data.TaskLab;
 import com.infiniteloop.mytasks.data.TaskDataBaseHelper;
+import com.infiniteloop.mytasks.data.TaskLab;
+import com.infiniteloop.mytasks.loaders.CursorLoader;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -67,7 +66,7 @@ public class NewTaskFragment extends VisibleFragment implements LoaderManager.Lo
 
 
         setHasOptionsMenu(true);
-        mCategoryList=new ArrayList<String>();
+        mCategoryList=new ArrayList<>();
         mCategoryList.add("No Category");
         getLoaderManager().initLoader(0, null, this);
     }

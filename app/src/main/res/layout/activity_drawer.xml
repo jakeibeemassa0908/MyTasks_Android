@@ -17,7 +17,8 @@
             android:background="@color/sunshine_blue"
             android:paddingBottom="0dp"
             app:theme="@style/Base.ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            android:elevation="5dp">
 
             <com.infiniteloop.mytasks.tab.SlidingTabLayout
                 android:id="@+id/tabs"

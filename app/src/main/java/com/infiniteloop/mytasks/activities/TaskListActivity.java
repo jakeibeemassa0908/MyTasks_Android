@@ -11,12 +11,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,18 +25,14 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.infiniteloop.mytasks.fragments.AboutFragment;
 import com.infiniteloop.mytasks.DrawerItem;
-import com.infiniteloop.mytasks.fragments.CheckListFragment;
-import com.infiniteloop.mytasks.fragments.Check_ListFragment;
-import com.infiniteloop.mytasks.fragments.FeedbackFragment;
 import com.infiniteloop.mytasks.R;
+import com.infiniteloop.mytasks.data.Category;
 import com.infiniteloop.mytasks.data.Task;
 import com.infiniteloop.mytasks.data.TaskLab;
+import com.infiniteloop.mytasks.fragments.Check_ListFragment;
 import com.infiniteloop.mytasks.fragments.NoteListFragment;
 import com.infiniteloop.mytasks.fragments.TaskListFragment;
-import com.infiniteloop.mytasks.data.Category;
-import com.infiniteloop.mytasks.data.TaskDataBaseHelper;
 import com.infiniteloop.mytasks.tab.SlidingTabLayout;
 
 import java.util.ArrayList;
@@ -78,7 +71,7 @@ public class TaskListActivity extends ActionBarActivity {
 
         mDrawerLayout =(DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList=(ListView)findViewById(R.id.left_drawer);
-        mDrawerItems= new ArrayList<DrawerItem>();
+        mDrawerItems= new ArrayList<>();
 
         setDrawerItems();
 
@@ -90,7 +83,6 @@ public class TaskListActivity extends ActionBarActivity {
         mFrameLayout = (FrameLayout)findViewById(R.id.container);
 
         mToolbar = (Toolbar)findViewById(R.id.app_bar);
-        //mToolbar.setElevation(5);
         mTabs = (SlidingTabLayout)findViewById(R.id.tabs);
         mTabs.setDistributeEvenly(true);
         mPager=(ViewPager)findViewById(R.id.pager);
